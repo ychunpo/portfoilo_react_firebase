@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Project = () => {
+const ProjectItem = () => {
   return (
     <span>project page</span>
   )
 }
 
-export default Project;
+export default ProjectItem;
