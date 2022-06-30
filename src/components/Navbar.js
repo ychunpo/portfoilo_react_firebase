@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from './Logo';
 
 const Nav = styled.nav`
-background-color: black;
+background-color: yellow;
 margin: 0;
 padding: 5px;
 display: flex;
@@ -21,7 +22,7 @@ justify-content: space-between;
       margin: 0 5px;
       padding: 0 5px;
       display:inline;
-      a {
+      .link-style {
         text-decoration: none;
         font-weight: bold;
         font-size: 1.5rem;
@@ -39,19 +40,19 @@ const Navbar = () => {
       <div className="container">
         <ul>
           <li>
-            <a href="/">Home</a>
+            <Link to="/" className="link-style">Home</Link>
           </li>
           <li>
-            <a href="/about">About</a>
+            <Link to="/about" className="link-style">About</Link>
           </li>
           <li>
-            <a href="/portfolio">Portfolio</a>
+            <Link to="/portfolio" className="link-style">Portfolio</Link>
           </li>
           <li>
-            <a href="/skill">Skill</a>
+            <Link to="/skills" className="link-style">Skills</Link>
           </li>
           <li>
-            <a href="/contact">Contact</a>
+            <Link to="/contact" className="link-style">Contact</Link>
           </li>
         </ul>
       </div>

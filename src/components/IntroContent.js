@@ -10,7 +10,7 @@ const IntroBox = styled.div`
 `
 
 
-const Intro = () => {
+const IntroContent = () => {
   return (
     <IntroBox>
       <div className="intro-text">
@@ -22,4 +22,4 @@ const Intro = () => {
   )
 }
 
-export default Intro;
+export default IntroContent;

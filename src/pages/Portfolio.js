@@ -8,15 +8,16 @@ padding: 10px;
 background-color: pink;
 
 .container { 
-  display: flex;  
-  justify-content: center;
+  
 }
 
 .card-list {
+  
+  margin: auto;
   padding: 20px;  
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;  
+  align-content: flex-start;  
 }
 `
 

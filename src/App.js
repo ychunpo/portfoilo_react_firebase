@@ -1,27 +1,32 @@
-//import { BrowserRouter, Routes, Route, Redirect } from 'react-router-dom';
-import './App.css';
-//import Login from './pages/admin/Login'
-//import Panel from './pages/admin/Panel'
-import Navbar from './components/Navbar';
+import { Routes, Route } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 import Home from './pages/Home';
-import About from './pages/About';
-import Portfolio from './pages/Portfolio';
-import Skills from './pages/Skills';
-import Contact from './pages/Contact';
-import Footer from './components/Footer';
-
+import Login from './auth';
+import ControlPanel from './pages/admin/ControlPanel';
+import SkillsList from './pages/admin/SkillsList';
+import ProjectsList from './pages/admin/ProjectsList';
+import ProjectItem from './pages/ProjectItem';
+import NotFound from './pages/NotFound';
+import AddProject from './components/admin/AddProject';
 
 function App() {
   return (
 
     <div className="App">
-      <Navbar />
-      <Home />
-      <About />
-      <Portfolio />
-      <Skills />
-      <Contact />
-      <Footer />
+      <ToastContainer position="top-center" />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/project/:id" element={<ProjectItem />} />
+        <Route path="/auth" element={<Login />} />
+        <Route path="/panel" element={<ControlPanel />} />
+        <Route path="/skills-list" element={<SkillsList />} />
+        <Route path="/projects-list" element={<ProjectsList />} />
+        <Route path="/create-project" element={<AddProject />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
+
     </div>
 
 

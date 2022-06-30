@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import AboutText from '../components/AboutContent';
+import IntroContent from '../components/IntroContent';
 
-const AboutBox = styled.div`
-background-color: green;
+const HomeBox = styled.div`
 display: flex;
-height: 100vh;
-align-items: center;
+height: 90vh;
+background-color: grey;
 
 .left-side {
   flex: 1;
@@ -18,23 +17,22 @@ align-items: center;
 .right-side {
   flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
-
 `
 
-const About = () => {
+const Intro = () => {
   return (
-    <AboutBox>
+    <HomeBox>
       <div className="left-side">
-        Left Side - CSS
+        <IntroContent />
       </div>
       <div className="right-side">
-        <AboutText />
+        May Be 3D Sline
       </div>
-    </AboutBox>
+    </HomeBox>
   )
 }
 
-export default About;
+export default Intro;
