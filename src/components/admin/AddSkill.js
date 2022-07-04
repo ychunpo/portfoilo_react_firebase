@@ -1,45 +1,70 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { storage, db, auth } from "../../utils/firebase";
-import { Link } from "react-router-dom";
+import { db } from "../../utils/firebase";
 
 const Container = styled.div`
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;  
 
+  .form {
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: 3px solid red;
+  }
+
+  .content {
+    margin: 5px 10px;
+    padding: 0;    
+  }
+
+  .label-style {
+    margin: 0 10px 0 0;
+  }
+
+  .input-style {
+    font-size: 1.2rem;
+    font-weight: bold;    
+  }
+  
+  .btn-style {
+    margin: 0 10px;
+    padding: 0 5px;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }  
 `
 
 const AddSkill = () => {
-  const [user] = useAuthState(auth);
-  const [formData, setFormData] = useState({
+  const [newSkill, setNewSkill] = useState({
     name: "",
-    level: 0,
+    level: "",
   });
 
-  const [progress, setProgress] = useState(0);
-
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setNewSkill({ ...newSkill, [e.target.name]: e.target.value });
   }
 
-  const handleSubmit = () => {
-    if (!formData.name || !formData.level) {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!newSkill.name || !newSkill.level) {
       alert("Please fill all the fields");
       return;
     }
-
-    const storageRef = ref(storage);
-    const uploadData = uploadBytesResumable(storageRef);
-
     const skillRef = collection(db, "Skills");
-    addDoc(skillRef, {
-      title: formData.name,
-      skills: formData.level,
+    await addDoc(skillRef, {
+      name: newSkill.name,
+      level: newSkill.level,
     }).then(() => {
-      toast("Skills added successfully", { type: "success" });
-      setProgress(0);
+      toast("Skill added successfully", { type: "success" });
     }).catch((error) => {
       toast("Error adding skill", { type: "error" });
     });
@@ -47,41 +72,33 @@ const AddSkill = () => {
 
   return (
     <Container>
-      {!user ? (
-        <>
-          <h2>
-            <Link to="/auth">Login to create data!</Link>
-          </h2>
-        </>
-      ) : (
-        <>
-          <h2>Create Skill</h2>
-          <div className="form-style">
-            <label htmlFor="name">Skill Name</label>
-            <input
-              type="text"
-              name="name"
-              className=""
-              value={formData.name}
-              onChange={(e) => handleChange(e)}
-            />
-            <label htmlFor="level">Skill Level</label>
-            <input
-              type="text"
-              name="level"
-              className=""
-              value={formData.level}
-              onChange={(e) => handleChange(e)}
-            />
-            <button
-              className=""
-              onClick={handleSubmit}
-            >
-              Create
-            </button>
-          </div>
-        </>
-      )}
+      <div className="form">
+        <div className="content">
+          <label className="label-style" htmlFor="name">Skill Name: </label>
+          <input
+            type="text"
+            name="name"
+            className="input-style"
+            placeholder="Enter Name"
+            value={newSkill.name}
+            onChange={(e) => handleChange(e)}
+          />
+        </div>
+        <div className="content">
+          <label className="label-style" htmlFor="level">Skill Level: </label>
+          <input
+            type="text"
+            name="level"
+            className="input-style"
+            placeholder="Enter Number"
+            value={newSkill.level}
+            onChange={(e) => handleChange(e)}
+          />
+        </div>
+        <button className="btn-style" onClick={handleSubmit}>
+          Add
+        </button>
+      </div>
     </Container>
   )
 }

@@ -2,16 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import Card from '../components/Card';
 
-const ProjectList = styled.div`
+const Container = styled.div`
 margin: 0;
 padding: 10px;
 background-color: pink;
 
-.container { 
+.card-container { 
   
 }
 
-.card-list {
+.card-group {
   
   margin: auto;
   padding: 20px;  
@@ -23,12 +23,12 @@ background-color: pink;
 
 const Portfolio = () => {
   return (
-    <ProjectList>
+    <Container>
       <div>
         <h1>Projects</h1>
       </div>
-      <div className="container">
-        <div className="card-list">
+      <div className="card-container">
+        <div className="card-group">
           <Card />
           <Card />
           <Card />
@@ -37,7 +37,7 @@ const Portfolio = () => {
           <Card />
         </div>
       </div>
-    </ProjectList>
+    </Container>
   )
 }
 

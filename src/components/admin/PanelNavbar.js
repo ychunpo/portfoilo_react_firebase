@@ -7,24 +7,33 @@ import { auth } from "../../utils/firebase";
 import Logo from "../Logo";
 
 const Nav = styled.nav`
-padding: 10px;
-display: flex;
-background-color: yellow;
-
-ul {
+  margin: 0;
+  padding: 10px;
   display: flex;
-  list-style: none;
-  justify-content: space-between;
+  justify-content: start;
+  background-color: yellow;
+  
 
-  li {
-    margin: 4px;
-    padding: 0 20px;
-    .link-style {
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.5rem;
+  ul {    
+    display: flex;   
+    list-style: none;
+    justify-content: space-between;
+
+    li {
+      margin: 0;
+      padding: 3px 20px;
+      .link-style {
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
     }
+  
+  .btn-style {
+    font-size: 1.5rem;
+    
   }
+  
 }
 `
 
@@ -33,7 +42,9 @@ const PanelNavbar = () => {
   return (
     <Nav>
       <Logo />
-      <h1>Admin Panel</h1>
+      <div>
+        <h1>Admin Panel</h1>
+      </div>
       <div>
         <ul>
           <li><Link to="/panel" className="link-style">Home</Link></li>
@@ -42,8 +53,7 @@ const PanelNavbar = () => {
           {user && (
             <>
               <li>
-                <span className="">Signed is as {user.displayName || user.email}</span>
-                <button className="" onClick={() => { signOut(auth) }}>Logout</button>
+                <input type="submit" className="btn-style" value="Logout" onClick={() => { signOut(auth) }} />
               </li>
             </>
           )}

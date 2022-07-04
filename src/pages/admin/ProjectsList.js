@@ -7,7 +7,35 @@ import { auth, db } from "../../utils/firebase";
 import PanelNavbar from "../../components/admin/PanelNavbar";
 
 const Container = styled.div`
+text-align: center;
 
+.create-link {
+  margin: 5px 20px;
+  padding: 10px;
+  font-size: 2rem;
+  text-decoration: none;  
+  display: flex;
+  justify-content: right;  
+}
+
+.main {
+  display: flex;
+}
+
+.card-group {
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid red;
+  
+}
 `
 
 const ProjectsList = () => {
@@ -29,43 +57,56 @@ const ProjectsList = () => {
 
   return (
     <Container>
-      <PanelNavbar />
-      <div>
-        <Link to="/create-project" />
-      </div>
-      <div>
-        {allProjects.length === 0 ? (
-          <p>No record found!</p>
-        ) : (
-          allProjects.map(
-            ({
-              id,
-              title,
-              description,
-              tech,
-              video,
-              uiux,
-              code,
-              website,
-              image,
+      {!user ? (
+        <>
+          <h2>
+            <Link to="/auth">Login to create data!</Link>
+          </h2>
+        </>
+      ) : (
+        <>
+          <PanelNavbar />
+
+          <div className="create-link">
+            <Link to="/create-project">Create</Link>
+          </div>
+          <div className="main">
+            {allProjects.length === 0 ? (
+              <p>No record found!</p>
+            ) : (
+              allProjects.map(
+                ({
+                  id,
+                  title,
+                  description,
+                  tech,
+                  video,
+                  uiux,
+                  code,
+                  website,
+                  image,
+                }
+                ) => (
+                  <div className="card-group" key={id}>
+                    <div className="card" >
+                      <div className="content">
+                        <h1>{title}</h1>
+                        <p>{description}</p>
+                        <h3>{tech}</h3>
+                      </div>
+                      <div>
+                        <Link to={`/project/${id}`}>
+                          View
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )
+              ))
             }
-            ) => (
-              <div className="" key={id}>
-                <div className="">
-                  <h1>{title}</h1>
-                  <p>{description}</p>
-                  <h3>{tech}</h3>
-                </div>
-                <div>
-                  <Link to={`/project/${id}`}>
-                    View
-                  </Link>
-                </div>
-              </div>
-            )
-          ))
-        }
-      </div>
+          </div>
+        </>
+      )}
     </Container>
   )
 }

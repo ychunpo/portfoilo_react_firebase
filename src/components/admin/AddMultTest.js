@@ -13,17 +13,10 @@ text-align: center;
 
 `
 
-const AddProject = () => {
+const AddMultTest = () => {
   const [user] = useAuthState(auth);
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    tech: "",
-    video: "",
-    website: "",
-    code: "",
-    uiux: "",
-    image: [],
+
   });
 
   const [progress, setProgress] = useState(0);
@@ -111,8 +104,8 @@ const AddProject = () => {
           <div>
             <h2>Create Project</h2>
           </div>
-          <div className="border-box">
-            <label>Title</label>
+          <div className="">
+            <label htmlFor="">Title</label>
             <input
               type="text"
               name="title"
@@ -122,7 +115,7 @@ const AddProject = () => {
             />
           </div>
           <div>
-            <label>Description</label>
+            <label htmlFor="">Description</label>
             <textarea
               name="description"
               className="form-control"
@@ -131,7 +124,7 @@ const AddProject = () => {
             />
           </div>
           <div className="">
-            <label>Tech</label>
+            <label htmlFor="">Tech</label>
             <input
               type="text"
               name="tech"
@@ -141,7 +134,7 @@ const AddProject = () => {
             />
           </div>
           <div className="">
-            <label>Website</label>
+            <label htmlFor="">Website</label>
             <input
               type="text"
               name="website"
@@ -151,7 +144,7 @@ const AddProject = () => {
             />
           </div>
           <div className="">
-            <label>Code</label>
+            <label htmlFor="">Code</label>
             <input
               type="text"
               name="code"
@@ -161,7 +154,7 @@ const AddProject = () => {
             />
           </div>
           <div className="">
-            <label>UIUX</label>
+            <label htmlFor="">UIUX</label>
             <input
               type="text"
               name="uiux"
@@ -171,7 +164,7 @@ const AddProject = () => {
             />
           </div>
           <div className="">
-            <label>Video</label>
+            <label htmlFor="">Video</label>
             <input
               type="text"
               name="title"
@@ -181,7 +174,7 @@ const AddProject = () => {
             />
           </div>
           <div>
-            <label>Image</label>
+            <label htmlFor="">Image</label>
             <input
               type="file"
               name="image"
@@ -213,4 +206,4 @@ const AddProject = () => {
   )
 }
 
-export default AddProject;
+export default AddMultTest;
