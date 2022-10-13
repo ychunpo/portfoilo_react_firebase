@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Logo from './Logo';
-import { FaBarIcon } from './NavbarItem';
+import Logo from '../../components/Logo';
+import { FaBarIcon } from '../../components/NavbarItem';
 
 const Header = styled.div`
   --bg-color: #dedbf3;

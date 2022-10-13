@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import IntroContent from '../components/IntroContent';
+import IntroContent from './components/IntroContent';
 
 const HomeBox = styled.div`
 display: flex;

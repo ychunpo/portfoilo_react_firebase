@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../assets/logo.png';
+import logo from '../images/logo.png';
 
 const LogoStyle = styled.div`
 margin: 5px;

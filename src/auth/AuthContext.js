@@ -4,24 +4,24 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth';
-import { auth, db } from '../../utils/firebase';
+import { auth } from '../utils/firebase';
 
-const UserContext = createContext();
+const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
-  const signIn = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password)
+  const logIn = async (email, password) => {
+    return await signInWithEmailAndPassword(auth, email, password)
   }
 
-  const logout = () => {
+  const logOut = () => {
     return signOut(auth)
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
+      //console.log(currentUser);
       setUser(currentUser);
     });
     return () => {
@@ -30,12 +30,12 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, logout, signIn }}>
+    <AuthContext.Provider value={{ user, logOut, logIn }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
 export const UserAuth = () => {
-  return useContext(UserContext);
+  return useContext(AuthContext);
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ContactForm from '../components/ContactForm';
+import ContactForm from './components/ContactForm';
 
 const ContactBox = styled.div`
 background-color: yellow;

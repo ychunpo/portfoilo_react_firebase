@@ -5,7 +5,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
-import PanelNavbar from "./PanelNavbar";
+import PanelNavbar from "./Sidebar";
 import { storage, db, auth } from "../../utils/firebase";
 
 const Container = styled.div`

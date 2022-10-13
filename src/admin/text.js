@@ -9,3 +9,16 @@ if (window.confirm("Are you sure you want to delete it?")) {
     console.log(error);
   }
 }
+
+{
+  openUpdate && (
+    <div className="update-skill">
+      <UpdateSkills
+        allData={allData}
+        setOpenUpdate={setOpenUpdate}
+        updateSingleSkill=''
+        handleUpdateSubmit=''
+      />
+    </div>
+  )
+}

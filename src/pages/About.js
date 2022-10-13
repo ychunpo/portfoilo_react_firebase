@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AboutText from '../components/AboutContent';
+import AboutText from './components/AboutContent';
 
 const AboutBox = styled.div`
 background-color: green;

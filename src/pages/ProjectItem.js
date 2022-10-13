@@ -34,12 +34,12 @@ const ProjectItem = () => {
 
           </div>
 
-          <div className="">
+          <figure className="">
             <img
               src=""
               alt=""
             />
-          </div>
+          </figure>
         </div>
       )}
 

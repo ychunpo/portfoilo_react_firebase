@@ -4,22 +4,30 @@ import { collection, onSnapshot, query } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../utils/firebase";
-import PanelNavbar from "../../components/admin/PanelNavbar";
+
 
 const Container = styled.div`
-text-align: center;
+  margin: 0;
+  padding: 0;  
+  width: 100%;  
+  justify-content: center;  
+  text-align: center;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;  
+
+.main {
+  padding: 5px 0;
+  height: 100vh;
+  background-color: rgb(245, 245, 245);
+}
 
 .create-link {
   margin: 5px 20px;
   padding: 10px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-decoration: none;  
   display: flex;
   justify-content: right;  
-}
-
-.main {
-  display: flex;
 }
 
 .card-group {
@@ -33,8 +41,7 @@ text-align: center;
 .card {
   margin: 10px;
   padding: 10px;
-  border: 2px solid red;
-  
+  border: 2px solid red;  
 }
 `
 
@@ -60,17 +67,18 @@ const ProjectsList = () => {
       {!user ? (
         <>
           <h2>
-            <Link to="/auth">Login to create data!</Link>
+            <Link to="/auth">Go To Login!</Link>
           </h2>
         </>
       ) : (
         <>
-          <PanelNavbar />
-
-          <div className="create-link">
-            <Link to="/create-project">Create</Link>
-          </div>
           <div className="main">
+            <div className="create-link">
+              <Link to="/admin/project/create">Create</Link>
+            </div>
+            <div className="create-link">
+              <Link to="/admin/project/create2">Create2</Link>
+            </div>
             {allProjects.length === 0 ? (
               <p>No record found!</p>
             ) : (

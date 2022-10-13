@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { auth } from "../utils/firebase";
 import Logo from "../components/Logo";
-import "./index.css";
+import { UserAuth } from "./AuthContext";
 
 const inputAnimation = keyframes`
 0 % {
@@ -20,7 +18,7 @@ const inputAnimation = keyframes`
 `;
 
 const Container = styled.div`
-  --first-color: hsl(79, 100%, 49%);
+  --first-color: hsl(96, 100%, 49%);
   --white-color: #fff;
   --black-color: #000;
   --body-font: "Poppins", sans-serif;
@@ -30,6 +28,7 @@ const Container = styled.div`
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background-color: var(--white-color);
+  font-family: "Poppins", sans-serif;
 
   * {
     box-sizing: border-box;
@@ -38,8 +37,8 @@ const Container = styled.div`
   }
 
   .logo {
-    margin: 5px;
-    padding: 5px;
+    margin: 10px;
+    padding: 10px;
   }
 
   .title {
@@ -177,10 +176,18 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  const { logIn } = UserAuth();
+  const usesRef = useRef();
+
+  useEffect(() => {
+    usesRef.current.focus();
+  }, [])
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/panel");
+      await logIn(email, password);
+      navigate("/admin/dashboard");
     } catch (error) {
       toast(error.code, { type: "error" });
     }
@@ -200,7 +207,7 @@ const Login = () => {
         <Logo />
       </div>
       <div className="title">
-        <h1>Login Page</h1>
+        <h1>Auth Login</h1>
       </div>
       <div className="form">
         <div className="form__content">
@@ -211,6 +218,7 @@ const Login = () => {
               name="email"
               placeholder="Enter Email"
               onChange={loginEmail}
+              ref={usesRef}
             />
             <label className="form__label">Enter Email</label>
             <div className="form__shadow"></div>
@@ -226,11 +234,9 @@ const Login = () => {
             <label className="form__label">Enter Password</label>
             <div className="form__shadow"></div>
           </div>
-
           <div className="form__button">
             <input onClick={handleLogin} type="submit" className="form__submit" value="Login" />
           </div>
-
         </div>
       </div>
     </Container>

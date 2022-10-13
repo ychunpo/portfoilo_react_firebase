@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SkillItem from '../components/SkillItem';
+import SkillsItem from './SkillsItem';
 
 const ItemList = styled.div`
 background-color: orange;
@@ -42,37 +42,19 @@ const Skills = () => {
       <div>
         <div className="main">
           <span>
-            <SkillItem />
+            <SkillsItem />
           </span>
           <span>
-            <SkillItem />
+            <SkillsItem />
           </span>
           <span>
-            <SkillItem />
+            <SkillsItem />
           </span>
           <span>
-            <SkillItem />
+            <SkillsItem />
           </span>
           <span>
-            <SkillItem />
-          </span>
-          <span>
-            <SkillItem />
-          </span>
-          <span>
-            <SkillItem />
-          </span>
-          <span>
-            <SkillItem />
-          </span>
-          <span>
-            <SkillItem />
-          </span>
-          <span>
-            <SkillItem />
-          </span>
-          <span>
-            <SkillItem />
+            <SkillsItem />
           </span>
 
 
