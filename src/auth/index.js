@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Logo from "../components/Logo";
+import Logo from "../front_components/Logo";
 import { UserAuth } from "./AuthContext";
 
 const inputAnimation = keyframes`
@@ -17,7 +17,7 @@ const inputAnimation = keyframes`
 }
 `;
 
-const Container = styled.div`
+const AuthContainer = styled.div`
   --first-color: hsl(96, 100%, 49%);
   --white-color: #fff;
   --black-color: #000;
@@ -202,7 +202,7 @@ const Login = () => {
   }
 
   return (
-    <Container>
+    <AuthContainer>
       <div className="logo">
         <Logo />
       </div>
@@ -239,7 +239,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </AuthContainer>
   );
 }
 

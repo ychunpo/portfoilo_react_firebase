@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 
@@ -15,7 +15,7 @@ const getColor = (props) => {
   return '#eeeeee';
 }
 
-const ZoneBox = styled.div`
+const ZoneContainer = styled.div`
   .zone {
     flex: 1;
     display: flex;
@@ -36,8 +36,8 @@ const ZoneBox = styled.div`
 const Dropzone = (props) => {
   const { getImagesData } = props;
   const [selectedImages, setSelectedImages] = useState([])
-  const [imagesText, setImagesText] = useState('');
-  const captionRef = useRef(null)
+  console.log(selectedImages);
+  const [caption, setCaption] = useState('');
 
   const onDrop = useCallback(acceptedFiles => {
     setSelectedImages(acceptedFiles.map(file =>
@@ -55,61 +55,61 @@ const Dropzone = (props) => {
     isDragReject
   } = useDropzone({ onDrop, accept: { 'image/*': [] } })
 
-  const selected_images = selectedImages?.map(file => (
-    <div key={file.name}>
-      <img
-        src={file.preview}
-        style={{ width: "200px" }}
-        alt=""
-      />
-    </div>
-  ));
+
+  const handleChange = (e) => {
+    setCaption(e.target.value)
+  }
+
+  const selected_images = () => {
+    selectedImages.map(file => {
+      return (
+        <div key={file.name}>
+          <img
+            src={file.preview}
+            style={{ width: "200px" }}
+            alt=""
+          />
+        </div>
+      )
+    });
+    <input
+      className='caption'
+      type='text'
+      name='imagesText'
+      placeholder='Enter a caption'
+
+      onChange={(e) => handleChange(e)}
+    />
+  }
 
   const addText = () => {
-    let text = imagesText;
+
     let data = [];
     data.push(selectedImages);
-    data.push({ 'text': text });
     return data;
   }
 
-  const sendData = (e) => {
-    e.preventDefault();
-    getImagesData(addText());
-  }
 
-  const handleChange = (e) => {
-    setImagesText(e.target.value);
-  }
+
 
   return (
-    <ZoneBox>
+    <ZoneContainer>
       <div className='zone'
         {...getRootProps(
           { style: { isFocused, isDragAccept, isDragReject } }
         )}
       >
-        <input {...getInputProps()} />
+        <input
+          {...getInputProps()}
+        />
         <p>Drop the images here ...</p>
       </div>
-      <input
-        className=''
-        ref={captionRef}
-        type='text'
-        name='imagesText'
-        placeholder='Enter a caption'
-        value={imagesText || ''}
-        onChange={(e) => handleChange(e)}
 
-      />
-      <button
-        className=''
-        onClick={(e) => sendData(e)}>
-        Post
-      </button>
+
       {selected_images}
-    </ZoneBox>
+    </ZoneContainer>
   )
 }
+
 
 export default Dropzone;

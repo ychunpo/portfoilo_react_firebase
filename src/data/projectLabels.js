@@ -1,0 +1,51 @@
+export const projectLabels = [
+  {
+    id: 101,
+    title: 'Rank No. :',
+    type: 'text',
+    name: 'rank',
+    require: true,
+  },
+  {
+    id: 102,
+    title: 'Title :',
+    type: 'text',
+    name: 'title',
+    require: true,
+  },
+  {
+    id: 103,
+    title: 'Apply technique and software :',
+    type: 'text',
+    name: 'use',
+    require: false,
+  },
+  {
+    id: 104,
+    title: 'Website :',
+    type: 'url',
+    name: 'website',
+    require: false,
+  },
+  {
+    id: 105,
+    title: 'Video :',
+    type: 'url',
+    name: 'video',
+    require: false,
+  },
+  {
+    id: 106,
+    title: 'Code :',
+    type: 'url',
+    name: 'code',
+    require: false,
+  },
+  {
+    id: 107,
+    title: 'UI/UX :',
+    type: 'url',
+    name: 'uiux',
+    require: false,
+  },
+];

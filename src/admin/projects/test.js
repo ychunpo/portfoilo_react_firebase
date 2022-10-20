@@ -1,0 +1,1 @@
+defaultValues: { items: [{ image: null, caption: '' }, { image: null, caption: '' }] }
