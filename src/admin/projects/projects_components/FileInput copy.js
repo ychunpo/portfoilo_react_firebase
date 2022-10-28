@@ -3,18 +3,17 @@ import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { ZoneContainer } from "./styled/ZoneContainer";
 
-const FileInput = ({ name, label, number }) => {
+const FileInput = ({ name, label, number, uploadImage, deleteImage }) => {
     const propsData = { name, label, number };
     //const { name, label, number } = props;
     const { register, unregister, setValue, watch } = useFormContext();
     const files = watch(name);
-    //console.log('files: ', files)
     const filesNum = parseInt(number);
     const labelCaption = label.toLowerCase() + ".caption";
 
     const onDrop = useCallback(
         acceptedFiles => {
-            setValue(name, acceptedFiles, { shouldValidate: true });
+            setValue(name, acceptedFiles, { shouldValidate: true })
         },
         [setValue, name]
     );
@@ -33,6 +32,7 @@ const FileInput = ({ name, label, number }) => {
         maxFiles: filesNum,
     });
     //console.log('getInputProps', getInputProps)
+
 
     const fileRejectionItems = fileRejections.map(({ file, errors }) => {
         return (
@@ -66,29 +66,26 @@ const FileInput = ({ name, label, number }) => {
                 type="file"
                 role="button"
                 id={name}
+
             >
                 <input
                     {...propsData}
                     {...getInputProps()}
                     className="abcd"
-
                 />
                 <div className={" " + (isDragActive ? " " : " ")}>
                     <p className=" ">Drag and drop some files here, or click to select files</p>
                     <br />
                     {!!files?.length && (
-                        <div className="father">
+                        <div className=" ">
                             {files.map(file => {
                                 return (
-                                    <div key={file.name} id={name + 'Parent'}>
-                                        <div id={name + 'Son'}>
-                                            <img
-                                                src={URL.createObjectURL(file)}
-                                                alt={file.name}
-                                                style={{ height: "300px", }}
-                                                id="previewImg"
-                                            />
-                                        </div>
+                                    <div key={file.name}>
+                                        <img
+                                            src={URL.createObjectURL(file)}
+                                            alt={file.name}
+                                            style={{ height: "300px", }}
+                                        />
                                     </div>
                                 )
                             })}
@@ -96,6 +93,18 @@ const FileInput = ({ name, label, number }) => {
                     )}
                 </div>
             </div>
+            <button
+                className=""
+                onClick={() => uploadImage}
+            >
+                Upload
+            </button>
+            <button
+                className=""
+                onClick={() => deleteImage}
+            >
+                Delete
+            </button>
             <div>
                 <label
                     className="APF-main-form-label"

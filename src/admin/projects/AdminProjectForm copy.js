@@ -4,40 +4,39 @@ import { toast } from 'react-toastify';
 import { useForm, FormProvider, useFieldArray, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collection, addDoc, updateDoc } from 'firebase/firestore';
-import { list, ref, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
+import { ref, getDownloadURL, getStorage, uploadBytesResumable } from 'firebase/storage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { storage, db, auth } from '../../utils/firebase';
 import { APFContainer } from './styled/APFContainer';
 import { projectLabels } from '../../data/projectLabels';
-import { projectDefaultValue } from '../../data/dataDefaultValue';
 import { projectSchema } from '../../data/inputDataValidator';
+import { projectDefaultValue } from '../../data/dataDefaultValue';
 import ImageCover from './projects_components/ImageCover';
 import ImagesItems from './projects_components/ImagesItems';
 
 const AdminProjectForm = () => {
   let { type } = useParams();
-  const navigation = useNavigate();
+
   const [user] = useAuthState(auth);
   const [
     singleProjectData,
     setSingleProjectData
   ] = useState(projectDefaultValue);
   //console.log('singleProjectData start: ', singleProjectData)
-  //const [singleProjectImgUrl, setSingleProjectImgUrl] = useState();
+  const [singleProjectImgUrl, setSingleProjectImgUrl] = useState();
   const [progress, setProgress] = useState('');
+
+  const navigation = useNavigate();
   const methods = useForm();
-  //console.log('methods', methods)
+  console.log('methods', methods)
   const {
     control, register, formState: { errors }, watch, handleSubmit
   } = methods;
-  //console.log('handleSubmit: ', handleSubmit)
-
-  const cover = {}
-  const items = []
-  const itemsFiles = { items: [] };
+  //console.log('handleSubmit: ', handleSubmit)  
   const formData = handleSubmit((data) => {
     return { ...data };
   })
+
   //console.log('formData: ', formData)
 
   const storeFirebase = async (singleProjectData) => {
@@ -57,6 +56,7 @@ const AdminProjectForm = () => {
       cover: {
         caption: singleProjectData.cover['caption'],
         //images: singleProjectData.cover['imgUrl'],
+
       },
       items: [
         {
@@ -64,26 +64,35 @@ const AdminProjectForm = () => {
           //items[0].caption
         }
       ],
-    }).then(() => {
-      toast("Article added successfully", { type: "success" });
-      setProgress(0);
-    }).catch((err) => {
-      toast("Error adding article", { type: "error" });
-    });
+    })
+      .then(() => {
+        toast("Article added successfully", { type: "success" });
+        setProgress(0);
+      })
+      .catch((err) => {
+        toast("Error adding article", { type: "error" });
+      });
   }
 
+  const onSubmit = methods.handleSubmit((data) => {
+    let allImages = [];
+    let allDataImagesUrl = [];
+    //let firebaseUrl = [];
 
-  // onUploadImageSubmit
-  const onUploadImageSubmit = handleSubmit((data) => {
+    if (!data) return;
     if (!user) {
       return navigation('/auth');
     }
-
-    console.log('uploadData: ', data)
-    let allImages = [];
-    let allDataImagesUrl = [];
+    //console.log('data: ', data)
 
     if (data.cover?.image) {
+      data.cover.imgUrl = "";
+      // Object.defineProperty(data.cover, "imgUrl", {
+      //   value: '',
+      //   writable: true,
+      //   enumerable: true,
+      //   configurable: true,
+      // })
       allImages.push(data.cover.image[0])
       allDataImagesUrl.push(0)
     } else {
@@ -93,19 +102,21 @@ const AdminProjectForm = () => {
 
     if (data.items) {
       for (let i = 0; i < data.items.length; i++) {
-        //data.items[i].imgUrl = [];
+        data.items[i].imgUrl = [];
         for (let j = 0; j < data.items[i].image.length; j++) {
-          //data.items[i].imgUrl[j] = ""
+          data.items[i].imgUrl[j] = ""
           allImages.push(data.items[i].image[j])
-          let url = [i, j];
+          const url = [i, j];
           allDataImagesUrl.push(url);
         }
       }
     }
-
+    //console.log('allDataImagesUrl', allDataImagesUrl)
     allImages.forEach((img, key) => {
+      console.log('img: ', img)
       const imageStoreRef = ref(
-        storage, `/images/${img.name}`
+        storage,
+        `/images/${img.name}`
       );
 
       const uploadImage = uploadBytesResumable(imageStoreRef, img);
@@ -119,86 +130,38 @@ const AdminProjectForm = () => {
           setProgress(progressPercent);
         },
         (error) => {
-          console.log("Upload failed:", error);
+          console.log("Error Image Upload:", error);
         },
         async () => {
-
           await getDownloadURL(uploadImage.snapshot.ref).then((url) => {
-
+            //console.log("File available at", url);
             if (typeof allDataImagesUrl[key] === 'number') {
-              let image = {}
-              //data.cover.imgUrl = url;              
-              cover.caption = data.cover.caption;
-              image.storageUrl = url;
-              image.name = img.name;
-              cover.image = image;
+              //delete data.cover.image;
+              data.cover.imgUrl = url;
+              //firebaseUrl.cover = url
+              //console.log('cover-url', typeof data.cover.imgUrl)
             } else {
               const [i, j] = allDataImagesUrl[key];
-              //data.items[i].imgUrl[j] = url;
-              //itemsFiles.items[i].imgUrl[j] = url;
-              //items.push({ caption: data.items[i].caption})
-              //for (let i = 0; )
-
-              //     }
-              //   }
-              // }
+              //console.log('allDataImagesUrl[key]: ', allDataImagesUrl[key])       
+              //console.log('data.items[i].firebase[j]: ', data.items[i].firebase[j])  
+              //delete data.items[i].image
+              data.items[i].imgUrl[j] = url;
+              //firebaseUrl.items[i].imgUrl = []
             }
-          }).catch(error => {
-            console.log(error)
           });
         }
       )
-      //console.log('cover', cover)
-      setSingleProjectData({ ...singleProjectData, cover })
-      console.log('itemsFiles', itemsFiles)
-      console.log('items', items)
     });
-    console.log('allImages', allImages)
-    console.log('allDataImageUrl', allDataImagesUrl)
+    setSingleProjectData({ ...data });
+    //console.log('singleProjectData progress: ', singleProjectData)
+    // input addDoc
 
-    console.log('singleProjectData progress: ', singleProjectData)
+    //data.firebaseUrl = firebaseUrl;
     console.log('update data: ', data)
-  })
+    //storeFirebase(data);
+    //console.log('firebaseUrl: ', firebaseUrl)
+    //console.log('fb-url', data.cover.imgUrl)
 
-  const onDeleteCover = handleSubmit((data) => {
-    console.log('data', data)
-    var imgFather = document.getElementById("cover.imageParent");
-    var imgElement = document.getElementById("cover.imageSon");
-    var previewImg = document.getElementById("previewImg");
-    if (previewImg === null) {
-      toast("No Image", { type: "error" });
-      return;
-    }
-    imgFather.removeChild(imgElement);
-
-    const coverRef = ref(storage, `images/${data.cover.image[0].name}`);
-    if (list(coverRef)) {
-      deleteObject(coverRef).then(() => {
-        toast("Deleted", { type: "success" });
-      }).catch((error) => {
-        toast("Cannot Delete", { type: "error" });
-        console.log('Delete Error', error)
-      });
-    } else {
-      toast("Database is no this image", { type: "error" });
-    }
-  });
-
-
-
-
-
-
-
-  const onSubmit = handleSubmit((data) => {
-    if (!data) return;
-    if (!user) {
-      return navigation('/auth');
-    }
-    console.log('update data: ', data)
-
-    //setSingleProjectData({ ...data });
-    //storeFirebase(...data);
   })
 
   return (
@@ -247,19 +210,13 @@ const AdminProjectForm = () => {
             <div className="APF-main-form-item">
               <div className="cover-image">
                 <ImageCover />
-                <button onClick={onDeleteCover}>
-                  Delete Cover Image
-                </button>
               </div>
               <div className="item-image">
                 <ImagesItems {...{ control, watch }} />
+
               </div>
             </div>
-            <div>
-              <button onClick={onUploadImageSubmit}>
-                Upload All Image
-              </button>
-            </div>
+
             <div className="APF-main-btn-group">
               <input
                 type="button"

@@ -6,6 +6,7 @@ import { storage, db, auth } from '../../../utils/firebase';
 import FileInput from "./FileInput";
 
 const ImagesItems = ({ control, watch }) => {
+  const [progress, setProgress] = useState('');
 
   const { fields, append, prepend, remove, move } = useFieldArray({
     control,
@@ -24,8 +25,23 @@ const ImagesItems = ({ control, watch }) => {
     move(result.source.index, result.destination.index);
   }
 
-  const deleteItem = (index) => {
-    remove(index);
+  const uploadItemsImage = () => {
+    // uploadImage.on(
+    //   "state_changed",
+    //   (snapshot) => {
+    //     const progressPercent = Math.round(
+    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //     );
+    //     setProgress(progressPercent);
+    //   },
+    //   (error) => {
+    //     console.log("Error Image Upload:", error);
+    //   }
+    // )
+  }
+
+  const deleteItemsImage = () => {
+
   }
 
   return (
@@ -51,10 +67,12 @@ const ImagesItems = ({ control, watch }) => {
                             name={name}
                             label={label}
                             number="5"
+                            uploadImage={uploadItemsImage}
+                            deleteImage={deleteItemsImage}
                           />
                         </div>
                         <div>
-                          <button type="button" onClick={() => deleteItem(index)}>
+                          <button type="button" onClick={() => remove(index)}>
                             Delete Item
                           </button>
                         </div>
@@ -70,7 +88,9 @@ const ImagesItems = ({ control, watch }) => {
       <section>
         <button
           type="button"
-          onClick={() => append()}
+          onClick={() =>
+            append()
+          }
         >
           Add Item
         </button>

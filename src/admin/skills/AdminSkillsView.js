@@ -9,6 +9,7 @@ import {
   updateDoc,
   deleteDoc
 } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
@@ -30,6 +31,7 @@ const AdminSkillsContainer = styled.div`
 
 const AdminSkillsView = () => {
   const [user] = useAuthState(auth);
+  const navigation = useNavigate();
   const [allSkillsData, setAllSkillsData] = useState([]);
   const [isEditing, setIsEditing] = useState(null);
   const [singleSkill, setSingleSkill] = useState({
@@ -59,9 +61,13 @@ const AdminSkillsView = () => {
   }, []);
 
   const handleAddSkill = async (data) => {
+    if (!user) {
+      return navigation('/auth');
+    }
     const { name, level } = data;
     const skillName = name.trim();
     const skillLevel = level.trim();
+
     let num = parseInt(skillLevel)
     if (!skillName || !skillLevel || typeof num !== "number" || isNaN(num)) {
       toastOrder();
@@ -79,6 +85,9 @@ const AdminSkillsView = () => {
   }
 
   const handleUpdateSkill = async (data) => {
+    if (!user) {
+      return navigation('/auth');
+    }
     const { id, name, level } = data;
     const skillName = name.trim();
     const skillLevel = level.trim();

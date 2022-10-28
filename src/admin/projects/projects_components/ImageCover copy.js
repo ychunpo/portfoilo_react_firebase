@@ -8,7 +8,16 @@ const ImageCover = () => {
     //const uploadImgRef = ref(storage, `/images/${img.name}`)
     // const imageStoreRef = ref(storage, `/images/cover`)
 
-    // const uploadImage = uploadBytesResumable(imageStoreRef, img);    
+    // const uploadImage = uploadBytesResumable(imageStoreRef, img);
+
+    const uploadCoverImage = () => {
+
+    }
+
+    const deleteCoverImage = () => {
+
+    }
+
 
     return (
         <div>
@@ -17,6 +26,8 @@ const ImageCover = () => {
                     name="cover.image"
                     label="Cover"
                     number="1"
+                    uploadImage={uploadCoverImage}
+                    deleteImage={deleteCoverImage}
                 />
             </div>
         </div>

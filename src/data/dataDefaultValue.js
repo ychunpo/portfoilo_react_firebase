@@ -3,11 +3,18 @@ export const projectDefaultValue = {
   title: "",
   use: "",
   description: "",
-  website: "",
-  video: "",
-  code: "",
-  uiux: "",
-  images: [],
+  websiteUrl: "",
+  videoUrl: "",
+  codeUrl: "",
+  uiuxUrl: "",
+  cover: {
+    caption: "",
+    image: {
+      name: "",
+      url: "",
+    },
+  },
+  items: {}
 }
 
 export const skillDefaultValue = {

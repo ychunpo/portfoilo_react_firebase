@@ -10,6 +10,7 @@ import Dashboard from './admin/dashboard';
 import AdminSkillsView from './admin/skills/AdminSkillsView';
 import AdminProjectsView from './admin/projects/AdminProjectsView';
 import AdminProjectForm from './admin/projects/AdminProjectForm';
+import AdminProjectEdit from './admin/projects/AdminProjectEdit';
 import Layout from './admin/admin_components/Layout';
 import NotFound from './front_pages/NotFound';
 
@@ -29,7 +30,7 @@ function App() {
             <Route path="skills" element={<ProtectedRouter><AdminSkillsView /></ProtectedRouter>} />
             <Route path="projects" element={<ProtectedRouter><AdminProjectsView /></ProtectedRouter>} />
             <Route path="project/:type" element={<ProtectedRouter><AdminProjectForm /></ProtectedRouter>} />
-            <Route path="project/edit/:id" element={<ProtectedRouter><AdminProjectForm /></ProtectedRouter>} />
+            <Route path="project/edit/:id" element={<ProtectedRouter><AdminProjectEdit /></ProtectedRouter>} />
           </Route>
 
         </Routes>

@@ -22,3 +22,11 @@ if (window.confirm("Are you sure you want to delete it?")) {
     </div>
   )
 }
+
+ //data.cover.imgUrl = "";
+      // Object.defineProperty(data.cover, "imgUrl", {
+      //   value: '',
+      //   writable: true,
+      //   enumerable: true,
+      //   configurable: true,
+      // })

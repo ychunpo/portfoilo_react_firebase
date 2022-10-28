@@ -3,8 +3,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../../utils/firebase";
+import Upload from "../projects/projects_components/test/Upload";
 //import DropForm from "./HookFormDropZone/DropForm";
-import Form from "./HookFormDropZone2/Form";
+
 
 
 const Container = styled.div`
@@ -63,9 +64,9 @@ const ControlPanel = () => {
             </div>
             <hr />
             <div className="content">
-
+              <Upload />
             </div>
-            <Form />
+
           </div>
         </>
       )}
