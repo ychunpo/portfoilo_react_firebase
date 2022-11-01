@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
 import { useFieldArray } from "react-hook-form";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { ref, getDownloadURL, getStorage, uploadBytesResumable } from 'firebase/storage';
-import { storage, db, auth } from '../../../utils/firebase';
 import FileInput from "./FileInput";
 
 const ImagesItems = ({ control, watch }) => {
 
-  const { fields, append, prepend, remove, move } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: "items",
   });
 
   //console.log('Watch: ', watch());
   //console.log('fields: ', fields);
-
-  //const uploadImgRef = ref(storage, `/images/${img.name}`)
-  // const imageStoreRef = ref(storage, `/images/items`)
-
-  // const uploadImage = uploadBytesResumable(imageStoreRef, img);
 
   const onDragEnd = (result) => {
     move(result.source.index, result.destination.index);
@@ -50,7 +43,7 @@ const ImagesItems = ({ control, watch }) => {
                           <FileInput
                             name={name}
                             label={label}
-                            number="5"
+                            max="5"
                           />
                         </div>
                         <div>

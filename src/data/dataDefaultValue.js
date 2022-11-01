@@ -1,5 +1,6 @@
 export const projectDefaultValue = {
-  rank: 0,
+  rank: "",
+  filename: "",
   title: "",
   use: "",
   description: "",
@@ -7,14 +8,11 @@ export const projectDefaultValue = {
   videoUrl: "",
   codeUrl: "",
   uiuxUrl: "",
-  cover: {
-    caption: "",
-    image: {
-      name: "",
-      url: "",
-    },
-  },
-  items: {}
+  coverCaption: "",
+  coverImageFilename: "",
+  coverImagePath: "",
+  items: [],
+  hidden: false,
 }
 
 export const skillDefaultValue = {

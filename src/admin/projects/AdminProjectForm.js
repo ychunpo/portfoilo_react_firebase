@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useForm, FormProvider, useFieldArray, Controller } from "react-hook-form";
+import { useForm, FormProvider, get } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { collection, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { list, ref, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { storage, db, auth } from '../../utils/firebase';
@@ -15,56 +15,65 @@ import ImageCover from './projects_components/ImageCover';
 import ImagesItems from './projects_components/ImagesItems';
 
 const AdminProjectForm = () => {
-  let { type } = useParams();
   const navigation = useNavigate();
   const [user] = useAuthState(auth);
-  const [
-    singleProjectData,
-    setSingleProjectData
-  ] = useState(projectDefaultValue);
-  //console.log('singleProjectData start: ', singleProjectData)
-  //const [singleProjectImgUrl, setSingleProjectImgUrl] = useState();
-  const [progress, setProgress] = useState('');
-  const methods = useForm();
-  //console.log('methods', methods)
+  const [projectData, setProjectData] = useState(projectDefaultValue);
+  console.log('G - projectData: ', projectData)
+  const [getCoverImagePath, setGetCoverImagePath] = useState("");
+  //console.log('G - getCoverImagePath: ', getCoverImagePath);
+  const [getItemImagePath, setGetItemImagePath] = useState([]);
+  //console.log('G - getItemImagePath: ', getItemImagePath)
+  const [progress, setProgress] = useState("");
+  const [items, setitems] = useState([]);
+  console.log('G - items: ', items);
+
+  const [itemListNo, setItemListNo] = useState([]);
+  //let itemListNo = []
+  //console.log('G - itemListNo', itemListNo);
+
+  const methods = useForm({ resolver: yupResolver(projectSchema) });
   const {
     control, register, formState: { errors }, watch, handleSubmit
   } = methods;
-  //console.log('handleSubmit: ', handleSubmit)
+  //console.log('errors: ', errors)
 
-  const cover = {}
-  const items = []
-  const itemsFiles = { items: [] };
-  const formData = handleSubmit((data) => {
-    return { ...data };
-  })
-  //console.log('formData: ', formData)
+  const storageAndGetPath = (data, img, type, cover) => {
+    const storageRef = ref(storage, `/images/${data.filename}/${img.name}`);
+    const uploadImage = uploadBytesResumable(storageRef, img);
 
-  const storeFirebase = async (singleProjectData) => {
-    let imgCover = singleProjectData.cover.imgUrl;
-    console.log('imgCover: ', ...imgCover);
-    //console.log('data: ', singleProjectData);
-    const projectRef = collection(db, "Projects");
-    await addDoc(projectRef, {
-      rank: singleProjectData.rank,
-      title: singleProjectData.title,
-      use: singleProjectData.use,
-      description: singleProjectData.description,
-      website: singleProjectData.website,
-      video: singleProjectData.video,
-      code: singleProjectData.code,
-      uiux: singleProjectData.uiux,
-      cover: {
-        caption: singleProjectData.cover['caption'],
-        //images: singleProjectData.cover['imgUrl'],
+    uploadImage.on("state_changed",
+      (snapshot) => {
+        const progressPercent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progressPercent);
       },
-      items: [
-        {
-          caption: singleProjectData.items
-          //items[0].caption
-        }
-      ],
-    }).then(() => {
+      (error) => {
+        console.log("Upload failed:", error);
+      },
+      async () => {
+        await getDownloadURL(uploadImage.snapshot.ref).then((downloadUrl) => {
+
+          console.log('downloadUrl type: ', downloadUrl)
+          if (type === 'cover') {
+            setGetCoverImagePath(downloadUrl);
+          }
+
+          if (type === 'item') {
+            setGetItemImagePath(previousState => {
+              return [...previousState, downloadUrl]
+            });
+          }
+        }).catch(error => {
+          console.log(error)
+        });
+      });
+  }
+
+  const storeFirebase = async (projectData) => {
+    //console.log('data: ', projectData);
+    const projectRef = collection(db, "Projects");
+    await addDoc(projectRef, projectData).then(() => {
       toast("Article added successfully", { type: "success" });
       setProgress(0);
     }).catch((err) => {
@@ -72,93 +81,54 @@ const AdminProjectForm = () => {
     });
   }
 
-
   // onUploadImageSubmit
   const onUploadImageSubmit = handleSubmit((data) => {
-    if (!user) {
-      return navigation('/auth');
-    }
-
     console.log('uploadData: ', data)
-    let allImages = [];
-    let allDataImagesUrl = [];
 
-    if (data.cover?.image) {
-      allImages.push(data.cover.image[0])
-      allDataImagesUrl.push(0)
+    if (data.cover.image[0]?.type === 'image/gif'
+      || data.cover.image[0]?.type === 'image/jpeg'
+      || data.cover.image[0]?.type === 'image/png') {
+      let img = data.cover.image[0];
+      storageAndGetPath(data, img, 'cover');
+      data.coverImagePath = getCoverImagePath;
     } else {
-      toast("Please insert cover image!", { type: "error" });
+      toast("Please insert image!", { type: "error" });
       return;
     }
 
     if (data.items) {
       for (let i = 0; i < data.items.length; i++) {
-        //data.items[i].imgUrl = [];
+        items.push({
+          itemId: i,
+          itemCaption: data.items[i].caption,
+          itemText: data.items[i].text,
+          itemImages: []
+        });
+        console.log('In items: ', items)
+
         for (let j = 0; j < data.items[i].image.length; j++) {
-          //data.items[i].imgUrl[j] = ""
-          allImages.push(data.items[i].image[j])
-          let url = [i, j];
-          allDataImagesUrl.push(url);
+          console.log('in func: ', getItemImagePath)
+          items[i].itemImages.push({
+            itemImageId: j,
+            itemImageFilename: data.items[i].image[j].name,
+            itemImagePath: '',
+          });
+          let img = data.items[i].image[j]
+          storageAndGetPath(data, img, 'item');
+
+          let url = { i: i, j: j };
+          itemListNo.push(url);
         }
       }
+
+    } else {
+      toast("Please insert image!", { type: "error" });
+      return;
     }
 
-    allImages.forEach((img, key) => {
-      const imageStoreRef = ref(
-        storage, `/images/${img.name}`
-      );
-
-      const uploadImage = uploadBytesResumable(imageStoreRef, img);
-
-      uploadImage.on(
-        "state_changed",
-        (snapshot) => {
-          const progressPercent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progressPercent);
-        },
-        (error) => {
-          console.log("Upload failed:", error);
-        },
-        async () => {
-
-          await getDownloadURL(uploadImage.snapshot.ref).then((url) => {
-
-            if (typeof allDataImagesUrl[key] === 'number') {
-              let image = {}
-              //data.cover.imgUrl = url;              
-              cover.caption = data.cover.caption;
-              image.storageUrl = url;
-              image.name = img.name;
-              cover.image = image;
-            } else {
-              const [i, j] = allDataImagesUrl[key];
-              //data.items[i].imgUrl[j] = url;
-              //itemsFiles.items[i].imgUrl[j] = url;
-              //items.push({ caption: data.items[i].caption})
-              //for (let i = 0; )
-
-              //     }
-              //   }
-              // }
-            }
-          }).catch(error => {
-            console.log(error)
-          });
-        }
-      )
-      //console.log('cover', cover)
-      setSingleProjectData({ ...singleProjectData, cover })
-      console.log('itemsFiles', itemsFiles)
-      console.log('items', items)
-    });
-    console.log('allImages', allImages)
-    console.log('allDataImageUrl', allDataImagesUrl)
-
-    console.log('singleProjectData progress: ', singleProjectData)
+    //console.log('projectData progress: ', projectData)
     console.log('update data: ', data)
-  })
+  });
 
   const onDeleteCover = handleSubmit((data) => {
     console.log('data', data)
@@ -171,7 +141,7 @@ const AdminProjectForm = () => {
     }
     imgFather.removeChild(imgElement);
 
-    const coverRef = ref(storage, `images/${data.cover.image[0].name}`);
+    const coverRef = ref(storage, `images/${data.filename}/${data.cover.image[0].name}`);
     if (list(coverRef)) {
       deleteObject(coverRef).then(() => {
         toast("Deleted", { type: "success" });
@@ -184,21 +154,39 @@ const AdminProjectForm = () => {
     }
   });
 
-
-
-
-
-
-
+  // save with fireStore
   const onSubmit = handleSubmit((data) => {
     if (!data) return;
-    if (!user) {
-      return navigation('/auth');
-    }
-    console.log('update data: ', data)
+    console.log('update data with onSubmit: ', data)
 
-    //setSingleProjectData({ ...data });
-    //storeFirebase(...data);
+    for (let num = 0; num < itemListNo.length; num++) {
+      //console.log('getItemImagePath[num]:', getItemImagePath[num])
+      let i = itemListNo[num].i;
+      let j = itemListNo[num].j;
+      let path = items[i]
+      let pathTwo = path.itemImages[j]
+      pathTwo.itemImagePath = getItemImagePath[num];
+    }
+
+    setProjectData({
+      ...projectData,
+      rank: data.rank,
+      filename: data.filename,
+      title: data.title,
+      use: data.use,
+      description: data.description,
+      websiteUrl: data.website,
+      videoUrl: data.video,
+      codeUrl: data.code,
+      uiuxUrl: data.uiux,
+      coverCaption: data.cover.caption,
+      coverImageFilename: data.cover.image[0].name,
+      coverImagePath: getCoverImagePath,
+      items: items
+    })
+
+    storeFirebase(projectData);
+    navigation('/admin/projects')
   })
 
   return (
@@ -207,9 +195,7 @@ const AdminProjectForm = () => {
         <div className="APF-main">
           <div className="APF-main-header">
             <div className="APF-main-title">
-              {
-                type === 'create' ? (<p>Create Project</p>) : (<p>Project List</p>)
-              }
+              <p>Create Project</p>
             </div>
           </div>
           <form className="form" onSubmit={onSubmit}>
@@ -227,6 +213,9 @@ const AdminProjectForm = () => {
                       id={name}
                       className="APF-main-form-input"
                     />
+                    <span>
+                      {errors[name] && errors[name]['message']}
+                    </span>
                   </div>
                 )
               })
@@ -234,7 +223,7 @@ const AdminProjectForm = () => {
 
             <div className="APF-main-form-item">
               <label className="APF-main-form-label" htmlFor="description">
-                Description :
+                Description
               </label>
               <br />
               <textarea

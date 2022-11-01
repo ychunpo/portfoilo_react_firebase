@@ -23,10 +23,39 @@ if (window.confirm("Are you sure you want to delete it?")) {
   )
 }
 
- //data.cover.imgUrl = "";
-      // Object.defineProperty(data.cover, "imgUrl", {
-      //   value: '',
-      //   writable: true,
-      //   enumerable: true,
-      //   configurable: true,
-      // })
+//data.cover.imgUrl = "";
+// Object.defineProperty(data.cover, "imgUrl", {
+//   value: '',
+//   writable: true,
+//   enumerable: true,
+//   configurable: true,
+// })
+
+{
+  rank: projectData.rank,
+    filename: projectData.filenßame,
+      title: projectData.title,
+        use: projectData.use,
+          description: projectData.description,
+            websiteUrl: projectData.website,
+              videoUrl: projectData.video,
+                codeUrl: projectData.code,
+                  uiuxUrl: projectData.uiux,
+                    coverCaption: projectData.coverCaption,
+                      coverImageFilename: projectData.coverImageName,
+                        coverImagePath: projectData.coverImageUrl,
+                          items: [
+                            {
+                              itemId: projectData.itemId,
+                              itemCaption: projectData.itemCaption,
+                              itemText: projectData.itemText,
+                              itemImages: [
+                                {
+                                  itemImageId: projectData.itemImageId,
+                                  itemImageFilename: projectData.itemImageName,
+                                  itemImagePath: projectData.itemImageUrl,
+                                }
+                              ]
+                            }
+                          ], hidden: projectData.hidden,
+    }

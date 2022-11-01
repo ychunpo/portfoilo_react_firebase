@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
-import { ZoneContainer } from "./styled/ZoneContainer";
+import { ZoneContainer } from "./sub_styled/ZoneContainer";
 
-const FileInput = ({ name, label, number }) => {
-    const propsData = { name, label, number };
-    //const { name, label, number } = props;
+const FileInput = ({ name, label, max }) => {
+    const propsData = { name, label, max };
+    //const { name, label, maxNumber } = props;
     const { register, unregister, setValue, watch } = useFormContext();
     const files = watch(name);
     //console.log('files: ', files)
-    const filesNum = parseInt(number);
+    const filesNum = parseInt(max);
     const labelCaption = label.toLowerCase() + ".caption";
+    const labelText = label.toLowerCase() + ".text";
 
     const onDrop = useCallback(
         acceptedFiles => {
@@ -34,10 +35,10 @@ const FileInput = ({ name, label, number }) => {
     });
     //console.log('getInputProps', getInputProps)
 
-    const fileRejectionItems = fileRejections.map(({ file, errors }) => {
+    const fileRejectionItems = fileRejections.map(({ file, error }) => {
         return (
             <div key={file.path}>
-                {errors.map(e => <li key={e.code}>{e.message}</li>)}
+                {error.map(e => <li key={e.code}>{e.message}</li>)}
             </div>
         )
     });
@@ -47,16 +48,18 @@ const FileInput = ({ name, label, number }) => {
     useEffect(() => {
         register(name);
         register(labelCaption);
+        register(labelText)
         return () => {
             unregister(name);
             unregister(labelCaption);
+            unregister(labelText)
         }
-    }, [register, unregister, name, labelCaption]);
+    }, [register, unregister, name, labelCaption, labelText]);
 
     return (
         <ZoneContainer>
             <label className="APF-main-form-label" htmlFor={name}>
-                {label} image :
+                {label} image
             </label>
             {fileRejectionItems}
             <div className='zone-main'
@@ -76,6 +79,7 @@ const FileInput = ({ name, label, number }) => {
                 <div className={" " + (isDragActive ? " " : " ")}>
                     <p className=" ">Drag and drop some files here, or click to select files</p>
                     <br />
+
                     {!!files?.length && (
                         <div className="father">
                             {files.map(file => {
@@ -101,18 +105,29 @@ const FileInput = ({ name, label, number }) => {
                     className="APF-main-form-label"
                     htmlFor={labelCaption}
                 >
-                    {label} caption :
+                    {label} caption
                 </label>
                 <input
                     type="text"
                     id={labelCaption}
                     {...register(labelCaption)}
                 />
+                {name !== "cover.image" && (
+                    <>
+                        <label
+                            className="APF-main-form-label"
+                            htmlFor={labelText}
+                        >
+                            {label} text
+                        </label>
+                        <input
+                            type="text"
+                            id={labelText}
+                            {...register(labelText)}
+                        />
+                    </>
+                )}
             </div>
-            <div>
-
-            </div>
-
         </ZoneContainer>
     )
 }

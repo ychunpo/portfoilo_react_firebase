@@ -9,19 +9,40 @@ import AdminTable from "./projects_components/AdminTable";
 
 const AdminProjectsView = () => {
   const [allProjectsData, setAllProjectsData] = useState([]);
-  console.log('allProjectsData: ', allProjectsData)
+  //console.log('allProjectsData: ', allProjectsData)
   //const [hiddenItem, setHiddenItem] = useState(false);
   const [user] = useAuthState(auth);
 
-  const columns = useMemo(() => [
+  const tableColumns = useMemo(() => [
     {
+      Header: 'Rank',
+      accessor: 'rank',
+    },
+    {
+      Header: 'Filename',
+      accessor: 'filename',
+    },
+    {
+      Header: 'Title',
+      accessor: 'title',
+    },
+    {
+      Header: 'Use',
+      accessor: 'use',
+    },
+    {
+      Header: 'Description',
+      accessor: 'description',
+    },
+  ], [])
 
-    }
-  ])
+  const tableData = useMemo(() => allProjectsData)
+  //console.log('tableData: ', tableData)
 
   useEffect(() => {
     const projectRef = collection(db, "Projects");
     const allData = query(projectRef);
+    //console.log('allData: ', allData)
     onSnapshot(allData, (snapshot) => {
       const projects = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -31,14 +52,9 @@ const AdminProjectsView = () => {
     });
   }, []);
 
-  const onDragEnd = (result) => {
-
+  const hiddenItem = (project) => {
+    //project.hidden = !project.hidden;
   }
-
-  const handleHiddenItem = (project) => {
-    project.hidden = !project.hidden;
-  }
-
 
   const deleteItem = (index) => {
 
@@ -47,55 +63,25 @@ const AdminProjectsView = () => {
   return (
     <APVContainer>
       <div className="admin-project-main">
-        <div className="create-link">
+        <h1>Project Lists</h1>
+        <span className="create-link">
+
           <Link to="/admin/project/create">Create</Link>
-        </div>
+        </span>
+
         {allProjectsData.length === 0 ? (
           <p>No record found!</p>
         ) : (
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {allProjectsData.map(
-                    (project, index) => {
-                      return (
-                        <Draggable key={project.id} draggableId={project.id} index={index}>
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              snapshot={snapshot}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
+          <div className="card-group" >
 
-                              <div className="card-group" key={project.id}>
-                                <div className="card" >
-                                  <div className="content">
-                                    <h1>{project.title}</h1>
-                                    <p>{project.description}</p>
-                                    <h3>{project.use}</h3>
-                                  </div>
-                                  <div>
+            <AdminTable
+              columns={tableColumns}
+              data={tableData}
+              hiddenItem={hiddenItem}
+              deleteItem={deleteItem}
+            />
 
-                                    <Link to={`/admin/project/edit/${project.id}`}>
-                                      Edit
-                                    </Link>
-                                    <button onClick={() => handleHiddenItem(project)}>Hidden</button>
-                                    <button>Delete</button>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-                          )}
-                        </Draggable>
-                      )
-                    })}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          </div>
         )}
       </div>
     </APVContainer>
