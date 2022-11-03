@@ -6,8 +6,6 @@ import { auth } from "../../utils/firebase";
 import Upload from "../projects/projects_components/test/Upload";
 //import DropForm from "./HookFormDropZone/DropForm";
 
-
-
 const Container = styled.div`
   margin: 0;
   padding: 0;
@@ -66,6 +64,9 @@ const ControlPanel = () => {
             <div className="content">
               <Upload />
             </div>
+            <br />
+            <hr color="red" width="500px;" size="10" />
+            <br />
 
           </div>
         </>

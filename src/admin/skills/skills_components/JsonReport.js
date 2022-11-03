@@ -5,7 +5,7 @@ const JsonReport = (Data) => {
     <div>
       <textarea
         readOnly={true}
-        rows={50}
+        rows={25}
         cols={80}
         value={JSON.stringify(Data, null, 2)}
       />

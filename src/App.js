@@ -21,7 +21,6 @@ function App() {
       <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-
           <Route path="/auth" element={<Login />} />
           <Route path="*" element={<NotFound />} />
 
@@ -36,6 +35,7 @@ function App() {
         </Routes>
       </AuthContextProvider>
       <ToastContainer position="top-center" />
+
     </div>
   );
 }

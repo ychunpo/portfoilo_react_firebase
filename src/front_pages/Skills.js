@@ -6,7 +6,7 @@ import {
   query
 } from "firebase/firestore";
 import { auth, db } from "../utils/firebase";
-import { SkillContainer } from './SkillContainer';
+import { SkillContainer } from './styled/SkillContainer';
 
 const Skills = () => {
   const [allSkillsData, setAllSkillsData] = useState([]);

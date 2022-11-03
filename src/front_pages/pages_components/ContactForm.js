@@ -2,8 +2,7 @@ import React, { useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import emailjs from 'emailjs-com';
 import styled from "styled-components";
-import { Button, Box, CssBaseline, TextField, Grid } from "@mui/material";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+//import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 
@@ -11,7 +10,7 @@ const ContactForm = () => {
   const form = useRef();
   const { register, handleSubmit, formState: { errors } } = useForm();
   console.log('errors: ', errors)
-  const theme = createTheme();
+  //const theme = createTheme();
 
   const sendEmail = () => {
     emailjs.sendForm(
@@ -27,7 +26,7 @@ const ContactForm = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       <form ref={form} onSubmit={handleSubmit(sendEmail)}>
 
         <label htmlFor="contact_name">Name</label>
@@ -71,7 +70,7 @@ const ContactForm = () => {
 
         <input type="submit" value="Submit" />
       </form>
-    </ThemeProvider>
+    </div>
   );
 }
 

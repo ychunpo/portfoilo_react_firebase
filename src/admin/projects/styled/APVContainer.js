@@ -2,13 +2,10 @@ import styled from "styled-components";
 
 export const APVContainer = styled.div`
   margin: 0;
-  padding: 0;   
-  
-  text-align: center;
- 
+  padding: 0;  
+  text-align: center; 
 
-.admin-project-main {
-  
+.admin-project-main {  
   background-color: rgb(245, 245, 245);
 }
 
@@ -19,19 +16,5 @@ export const APVContainer = styled.div`
   text-decoration: none;  
   display: flex;
   justify-content: right;  
-}
-
-.card-group {
-  margin: 5px;
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.card {
-  margin: 10px;
-  padding: 10px;
-  border: 2px solid red;  
 }
 `

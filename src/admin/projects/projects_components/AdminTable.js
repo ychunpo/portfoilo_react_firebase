@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useTable } from "react-table";
+import { EditIcon, ViewIcon, ViewOffIcon, DeleteIcon } from '@chakra-ui/icons';
+import { IconButton } from '@chakra-ui/react'
 import styled from 'styled-components';
 
 const AdminTableContainer = styled.div`
@@ -61,7 +63,7 @@ const AdminTable = ({ columns, data, hiddenItem, deleteItem }) => {
                 </th>
               ))}
               <th>
-                operation
+                Action
               </th>
             </tr>
           ))}
@@ -103,9 +105,27 @@ const AdminTable = ({ columns, data, hiddenItem, deleteItem }) => {
                             )
                             )}
                             <td>
-                              <button onClick={() => navigation(`/admin/project/edit/${row.original.id}`)}>Edit</button>
-                              <button onClick={() => hiddenItem(row.original.id)}>Hidden</button>
-                              <button onClick={() => deleteItem(row.original.id)}>Delete</button>
+
+                              <IconButton
+                                variant='outline'
+                                aria-label='hidden project'
+                                icon={<ViewOffIcon color="green.500" />}
+                                onClick={() => hiddenItem(row.original)}
+                              />
+                              <IconButton
+                                variant='outline'
+                                colorScheme='red'
+                                aria-label='delete project'
+                                icon={<DeleteIcon />}
+                                onClick={() => deleteItem(row.original)}
+                              />
+                              <IconButton
+                                variant='outline'
+                                colorScheme='blue'
+                                aria-label='edit project'
+                                icon={<EditIcon />}
+                                onClick={() => navigation(`/admin/project/edit/${row.original.id}`)}
+                              />
                             </td>
                           </tr>
                         )}

@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import PortfolioMuiContainer from '@mui/material/Container';
 import Slider from "react-slick";
 import { db } from "../utils/firebase";
-import ProjectCard from "./pages_components/ProjectCard";
-import ProjectModel from './pages_components/ProjectModel';
+
 
 
 const Portfolio = () => {
@@ -41,8 +37,8 @@ const Portfolio = () => {
   }
 
   return (
-    <PortfolioMuiContainer maxWidth="lg">
-      <CssBaseline />
+    <div>
+
       <div>
         <h1>Self make projects</h1>
       </div>
@@ -70,31 +66,14 @@ const Portfolio = () => {
               ) => (
                 <div className="card-group" key={id}>
 
-                  <ProjectCard
-                    title={title}
-                    use={use}
-                    description={description}
-                    coverImage={coverImage}
-                    coverCaption={coverCaption}
-                    handleModelOpen={handleModelOpen}
-                  />
 
-                  <ProjectModel
-                    title={title}
-                    use={use}
-                    description={description}
-                    coverImage={coverImage}
-                    coverCaption={coverCaption}
-                    open={open}
-                    setOpen={setOpen}
-                  />
                 </div>
               )
             ))
         }
       </Slider>
 
-    </PortfolioMuiContainer>
+    </div>
   )
 }
 

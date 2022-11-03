@@ -1,31 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useForm, FormProvider, useFieldArray, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { collection, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { list, ref, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { storage, db, auth } from '../../utils/firebase';
+import { Container, Heading } from '@chakra-ui/react';
+import { db, auth } from '../../utils/firebase';
+import EditForm from './projects_components/EditForm';
 
 const AdminProjectEdit = () => {
   const { id } = useParams();
   const navigation = useNavigate();
-  return (
-    <div>
-      <h1>{id}</h1>
-      <h1>ProjectEdit</h1>
+  const [singleProjectData, setSingleProjectData] = useState();
+  console.log('singleProjectData: ', singleProjectData)
 
-      <div className="APF-main-btn-group">
-        <input
-          type="button"
-          value="Cancel"
-          onClick={() => navigation('/admin/projects')}
+  const singleData = useCallback((snapshot) => {
+    setSingleProjectData({ ...snapshot.data() })
+  }, [setSingleProjectData])
+
+  useEffect(() => {
+    const docRef = doc(db, "Projects", id);
+    const unsubscribe = onSnapshot(docRef, (snapshot) => {
+      singleData(snapshot);
+    })
+    return () => unsubscribe();
+  }, [singleData]);
+
+  const handleCancel = () => {
+    navigation('/admin/projects');
+  }
+
+  const handleUpdate = () => {
+
+  }
+
+
+  return (
+    <Container maxW='2x1' bg='gray.100'>
+      <Heading align='center'>Edit Form</Heading>
+
+      {!singleProjectData ? (
+        <p>Loading.....</p>
+      ) : (
+        <EditForm
+          data={singleProjectData}
+          handleCancel={handleCancel}
+          handleUpdate={handleUpdate}
         />
-        <input type="submit" value="Save" />
-      </div>
-    </div>
+      )}
+
+    </Container >
   )
 }
 
-export default AdminProjectEdit
+export default AdminProjectEdit;

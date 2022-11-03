@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Logo from "../front_components/Logo";
+import Logo from "../Icon_components/Logo";
 import { UserAuth } from "./AuthContext";
 
 const inputAnimation = keyframes`

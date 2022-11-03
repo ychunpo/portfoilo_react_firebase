@@ -3,18 +3,17 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import { signOut } from "firebase/auth";
 import { auth } from "../../utils/firebase";
-import Logo from "../../front_components/Logo";
+import Logo from "../../Icon_components/Logo";
 
 const Side = styled.div`  
   margin: 0;
   padding: 0;  
-  width: 180px;  
+  width: 220px;  
   background-color: #FFF8DC;  
   font-family: "Poppins", sans-serif;
 
-  .side-header {
-    
-    padding: 21px; 
+  .side-header {    
+    padding: 5px 44px; 
   }
 
   .side-title {
@@ -29,8 +28,7 @@ const Side = styled.div`
     border: 2px solid rgb(230, 227,227);
   }
 
-  .side-column {
-    
+  .side-column {    
     padding: 0 20px;
   }
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Logo from '../../front_components/Logo';
-import { FaBarIcon } from '../../front_components/NavbarItem';
+import Logo from '../../Icon_components/Logo';
+import { NavbarIcon } from '../../Icon_components/NavbarIcon';
 
 const Header = styled.div`
   --bg-color: #dedbf3;
@@ -132,9 +132,6 @@ const Navbar = () => {
         <div className={show ? "nav-menu" : "nav-menu-hide"}>
           <ul className="nav-list">
             <li className="nav-item">
-              <Link to="/" className="nav-link">Home</Link>
-            </li>
-            <li className="nav-item">
               <Link to="/about" className="nav-link">About</Link>
             </li>
             <li className="nav-item">
@@ -149,7 +146,7 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="nav-toggle" onClick={showSidebar} >
-          <FaBarIcon />
+          <NavbarIcon />
         </div>
 
       </nav>

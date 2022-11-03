@@ -1,7 +1,7 @@
-import { FaBars } from 'react-icons/fa';
+import { HamburgerIcon } from '@chakra-ui/icons';
 import styled from 'styled-components';
 
-export const FaBarIcon = styled(FaBars)`
+export const NavbarIcon = styled(HamburgerIcon)`
   display: none;
   
   @media screen and (max-width: 768px) {

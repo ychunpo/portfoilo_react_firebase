@@ -1,7 +1,9 @@
 import React from "react";
 //import { motion } from 'framer-motion';
 import styled from "styled-components";
-import { MdDelete, MdEdit, MdOutlineSave } from 'react-icons/md';
+import { IconButton } from '@chakra-ui/react'
+import { DeleteIcon, EditIcon, CheckIcon } from '@chakra-ui/icons';
+
 
 const SkillsListContainer = styled.div`
   margin: 5px;
@@ -37,9 +39,9 @@ const SkillsListContainer = styled.div`
   .icon-btn-style {
     margin: 5px;
     padding: 2px;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     border-radius: 5px;
-    background-color: #999;
+    background-color: #aaa;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,7 +55,7 @@ const SkillsListContainer = styled.div`
   .editSkill {
     color: white;
     &:hover {
-      color: green;
+      color: #66FF00;
     }
   }
 
@@ -124,28 +126,32 @@ const SkillsList = ({
 
               </div>
               <div className="icon-btn-group">
+
                 {isEditing !== id ? (
-                  <button
+                  <IconButton
                     className="icon-btn-style"
-                    onClick={() => setIsEditing(id)}>
-                    <MdEdit className="editSkill" />
-                  </button>
+                    aria-label='edit skill'
+                    icon={<EditIcon className="editSkill" />}
+                    onClick={() => setIsEditing(id)}
+                  />
                 ) : (
-                  <button
+                  <IconButton
                     className="icon-btn-style"
+                    aria-label='confirm skill'
+                    icon={<CheckIcon className="updateSkill" />}
                     onClick={() => {
                       updateSkill(singleSkill);
                       setIsEditing(null);
-                    }}>
-                    <MdOutlineSave className="updateSkill" />
-                  </button>
+                    }}
+                  />
                 )}
 
-                <button
+                <IconButton
                   className="icon-btn-style"
-                  onClick={() => deleteSkill(id)}>
-                  <MdDelete className="deleteSkill" />
-                </button>
+                  aria-label='delete skill'
+                  icon={<DeleteIcon className="deleteSkill" />}
+                  onClick={() => deleteSkill(id)}
+                />
               </div>
             </div>
           )
