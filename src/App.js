@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
-
 import Home from './front_pages/Home';
 import Login from './auth';
 import { AuthContextProvider } from './auth/AuthContext';
@@ -14,10 +13,10 @@ import AdminProjectEdit from './admin/projects/AdminProjectEdit';
 import Layout from './admin/admin_components/Layout';
 import NotFound from './front_pages/NotFound';
 
-
 function App() {
   return (
     <div className="App">
+
       <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -34,6 +33,8 @@ function App() {
 
         </Routes>
       </AuthContextProvider>
+
+
       <ToastContainer position="top-center" />
 
     </div>

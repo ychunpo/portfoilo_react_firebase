@@ -1,18 +1,23 @@
 import * as yup from "yup";
 
 export const projectSchema = yup.object().shape({
-  rank: yup.number('Enter your number').positive().integer().required('Required'),
-  filename: yup.string().required(),
-  title: yup.string().required(),
-  use: yup.string().required(),
+  rank: yup.number().positive().integer(),
+  title: yup.string(),
+  use: yup.string(),
   description: yup.string(),
   website: yup.string().url(),
   video: yup.string().url(),
-  code: yup.string().url(),
+  git: yup.string().url(),
   uiux: yup.string().url(),
   cover: yup.object().shape({
     caption: yup.string(),
-    image: yup.mixed().required(),
+    image: yup.mixed(),
+    images: yup.array().of(
+      yup.object().shape({
+        imagePath: yup.string().url(),
+        imageName: yup.string(),
+      })
+    ),
   }),
 
   items: yup.array().of(

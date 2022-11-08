@@ -3,8 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../../utils/firebase";
-import Upload from "../projects/projects_components/test/Upload";
-//import DropForm from "./HookFormDropZone/DropForm";
+import DashboardView from "./dashboard_components/View/DashboardView";
 
 const Container = styled.div`
   margin: 0;
@@ -60,13 +59,7 @@ const ControlPanel = () => {
                 <h1>Panel Page</h1>
               </div>
             </div>
-            <hr />
-            <div className="content">
-              <Upload />
-            </div>
-            <br />
-            <hr color="red" width="500px;" size="10" />
-            <br />
+            <DashboardView />
 
           </div>
         </>

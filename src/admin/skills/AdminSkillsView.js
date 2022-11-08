@@ -16,9 +16,11 @@ import { toast } from "react-toastify";
 import { auth, db } from "../../utils/firebase";
 import AdminSkillsList from "./skills_components/AdminSkillsList";
 import AdminAddSkill from "./skills_components/AdminAddSkill";
-import JsonReport from "./skills_components/JsonReport";
+//import JsonReport from "./skills_components/JsonReport";
 import './AdminSkillsView.css';
 import { toastOrder } from "../../data/verifyData";
+import Loading from "../admin_components/Loading";
+import Fail from "../admin_components/Loading/Fail";
 
 const AdminSkillsContainer = styled.div`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
   margin: 0;
@@ -33,6 +35,8 @@ const AdminSkillsView = () => {
   const [user] = useAuthState(auth);
   const navigation = useNavigate();
   const [allSkillsData, setAllSkillsData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadFail, setLoadFail] = useState(false);
   const [isEditing, setIsEditing] = useState(null);
   const [singleSkill, setSingleSkill] = useState({
     name: "",
@@ -48,16 +52,29 @@ const AdminSkillsView = () => {
 
   //firebase
   useEffect(() => {
+    setLoading(true);
     const skillsRef = collection(db, "Skills");
     const allData = query(skillsRef, orderBy("name", "asc"));
-    const unsub = onSnapshot(allData, (querySnapshot) => {
-      const skills = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setAllSkillsData(skills);
-    });
-    return () => unsub();
+    const unsubscribe = onSnapshot(allData,
+      (snapshot) => {
+        if (snapshot.docs.length !== 0) {
+          const skills = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setAllSkillsData(skills);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setLoadFail(true);
+          console.log("Nothing in database")
+        }
+      },
+      (error) => {
+        console.log('Error message', error);
+      }
+    );
+    return () => unsubscribe();
   }, []);
 
   const handleAddSkill = async (data) => {
@@ -146,23 +163,27 @@ const AdminSkillsView = () => {
             />
           </div>
           <div className="admin-skills-main-list">
-            {allSkillsData.length === 0 ? (
-              <p>No Record Found!</p>
+            {loading ? (
+              <Loading />
+            ) : loadFail ? (
+              <Fail />
             ) : (
-              <AdminSkillsList
-                allSkillsData={allSkillsData}
-                singleSkill={singleSkill}
-                setSingleSkill={setSingleSkill}
-                setIsEditing={setIsEditing}
-                isEditing={isEditing}
-                updateSkill={handleUpdateSkill}
-                deleteSkill={handleDeleteSkill}
-              >
-              </AdminSkillsList>
+              <div>
+                <AdminSkillsList
+                  allSkillsData={allSkillsData}
+                  singleSkill={singleSkill}
+                  setSingleSkill={setSingleSkill}
+                  setIsEditing={setIsEditing}
+                  isEditing={isEditing}
+                  updateSkill={handleUpdateSkill}
+                  deleteSkill={handleDeleteSkill}
+                />
+              </div>
+
             )}
           </div>
           <div className="skills-json-report">
-            <JsonReport Data={allSkillsData} />
+
           </div>
         </div>
       </>

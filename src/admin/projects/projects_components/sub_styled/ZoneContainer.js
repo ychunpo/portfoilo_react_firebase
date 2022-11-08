@@ -29,4 +29,8 @@ export const ZoneContainer = styled.div`
     outline: none;
     transition: border .24s ease-in-out;
   }
+
+  .input-height{
+    height: 100px;
+  }
 `

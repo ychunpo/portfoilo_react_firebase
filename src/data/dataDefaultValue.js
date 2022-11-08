@@ -1,18 +1,17 @@
 export const projectDefaultValue = {
   rank: "",
-  filename: "",
   title: "",
   use: "",
   description: "",
   websiteUrl: "",
   videoUrl: "",
-  codeUrl: "",
+  gitUrl: "",
   uiuxUrl: "",
   coverCaption: "",
   coverImageFilename: "",
   coverImagePath: "",
   items: [],
-  hidden: false,
+  hide: false,
 }
 
 export const skillDefaultValue = {

@@ -59,3 +59,6 @@ if (window.confirm("Are you sure you want to delete it?")) {
                             }
                           ], hidden: projectData.hidden,
     }
+
+
+onSubmit = { onSubmit }

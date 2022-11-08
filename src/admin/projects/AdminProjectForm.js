@@ -1,11 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useForm, FormProvider, get } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collection, addDoc } from 'firebase/firestore';
 import { list, ref, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import {
+  Button, ButtonGroup, Box,
+  Center, Container,
+  Flex,
+  Heading,
+  Input,
+  Spacer,
+  Stack,
+  Text, Textarea
+} from '@chakra-ui/react';
 import { storage, db, auth } from '../../utils/firebase';
 import { APFContainer } from './styled/APFContainer';
 import { projectLabels } from '../../data/projectLabels';
@@ -16,29 +26,18 @@ import ImagesItems from './projects_components/ImagesItems';
 
 const AdminProjectForm = () => {
   const navigation = useNavigate();
-  const [user] = useAuthState(auth);
+  //const [user] = useAuthState(auth);
   const [projectData, setProjectData] = useState(projectDefaultValue);
-  console.log('G - projectData: ', projectData)
-  const [getCoverImagePath, setGetCoverImagePath] = useState("");
-  //console.log('G - getCoverImagePath: ', getCoverImagePath);
-  const [getItemImagePath, setGetItemImagePath] = useState([]);
-  //console.log('G - getItemImagePath: ', getItemImagePath)
+  //console.log('G - projectData: ', projectData);
   const [progress, setProgress] = useState("");
-  const [items, setitems] = useState([]);
-  console.log('G - items: ', items);
-
-  const [itemListNo, setItemListNo] = useState([]);
-  //let itemListNo = []
-  //console.log('G - itemListNo', itemListNo);
-
   const methods = useForm({ resolver: yupResolver(projectSchema) });
   const {
     control, register, formState: { errors }, watch, handleSubmit
   } = methods;
-  //console.log('errors: ', errors)
 
-  const storageAndGetPath = (data, img, type, cover) => {
-    const storageRef = ref(storage, `/images/${data.filename}/${img.name}`);
+  // storage--->
+  const storageAndGetPath = (data, img, type, i, j) => {
+    const storageRef = ref(storage, `/images/${img.name}`);
     const uploadImage = uploadBytesResumable(storageRef, img);
 
     uploadImage.on("state_changed",
@@ -51,87 +50,85 @@ const AdminProjectForm = () => {
       (error) => {
         console.log("Upload failed:", error);
       },
-      async () => {
-        await getDownloadURL(uploadImage.snapshot.ref).then((downloadUrl) => {
-
-          console.log('downloadUrl type: ', downloadUrl)
+      () => {
+        getDownloadURL(uploadImage.snapshot.ref).then((downloadUrl) => {
           if (type === 'cover') {
-            setGetCoverImagePath(downloadUrl);
+            data.cover.imageName = img.name;
+            data.cover.imagePath = downloadUrl;
+            setProjectData(previousState => {
+              return { ...previousState, coverImageFilename: img.name, coverImagePath: downloadUrl }
+            })
           }
-
+          //console.log('In -> storage -> async: getCoverImagePath', getStorageImagePath)
           if (type === 'item') {
-            setGetItemImagePath(previousState => {
-              return [...previousState, downloadUrl]
+            data.items[i].images.push({
+              imagePath: downloadUrl,
+              imageId: j,
+              imageName: img.name,
             });
           }
+          //console.log('In -> storage -> async: getItemImagePath', getStorageImagePath)
+
         }).catch(error => {
-          console.log(error)
+          console.log(error);
+          toast("Image added fail", { type: "error" });
         });
       });
   }
 
-  const storeFirebase = async (projectData) => {
-    //console.log('data: ', projectData);
-    const projectRef = collection(db, "Projects");
-    await addDoc(projectRef, projectData).then(() => {
-      toast("Article added successfully", { type: "success" });
-      setProgress(0);
-    }).catch((err) => {
-      toast("Error adding article", { type: "error" });
-    });
-  }
-
   // onUploadImageSubmit
-  const onUploadImageSubmit = handleSubmit((data) => {
-    console.log('uploadData: ', data)
-
+  const uploadImageSubmit = handleSubmit((data) => {
     if (data.cover.image[0]?.type === 'image/gif'
       || data.cover.image[0]?.type === 'image/jpeg'
       || data.cover.image[0]?.type === 'image/png') {
-      let img = data.cover.image[0];
+      let img = data.cover.image[0]; // ok      
+      data.cover.imageName = "";
+      data.cover.imagePath = "";
       storageAndGetPath(data, img, 'cover');
-      data.coverImagePath = getCoverImagePath;
     } else {
       toast("Please insert image!", { type: "error" });
       return;
     }
+    //console.log('onUploadImageSubmit->data: ', data)
 
-    if (data.items) {
+    // item
+    if (data.items.length !== 0) {
       for (let i = 0; i < data.items.length; i++) {
-        items.push({
-          itemId: i,
-          itemCaption: data.items[i].caption,
-          itemText: data.items[i].text,
-          itemImages: []
-        });
-        console.log('In items: ', items)
-
+        data.items[i].itemId = i;
+        data.items[i].images = [];
         for (let j = 0; j < data.items[i].image.length; j++) {
-          console.log('in func: ', getItemImagePath)
-          items[i].itemImages.push({
-            itemImageId: j,
-            itemImageFilename: data.items[i].image[j].name,
-            itemImagePath: '',
-          });
           let img = data.items[i].image[j]
-          storageAndGetPath(data, img, 'item');
-
-          let url = { i: i, j: j };
-          itemListNo.push(url);
+          storageAndGetPath(data, img, 'item', i, j);
         }
+        delete data.items[i].image;
       }
-
-    } else {
-      toast("Please insert image!", { type: "error" });
-      return;
     }
 
-    //console.log('projectData progress: ', projectData)
-    console.log('update data: ', data)
+    const dataUpdate = (data) => {
+      //console.log('onUploadImageSubmit->data: ', data)
+      setProjectData({
+        rank: data.rank,
+        title: data.title,
+        use: data.use,
+        description: data.description,
+        websiteUrl: data.website,
+        videoUrl: data.video,
+        gitUrl: data.git,
+        uiuxUrl: data.uiux,
+        coverCaption: data.cover.caption,
+        coverImageFilename: data.cover.imageName,
+        coverImagePath: data.cover.imagePath,
+        items: data.items,
+        hide: false,
+      })
+    }
+    dataUpdate(data);
+    toast("Image added successfully", { type: "success" });
   });
 
-  const onDeleteCover = handleSubmit((data) => {
-    console.log('data', data)
+  // deleteCover--->
+  const deleteCover = handleSubmit((data) => {
+    //console.log('data', data)
     var imgFather = document.getElementById("cover.imageParent");
     var imgElement = document.getElementById("cover.imageSon");
     var previewImg = document.getElementById("previewImg");
@@ -141,7 +138,7 @@ const AdminProjectForm = () => {
     }
     imgFather.removeChild(imgElement);
 
-    const coverRef = ref(storage, `images/${data.filename}/${data.cover.image[0].name}`);
+    const coverRef = ref(storage, `images/${data.cover.image[0].name}`);
     if (list(coverRef)) {
       deleteObject(coverRef).then(() => {
         toast("Deleted", { type: "success" });
@@ -154,40 +151,24 @@ const AdminProjectForm = () => {
     }
   });
 
+  // storeFirebase--->
+  const storeFirebase = async (projectData) => {
+    console.log('final - projectData: ', projectData);
+    const projectRef = collection(db, "Projects");
+    await addDoc(projectRef, projectData).then(() => {
+      toast("Article added successfully", { type: "success" });
+      setProgress(0);
+    }).catch((err) => {
+      toast("Error adding article", { type: "error" });
+    });
+  }
+
   // save with fireStore
-  const onSubmit = handleSubmit((data) => {
-    if (!data) return;
-    console.log('update data with onSubmit: ', data)
-
-    for (let num = 0; num < itemListNo.length; num++) {
-      //console.log('getItemImagePath[num]:', getItemImagePath[num])
-      let i = itemListNo[num].i;
-      let j = itemListNo[num].j;
-      let path = items[i]
-      let pathTwo = path.itemImages[j]
-      pathTwo.itemImagePath = getItemImagePath[num];
-    }
-
-    setProjectData({
-      ...projectData,
-      rank: data.rank,
-      filename: data.filename,
-      title: data.title,
-      use: data.use,
-      description: data.description,
-      websiteUrl: data.website,
-      videoUrl: data.video,
-      codeUrl: data.code,
-      uiuxUrl: data.uiux,
-      coverCaption: data.cover.caption,
-      coverImageFilename: data.cover.image[0].name,
-      coverImagePath: getCoverImagePath,
-      items: items
-    })
-
+  const onSubmit = (projectData) => {
+    console.log('in - onSubmit: projectData', projectData)
     storeFirebase(projectData);
     navigation('/admin/projects')
-  })
+  }
 
   return (
     <APFContainer>
@@ -195,72 +176,93 @@ const AdminProjectForm = () => {
         <div className="APF-main">
           <div className="APF-main-header">
             <div className="APF-main-title">
-              <p>Create Project</p>
+              <Heading as='h4' size='md'>Create Project</Heading>
             </div>
           </div>
-          <form className="form" onSubmit={onSubmit}>
-            {
-              projectLabels.map((item) => {
-                let { id, name, title, type, require } = item;
-                return (
-                  <div className="APF-main-form-item" key={id}>
-                    <label className="APF-main-form-label" htmlFor={name}>
-                      {title}
-                    </label>
-                    <input
-                      {...register(name, { required: require })}
-                      type={type}
-                      id={name}
-                      className="APF-main-form-input"
-                    />
-                    <span>
-                      {errors[name] && errors[name]['message']}
-                    </span>
-                  </div>
-                )
-              })
-            }
+          <form className="form">
+            {projectLabels.map((item) => {
+              let { id, name, title, type, require } = item;
+              return (
+                <div className="APF-main-form-item" key={id}>
+                  <label className="APF-main-form-label" htmlFor={name}>
+                    {title}
+                  </label>
+                  <Input
+                    fontSize='1.2rem'
+                    bg='white'
+                    {...register(name, { required: require })}
+                    type={type}
+                    id={name}
+                    className="APF-main-form-item-input"
+                  />
+                  <span>
+                    {errors[name] && errors[name]['message']}
+                  </span>
+                </div>
+              )
+            })}
 
             <div className="APF-main-form-item">
               <label className="APF-main-form-label" htmlFor="description">
                 Description
               </label>
-              <br />
-              <textarea
+              <Textarea
+                fontSize='1.2rem'
+                bg='white'
                 {...register("description")}
                 id="description"
-                className="form-input"
+                className="APF-main-form-item-textarea"
+                placeholder='description'
               />
             </div>
-
             <div className="APF-main-form-item">
-              <div className="cover-image">
-                <ImageCover />
-                <button onClick={onDeleteCover}>
-                  Delete Cover Image
-                </button>
-              </div>
-              <div className="item-image">
+              <Box className="APF-main-cover-image">
+                <Flex alignItems='center'>
+                  <Box w='90%'>
+                    <ImageCover />
+                  </Box>
+                  <Spacer />
+                  <Button
+                    colorScheme='red'
+                    onClick={deleteCover}
+                  >
+                    Clear
+                  </Button>
+                </Flex>
+              </Box>
+              <Box className="APF-main-item-image">
                 <ImagesItems {...{ control, watch }} />
-              </div>
+              </Box>
             </div>
-            <div>
-              <button onClick={onUploadImageSubmit}>
-                Upload All Image
-              </button>
-            </div>
-            <div className="APF-main-btn-group">
-              <input
-                type="button"
-                value="Cancel"
-                onClick={() => navigation('/admin/projects')}
-              />
-              <input type="submit" value="Save" />
-            </div>
+            <Stack direction='row'>
+              <ButtonGroup variant='outline' spacing='20'>
+                <Button
+                  size='lg'
+                  colorScheme='orange'
+                  onClick={() => navigation('/admin/projects')}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  size='lg'
+                  colorScheme='green'
+                  onClick={uploadImageSubmit}>
+                  Upload
+                </Button>
+                <Button
+                  size='lg'
+                  colorScheme='blue'
+                  onClick={() => onSubmit(projectData)}
+                >
+                  Save
+                </Button>
+              </ButtonGroup>
+            </Stack>
           </form>
+          <br />
         </div>
       </FormProvider>
-    </APFContainer>
+    </APFContainer >
   )
 }
 

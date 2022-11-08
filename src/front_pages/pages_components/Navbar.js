@@ -7,7 +7,6 @@ import { NavbarIcon } from '../../Icon_components/NavbarIcon';
 const Header = styled.div`
   --bg-color: #dedbf3;
   --text-color: #141e27;
-
   position: fixed;   
   padding: 5px;
   width: 100%;

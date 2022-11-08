@@ -3,22 +3,19 @@ import styled from 'styled-components';
 export const APFContainer = styled.div`
   margin: 0;
   padding: 0;
-  width: 85%;
+  width: 75%;
   font-family: "Poppins", sans-serif;  
 
   .APF-main {
-    padding-left: 40px;
-    
+    padding-left: 40px;    
     background-color: rgb(245, 205, 245);
-
   }
 
   .APF-main-header {
-    padding: 5px;
+    padding-top: 5px;
   }
 
-  .APF-main-title {
-    font-size: 1.6rem;
+  .APF-main-title {    
     font-weight: bold;
     text-align: center;
   }
@@ -39,44 +36,40 @@ export const APFContainer = styled.div`
   }
 
   .APF-main-form-label {
-    font-size: 1.1rem;   
-    display: inline-block;    
-    margin-bottom: 6px;    
+    font-size: 1rem;
   }
 
-  .APF-main-form-input {
-    font-size: 1.1rem;
+  .APF-main-form-item-input {    
     display: block;
-    outline: none;
+    outline: 5px;
     border-radius: 2px;
-    border: none;
-    width: 100%;    
+    border-color: gray;  
   }
 
-  .APF-main-form-input::placeholder {
-    color: #595959;
-    font-size: 1.2rem;
+  .APF-main-form-item-input::placeholder {    
+    font-size: 1.5rem;
   }
 
   .APF-main-form-item input {    
     height: 20px;
   }
 
-  .APF-main-form-item textarea {    
+  .APF-main-form-item-textarea {
+    outline: 5px;    
     height: 60px;
   }
 
-  .APF-main-btn-group {
-    
-    display: flex;
-    justify-content: space-around;
+  .APF-main-cover-image {
+
   }
 
-  button {
-    padding: 5px;
-    width: 90px;
-    font-size: 1.3rem;
-    cursor: pointer;
+  .APF-main-item-image {
+    
+  }
+
+  .APF-main-btn-group {    
+    display: flex;
+    justify-content: space-around;
   }
 
   .APF-main-btn-cancel {}

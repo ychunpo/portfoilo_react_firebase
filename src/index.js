@@ -12,13 +12,13 @@ import { allTheme } from './utils/allTheme'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
-
-  <BrowserRouter>
-    <ChakraProvider theme={allTheme}>
-      <App />
-    </ChakraProvider>
-  </BrowserRouter>
-
+  <React.StrictMode>
+    <BrowserRouter>
+      <ChakraProvider theme={allTheme}>
+        <App />
+      </ChakraProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 
 
 );

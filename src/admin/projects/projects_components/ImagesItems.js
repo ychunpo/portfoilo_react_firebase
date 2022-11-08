@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import { useFieldArray } from "react-hook-form";
+import React, { useMemo, useState } from 'react';
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {
+  Button, ButtonGroup, Box,
+  Center, Container,
+  Flex,
+  Heading,
+  Input,
+  Spacer,
+  Text, Textarea
+} from '@chakra-ui/react';
 import FileInput from "./FileInput";
 
 const ImagesItems = ({ control, watch }) => {
-
   const { fields, append, remove, move } = useFieldArray({
     control,
     name: "items",
@@ -28,6 +36,7 @@ const ImagesItems = ({ control, watch }) => {
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {fields.map((item, index) => {
+                //console.log('I am fields: ', fields)
                 const name = `items.${index}.image`;
                 const label = `items.${index}`;
                 return (
@@ -39,18 +48,23 @@ const ImagesItems = ({ control, watch }) => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <div>
-                          <FileInput
-                            name={name}
-                            label={label}
-                            max="5"
-                          />
-                        </div>
-                        <div>
-                          <button type="button" onClick={() => deleteItem(index)}>
-                            Delete Item
-                          </button>
-                        </div>
+                        <Flex alignItems="center">
+                          <Box w='90%'>
+                            <FileInput
+                              name={name}
+                              label={label}
+                              max="5"
+                            />
+                          </Box>
+                          <Spacer />
+                          <Button
+                            colorScheme='red'
+                            onClick={() => deleteItem(index)}
+                          >
+                            Delete
+                          </Button>
+                        </Flex>
+                        <br />
                       </div>
                     )}
                   </Draggable>
@@ -60,14 +74,14 @@ const ImagesItems = ({ control, watch }) => {
           )}
         </Droppable>
       </DragDropContext>
-      <section>
-        <button
-          type="button"
+      <Box>
+        <Button
+          colorScheme='cyan'
           onClick={() => append()}
         >
           Add Item
-        </button>
-      </section>
+        </Button>
+      </Box>
     </div>
   )
 }

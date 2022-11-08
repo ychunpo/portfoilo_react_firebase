@@ -7,6 +7,7 @@ export const allTheme = extendTheme({
     FormLabel: {
       fontSize: 'lg',
     },
+
   },
 
 

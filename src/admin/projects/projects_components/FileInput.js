@@ -1,11 +1,19 @@
 import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
+import {
+    Button, ButtonGroup, Box,
+    Center, Container,
+    Flex,
+    Heading,
+    Image, Input,
+    Spacer,
+    Text, Textarea
+} from '@chakra-ui/react';
 import { ZoneContainer } from "./sub_styled/ZoneContainer";
 
 const FileInput = ({ name, label, max }) => {
     const propsData = { name, label, max };
-    //const { name, label, maxNumber } = props;
     const { register, unregister, setValue, watch } = useFormContext();
     const files = watch(name);
     //console.log('files: ', files)
@@ -62,7 +70,7 @@ const FileInput = ({ name, label, max }) => {
                 {label} image
             </label>
             {fileRejectionItems}
-            <div className='zone-main'
+            <Box className='zone-main'
                 {...getRootProps(
                     { style: { isFocused, isDragAccept, isDragReject } }
                 )}
@@ -70,47 +78,48 @@ const FileInput = ({ name, label, max }) => {
                 role="button"
                 id={name}
             >
-                <input
+                <Input
+                    size='lg'
                     {...propsData}
                     {...getInputProps()}
-                    className="abcd"
-
                 />
                 <div className={" " + (isDragActive ? " " : " ")}>
-                    <p className=" ">Drag and drop some files here, or click to select files</p>
-                    <br />
-
+                    <Text>Drag and drop some files here, or click to select files</Text>
                     {!!files?.length && (
                         <div className="father">
-                            {files.map(file => {
+                            {files.map((file, index) => {
                                 return (
                                     <div key={file.name} id={name + 'Parent'}>
-                                        <div id={name + 'Son'}>
-                                            <img
+                                        <Box id={name + 'Son'}>
+                                            <Image
                                                 src={URL.createObjectURL(file)}
                                                 alt={file.name}
-                                                style={{ height: "300px", }}
                                                 id="previewImg"
+                                                boxSize='200px'
+                                                objectFit='contain'
+                                                fallbackSrc='https://via.placeholder.com/200'
                                             />
-                                        </div>
+                                        </Box>
                                     </div>
                                 )
                             })}
                         </div>
                     )}
                 </div>
-            </div>
-            <div>
+            </Box>
+            <Box>
                 <label
                     className="APF-main-form-label"
-                    htmlFor={labelCaption}
-                >
+                    htmlFor={labelCaption}>
                     {label} caption
                 </label>
-                <input
-                    type="text"
+                <Input
+                    fontSize='1.2rem'
+                    bg='white'
+
                     id={labelCaption}
                     {...register(labelCaption)}
+                    className="APF-main-form-item-input"
                 />
                 {name !== "cover.image" && (
                     <>
@@ -120,14 +129,17 @@ const FileInput = ({ name, label, max }) => {
                         >
                             {label} text
                         </label>
-                        <input
-                            type="text"
+                        <Input
+                            fontSize='1.2rem'
+                            bg='white'
+
                             id={labelText}
                             {...register(labelText)}
+                            className="APF-main-form-item-input"
                         />
                     </>
                 )}
-            </div>
+            </Box>
         </ZoneContainer>
     )
 }
