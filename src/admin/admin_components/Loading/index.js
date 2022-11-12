@@ -3,7 +3,7 @@ import { Center, Skeleton, SkeletonCircle, SkeletonText, Spinner, Text } from '@
 
 const Loading = () => {
   return (
-    <Center w='400px'>
+    <Center w='100%' mt='25%'>
       <Spinner
         thickness='2px'
         speed='1.65s'

@@ -8,7 +8,8 @@ import Logo from "../../Icon_components/Logo";
 const Side = styled.div`  
   margin: 0;
   padding: 0;  
-  width: 220px;  
+  width: 220px;
+  height: 100vh; 
   background-color: #FFF8DC;  
   font-family: "Poppins", sans-serif;
 
@@ -75,6 +76,8 @@ const Side = styled.div`
 }
 `
 
+
+
 const Sidebar = () => {
   return (
     <Side>
@@ -101,6 +104,13 @@ const Sidebar = () => {
             <li className="side-li">
               <Link to="/admin/projects" className="side-link-style">
                 Projects
+              </Link>
+            </li>
+            <hr className="side-hr" />
+            <p className="side-title">Setting</p>
+            <li className="side-li">
+              <Link to="/admin/sidebar" className="side-link-style">
+                Sidebar
               </Link>
             </li>
             <hr className="side-hr" />

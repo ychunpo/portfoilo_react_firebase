@@ -19,7 +19,6 @@ const verifyData = (type, text) => {
 }
 
 export const toastOrder = (type, text) => {
-
   toast.error('Please fill all the fields', {
     toastFeature
   });

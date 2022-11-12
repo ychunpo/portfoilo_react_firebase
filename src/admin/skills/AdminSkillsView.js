@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from "react";
 import {
-  collection,
-  doc,
   addDoc,
-  onSnapshot,
-  orderBy,
+  deleteDoc, doc,
+  collection,
+  orderBy, onSnapshot,
   query,
   updateDoc,
-  deleteDoc
 } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import {
+  Button, ButtonGroup, Box,
+  Center, Container,
+  Flex,
+  Heading,
+  Input,
+  Spacer,
+  Stack,
+  Text, Textarea
+} from '@chakra-ui/react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import { auth, db } from "../../utils/firebase";
 import AdminSkillsList from "./skills_components/AdminSkillsList";
 import AdminAddSkill from "./skills_components/AdminAddSkill";
-//import JsonReport from "./skills_components/JsonReport";
-import './AdminSkillsView.css';
 import { toastOrder } from "../../data/verifyData";
 import Loading from "../admin_components/Loading";
 import Fail from "../admin_components/Loading/Fail";
+import AnimatedLoading from "../admin_components/Loading/AnimatedLoading";
 
-const AdminSkillsContainer = styled.div`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-  margin: 0;
-  padding: 0;
-  width: 100%;                                                                                                                                                                                                                                                                                                            
-  display: flex;
+const ASVContainer = styled.div`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+  margin: 0 15px;
+  padding: 5px;           
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;  
+  font-family: "Poppins", sans-serif;
+
+  .ASV-heading {    
+    text-align: center;
+  }
 `
 
 const AdminSkillsView = () => {
@@ -39,14 +48,12 @@ const AdminSkillsView = () => {
   const [loadFail, setLoadFail] = useState(false);
   const [isEditing, setIsEditing] = useState(null);
   const [singleSkill, setSingleSkill] = useState({
-    name: "",
-    level: "",
+    name: "", level: "",
   });
 
   const resetSingleSkill = () => {
     setSingleSkill({
-      name: "",
-      level: "",
+      name: "", level: "",
     });
   }
 
@@ -56,9 +63,9 @@ const AdminSkillsView = () => {
     const skillsRef = collection(db, "Skills");
     const allData = query(skillsRef, orderBy("name", "asc"));
     const unsubscribe = onSnapshot(allData,
-      (snapshot) => {
+      async (snapshot) => {
         if (snapshot.docs.length !== 0) {
-          const skills = snapshot.docs.map((doc) => ({
+          const skills = await snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
@@ -84,8 +91,8 @@ const AdminSkillsView = () => {
     const { name, level } = data;
     const skillName = name.trim();
     const skillLevel = level.trim();
-
     let num = parseInt(skillLevel)
+
     if (!skillName || !skillLevel || typeof num !== "number" || isNaN(num)) {
       toastOrder();
       return;
@@ -151,18 +158,18 @@ const AdminSkillsView = () => {
   //firebase
 
   return (
-    <AdminSkillsContainer>
+    <ASVContainer>
       <>
-        <div className="admin-skills-main">
-          <div className="admin-skills-main-title">
-            <h2>Skills List</h2>
+        <div className="ASV-main">
+          <div className="ASV-heading">
+            <Heading as='h4' size='md' color='#FF69B4' >Skills List</Heading>
           </div>
-          <div className="admin-skills-main-add">
+          <div>
             <AdminAddSkill
               addSubmit={handleAddSkill}
             />
           </div>
-          <div className="admin-skills-main-list">
+          <div>
             {loading ? (
               <Loading />
             ) : loadFail ? (
@@ -179,15 +186,11 @@ const AdminSkillsView = () => {
                   deleteSkill={handleDeleteSkill}
                 />
               </div>
-
             )}
-          </div>
-          <div className="skills-json-report">
-
           </div>
         </div>
       </>
-    </AdminSkillsContainer>
+    </ASVContainer>
   )
 }
 

@@ -22,7 +22,6 @@ const AdminProjectsView = () => {
   const [user] = useAuthState(auth);
   const tableColumns = useMemo(() => [
     { Header: 'Rank', accessor: 'rank', },
-    { Header: 'Filename', accessor: 'filename', },
     { Header: 'Title', accessor: 'title', },
     { Header: 'Use', accessor: 'use', },
     { Header: 'Description', accessor: 'description', },

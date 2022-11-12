@@ -32,21 +32,3 @@
 }
 
 
-<ProjectCard
-                    title={title}
-                    use={use}
-                    description={description}
-                    coverImage={coverImage}
-                    coverCaption={coverCaption}
-                    handleModelOpen={handleModelOpen}
-                  />
-
-                  <ProjectModel
-                    title={title}
-                    use={use}
-                    description={description}
-                    coverImage={coverImage}
-                    coverCaption={coverCaption}
-                    open={open}
-                    setOpen={setOpen}
-                  />

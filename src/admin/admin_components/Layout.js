@@ -3,32 +3,31 @@ import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
-const LOComponent = styled.div` 
+const ALOComponent = styled.div` 
   display: flex;
   justify-content: center; 
 
-  .admin-layout {
-    display: flex;    
-    width: 80%;
+  .ALO-layout {
+    display: flex;
+    width: 70%;
   }
 
-  .admin-sidebar {
+  .ALO-sidebar {
     margin: 0;
-    padding: 0;
-    display: flex;
+    padding: 0;    
   }
 `
 
 const Layout = () => {
   return (
-    <LOComponent>
-      <div className='admin-layout'>
-        <div className='admin-sidebar'>
+    <ALOComponent>
+      <div className='ALO-layout'>
+        <div className='ALO-sidebar'>
           <Sidebar />
         </div>
         <Outlet />
       </div>
-    </LOComponent>
+    </ALOComponent>
   )
 }
 

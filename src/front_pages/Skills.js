@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query
-} from "firebase/firestore";
+import { collection, orderBy, onSnapshot, query } from "firebase/firestore";
+import { Grid, GridItem, Text } from '@chakra-ui/react'
+import ProgressBar from "@ramonak/react-progress-bar";
 import { auth, db } from "../utils/firebase";
-import { SkillContainer } from './styled/SkillContainer';
+import { FSContainer } from './styled/FSContainer';
 
 const Skills = () => {
   const [allSkillsData, setAllSkillsData] = useState([]);
@@ -15,41 +12,40 @@ const Skills = () => {
   useEffect(() => {
     const skillsRef = collection(db, "Skills");
     const allData = query(skillsRef, orderBy("name", "asc"));
-    const unsub = onSnapshot(allData, (querySnapshot) => {
-      const skills = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setAllSkillsData(skills);
-    });
-    return () => unsub();
+    const unsubscribe = onSnapshot(allData,
+      async (querySnapshot) => {
+        const skills = await querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setAllSkillsData(skills);
+      });
+    return () => unsubscribe();
   }, []);
 
   return (
-    <SkillContainer>
+    <FSContainer>
       <div>
-        <h1>Skills</h1>
+        <p className='FS-title'>Skills</p>
       </div>
-      <div>
-        <h4>(List include software)</h4>
-        <div className="main">
+      <div className="FS-main">
+        <p className="FS-include">(This list included software)</p>
+        <ul className="FS-list">
+
           {allSkillsData.map((item, index) => {
             const { id, name, level } = item;
             return (
-              <div key={id}>
-                <span>{name} :</span>
-                <span>{level}</span>
-              </div>
-
+              <li key={id} className="FS-skill-box">
+                <Text className="FS-skill-name">{name}</Text>
+                <div className='FS-skill-level'>
+                  <ProgressBar completed={level} />
+                </div>
+              </li>
             )
           })}
-
-        </div>
+        </ul>
       </div>
-
-    </SkillContainer>
-
-
+    </FSContainer>
   )
 }
 export default Skills;

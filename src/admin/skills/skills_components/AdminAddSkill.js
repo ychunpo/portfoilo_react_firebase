@@ -1,47 +1,45 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
-const AddSkillContainer = styled.div`
-  margin: 10px;
-  padding: 5px;  
-  display: flex;
-  
-  border: 2px solid red;
-  background-color: white;
+const AASContainer = styled.div`
+  margin: 0 20px;
+  padding: 2px 15px;  
 
-  .form {
-    margin: 5px;
-    padding: 5px;    
-    font-size: 1.2rem;
+  .ASS-input-group{
+    border: 2px solid #FF69B4;
+    border-radius: 5px;
     display: flex;
-    
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px
   }
 
-  .title {
+  .AAS-title {
     margin: 3px;
-    padding: 6px;
-    color: blue;
-    position: relation;
-    font-size: 1.3rem;
+    padding: 0 6px;
+    color: blue;    
+    font-size: 1.2rem;
     font-weight: bold;    
   }
 
-  .content {
+  .ASS-content {
     margin: 5px;
-    padding: 5px;
-    width: 265px;
+    padding: 5px;    
     display: flex;    
-    gap: 1.2rem;
+    gap: 15px;
   }
 
-  .label-style {
-    margin: 0;
+  .ASS-label {
+    margin: 0 10px;
+    color: blue; 
+    font-size: 1.2rem;
   }
 
-  .inputBox-style {
+  .ASS-inputBox {
     padding: 0 10px;
-    width: 120px;
-    font-size: 1rem;
+    width: 200px;
+    font-size: 1.1rem;
     outline: none;
     border: 1.1px solid green;
     border-radius: 5px;
@@ -61,22 +59,32 @@ const AddSkillContainer = styled.div`
     color: rgb(190, 190, 190);
   }
   
-  .btn-style {
-    margin: 5px 15px;
-    padding: 5px 10px;
-    font-size: 1.2rem;
+  .ASS-btn-group{
+    margin-right: 20px;
+  }
+
+  .AAS-btn-style {
+    width: 70px;
+    margin: 5px;
+    padding: 1px 10px;
+    font-size: 1.1rem;
     font-weight: bold;    
     color: blue;
-    background-color: white;
+    border: 1px solid blue;
+    border-radius: 5px;    
     cursor: pointer;
+    &:hover{
+      border: 0;
+      color: #FF69B4;
+      transform: scale(1.1);
+    }
   }  
 `
 const AddSkill = (props) => {
-  const [singleSkill, setSingleSkill] = useState({
-    name: "",
-    level: "",
-  });
   const usesRef = useRef();
+  const [singleSkill, setSingleSkill] = useState({
+    name: "", level: "",
+  });
 
   useEffect(() => {
     usesRef.current.focus();
@@ -96,30 +104,32 @@ const AddSkill = (props) => {
   }
 
   return (
-    <AddSkillContainer>
+    <AASContainer>
       <div>
-        <p className="title">Add Skill: </p>
-        <div className="content">
-          <label className="label-style" htmlFor="name">
-            Name:&nbsp;
+        <p className="AAS-title">Add Skill</p>
+        <div className="ASS-input-group">
+          <div className="ASS-content">
+            <label className="ASS-label" htmlFor="name">
+              Name:
+            </label>
             <input
               type="text"
               name="name"
-              className="inputBox-style"
+              className="ASS-inputBox"
               placeholder="Enter Name"
               value={singleSkill.name}
               onChange={(e) => handleChange(e)}
               ref={usesRef}
             />
-          </label>
-        </div>
-        <div className="content">
-          <label className="label-style" htmlFor="level">
-            Level:&nbsp;
+          </div>
+          <div className="ASS-content">
+            <label className="ASS-label" htmlFor="level">
+              Level:
+            </label>
             <input
               type="number"
               name="level"
-              className="inputBox-style"
+              className="ASS-inputBox"
               placeholder="Enter Number"
               value={singleSkill.level}
               min="1"
@@ -127,19 +137,27 @@ const AddSkill = (props) => {
               maxLength="3"
               onChange={(e) => handleChange(e)}
             />
-          </label>
+          </div>
+          <div className="ASS-btn-group">
+            <button className="AAS-btn-style" onClick={() => {
+              setSingleSkill({
+                name: "", level: "",
+              })
+            }}>
+              Clear
+            </button>
+            <button className="AAS-btn-style" onClick={(e) => {
+              sendSubmit(e, singleSkill);
+              setSingleSkill({
+                name: "", level: "",
+              })
+            }}>
+              Save
+            </button>
+          </div>
         </div>
-        <button className="btn-style" onClick={(e) => {
-          sendSubmit(e, singleSkill);
-          setSingleSkill({
-            name: "",
-            level: "",
-          });
-        }}>
-          Save
-        </button>
       </div>
-    </AddSkillContainer>
+    </AASContainer >
   )
 }
 

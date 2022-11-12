@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AboutText from './pages_components/AboutContent';
 
-const AboutBox = styled.div`
+const FAContainer = styled.div`
 background-color: green;
 display: flex;
 height: 100vh;
@@ -26,14 +26,14 @@ align-items: center;
 
 const About = () => {
   return (
-    <AboutBox>
+    <FAContainer>
       <div className="left-side">
         Left Side - CSS
       </div>
       <div className="right-side">
         <AboutText />
       </div>
-    </AboutBox>
+    </FAContainer>
   )
 }
 

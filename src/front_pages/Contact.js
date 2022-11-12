@@ -1,40 +1,43 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Text } from '@chakra-ui/react';
 import ContactForm from './pages_components/ContactForm';
 
-const ContactBox = styled.div`
-background-color: yellow;
-height: 80vh;
-display: flex;
-justify-content: space-between;
+const FCContainer = styled.div`
+background-color: purple;
+height: 100vh;
+
+
 
 div {
   display: flex;
   flex: 1;
-  justify-content: center;
+  justify-content: space-around
 }
 .contact-form-left {  
-  
+  align-items: center;
 }
 
 .contact-form-right {  
-  align-item: center;
+  align-items: center;
   
 }
 `
 
 const Contact = () => {
   return (
-    <ContactBox>
+    <FCContainer>
       <div className="contact-form-left">
-        <ContactForm />
+        <div>
+          <Text>left Area</Text>
+        </div>
       </div>
       <div className="contact-form-right">
         <div>
-          Right Area
+          <ContactForm />
         </div>
       </div>
-    </ContactBox>
+    </FCContainer>
   )
 }
 

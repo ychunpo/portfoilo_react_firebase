@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router-dom";
 import { auth, db } from "../utils/firebase";
 
-const Container = styled.div`
+const FPIContainer = styled.div`
 
 `
 
@@ -23,7 +23,7 @@ const ProjectItem = () => {
   }, []);
 
   return (
-    <Container>
+    <FPIContainer>
       {project && (
         <div className="">
 
@@ -42,8 +42,7 @@ const ProjectItem = () => {
           </figure>
         </div>
       )}
-
-    </Container>
+    </FPIContainer>
   )
 }
 

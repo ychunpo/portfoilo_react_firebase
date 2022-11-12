@@ -2,11 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 const FooterBox = styled.div`
-margin: 5px
-padding: 5px;
-text-align: center;
-display: flex;
-justify-content: space-around;
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+
+
+
 `
 
 const Footer = () => {
@@ -18,7 +21,6 @@ const Footer = () => {
       <div className="footer-right">
         <p>Design and Created by C. P. Yeung</p>
       </div>
-
     </FooterBox>
   )
 }

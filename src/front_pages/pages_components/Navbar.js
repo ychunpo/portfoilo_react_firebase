@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import Logo from '../../Icon_components/Logo';
 import { NavbarIcon } from '../../Icon_components/NavbarIcon';
 
-const Header = styled.div`
+const NavBarContainer = styled.div`
   --bg-color: #dedbf3;
-  --text-color: #141e27;
-  position: fixed;   
+  --text-color: #141e27;     
   padding: 5px;
   width: 100%;
   background-color: var(--bg-color);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  
 
   .container { 
     
@@ -115,17 +115,14 @@ const Header = styled.div`
   }  
 `
 
-
 const Navbar = () => {
   const [show, setShow] = useState(false);
-
   const showSidebar = () => {
     setShow(!show);
-    console.log(show);
   }
 
   return (
-    <Header>
+    <NavBarContainer>
       <nav className="nav container">
         <Logo />
         <div className={show ? "nav-menu" : "nav-menu-hide"}>
@@ -147,9 +144,8 @@ const Navbar = () => {
         <div className="nav-toggle" onClick={showSidebar} >
           <NavbarIcon />
         </div>
-
       </nav>
-    </Header >
+    </NavBarContainer >
   );
 };
 

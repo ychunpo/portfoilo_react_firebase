@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import IntroContent from './pages_components/IntroContent';
 
-const HomeBox = styled.div`
+const FIContainer = styled.div`
 display: flex;
-height: 90vh;
+height: 95vh;
 background-color: grey;
 
 .left-side {
@@ -24,14 +24,14 @@ background-color: grey;
 
 const Intro = () => {
   return (
-    <HomeBox>
+    <FIContainer>
       <div className="left-side">
         <IntroContent />
       </div>
       <div className="right-side">
         May Be 3D Sline
       </div>
-    </HomeBox>
+    </FIContainer>
   )
 }
 

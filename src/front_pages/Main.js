@@ -8,7 +8,7 @@ import Skills from './Skills';
 import Contact from './Contact';
 import Footer from './pages_components/Footer';
 
-const Home = () => {
+const Main = () => {
   return (
     <>
       <Navbar />
@@ -22,4 +22,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Main;

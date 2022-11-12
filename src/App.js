@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
-import Home from './front_pages/Home';
+import Main from './front_pages/Main';
 import Login from './auth';
 import { AuthContextProvider } from './auth/AuthContext';
 import ProtectedRouter from './auth/ProtectedRouter';
@@ -10,6 +10,7 @@ import AdminSkillsView from './admin/skills/AdminSkillsView';
 import AdminProjectsView from './admin/projects/AdminProjectsView';
 import AdminProjectForm from './admin/projects/AdminProjectForm';
 import AdminProjectEdit from './admin/projects/AdminProjectEdit';
+import AdminSliderController from './admin/setting/AdminSliderController';
 import Layout from './admin/admin_components/Layout';
 import NotFound from './front_pages/NotFound';
 
@@ -19,7 +20,7 @@ function App() {
 
       <AuthContextProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Main />} />
           <Route path="/auth" element={<Login />} />
           <Route path="*" element={<NotFound />} />
 
@@ -29,14 +30,12 @@ function App() {
             <Route path="projects" element={<ProtectedRouter><AdminProjectsView /></ProtectedRouter>} />
             <Route path="project/:type" element={<ProtectedRouter><AdminProjectForm /></ProtectedRouter>} />
             <Route path="project/edit/:id" element={<ProtectedRouter><AdminProjectEdit /></ProtectedRouter>} />
+            <Route path="sidebar" element={<ProtectedRouter><AdminSliderController /></ProtectedRouter>} />
           </Route>
 
         </Routes>
       </AuthContextProvider>
-
-
       <ToastContainer position="top-center" />
-
     </div>
   );
 }
