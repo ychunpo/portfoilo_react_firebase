@@ -19,7 +19,6 @@ export const projectSchema = yup.object().shape({
       })
     ),
   }),
-
   items: yup.array().of(
     yup.object().shape({
       itemId: yup.number().positive().integer(),
@@ -33,12 +32,8 @@ export const projectSchema = yup.object().shape({
           itemImageFile: yup.mixed(),
         })
       )
-
-
-
     })
   )
-
 });
 
 export const skillSchema = yup.object().shape({

@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Text } from '@chakra-ui/react';
 import styled from 'styled-components';
 import Logo from '../../Icon_components/Logo';
 import { NavbarIcon } from '../../Icon_components/NavbarIcon';
 
 const NavBarContainer = styled.div`
-  --bg-color: #dedbf3;
-  --text-color: #141e27;     
-  padding: 5px;
+  position: absolute;
+  --bg-color: #003366;
+  --text-color: #ff8c00 ;  
   width: 100%;
-  background-color: var(--bg-color);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  
+  z-index: 1;
 
-  .container { 
-    
-  }
-
-  .nav {
+  .nav-main {
     display: flex;
     justify-content: space-between;    
     align-items: center;    
@@ -25,7 +19,7 @@ const NavBarContainer = styled.div`
 
   .nav-list {    
     display: flex;
-    margin-inline-end: 4rem;   
+    margin-inline-end: 1rem;   
   }
 
   .nav-item {
@@ -35,11 +29,10 @@ const NavBarContainer = styled.div`
     padding: 0 5px;    
   }
   
-  .nav-link {
-    text-decoration: none;
-    
+  .nav-link {    
+    text-decoration: none;    
     cursor: pointer;
-    color: var(--text-color);
+    
   }
 
   .nav-toggle {
@@ -59,11 +52,15 @@ const NavBarContainer = styled.div`
     .nav-list {
       font-weight: bold;
       font-size: 1.5rem; 
-      column-gap: 2rem;      
+      column-gap: 1.2rem;          
+    }
+
+    .nav-link {
+      
     }
   } 
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 769px) {
     .nav-menu-hide {
       position: fixed;
       top: 0;
@@ -72,15 +69,14 @@ const NavBarContainer = styled.div`
       margin: 0 auto;
       border-radius: 1.5rem;
       background-color: var(--bg-color);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+      
       padding-top: 3rem;
       padding-bottom: 3rem;
       width: 90%;
-      transition: 1s;
-      
+      transition: 1s;      
     }
 
-    .nav-menu {
+    .nav-menu-show {
       position: fixed;
       top: 9%;
       left: 0;
@@ -97,7 +93,7 @@ const NavBarContainer = styled.div`
 
     .nav-list {
       margin: auto;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       display: flex;      
       flex-direction: column;          
       row-gap: 2.5rem;      
@@ -112,6 +108,7 @@ const NavBarContainer = styled.div`
   @media screen and (min-width: 1024px) {
   .container {
     margin-inline: auto;
+    
   }  
 `
 
@@ -123,21 +120,54 @@ const Navbar = () => {
 
   return (
     <NavBarContainer>
-      <nav className="nav container">
+      <nav className="nav-main">
         <Logo />
-        <div className={show ? "nav-menu" : "nav-menu-hide"}>
+        <div className={show ? "nav-menu-show" : "nav-menu-hide"}>
           <ul className="nav-list">
             <li className="nav-item">
-              <Link to="/about" className="nav-link">About</Link>
+              <a href="#introductionId" className="nav-link">
+                <Text
+                  color="orange.400"
+                  textShadow='0 0 10px purple.400'>
+                  Introduction
+                </Text>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/portfolio" className="nav-link">Portfolio</Link>
+              <a href="#aboutId" className="nav-link">
+                <Text
+                  color="orange.400"
+                  textShadow='0 0 10px purple.400'>
+                  About
+                </Text>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/skills" className="nav-link">Skills</Link>
+              <a href="#portfolioId" className="nav-link">
+                <Text
+                  color="orange.400"
+                  textShadow='0 0 10px purple.400'>
+                  Portfolio
+                </Text>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className="nav-link">Contact</Link>
+              <a href="#skillsId" className="nav-link">
+                <Text
+                  color="orange.400"
+                  textShadow='0 0 10px purple.400'>
+                  Skills
+                </Text>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="#contactId" className="nav-link">
+                <Text
+                  color="orange.400"
+                  textShadow='0 0 10px purple.400'>
+                  Contact
+                </Text>
+              </a>
             </li>
           </ul>
         </div>

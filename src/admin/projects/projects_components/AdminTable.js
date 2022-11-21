@@ -1,148 +1,105 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useTable } from "react-table";
-import { EditIcon, ViewIcon, ViewOffIcon, DeleteIcon } from '@chakra-ui/icons';
-import { IconButton } from '@chakra-ui/react'
 import styled from 'styled-components';
+import {
+  IconButton, Box,
+  Table, Thead, Tbody,
+  Tr, Th, Td,
+  TableCaption, TableContainer,
+  Textarea
+} from '@chakra-ui/react'
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 
 const AdminTableContainer = styled.div`
-textarea {
-  text-align: left;
-  width: 800px; 
-  height: 800px;
-}
+  margin: 5px 15px;
+  padding: 5px;  
+
+  textarea {
+    text-align: left;
+    width: 800px; 
+    height: 800px;
+  }
 `
 
-const AdminTable = ({ columns, data, hiddenItem, deleteItem }) => {
-  //console.log('data - ', data)
+const AdminTable = ({ columns, data, deleteItem }) => {
   const navigation = useNavigate();
   const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable({
-    columns,
-    data,
-  });
-
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
-
-  const grid = 8;
-  const getItemStyle = (isDragging, draggableStyle) => ({
-    userSelect: "none",
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
-    background: isDragging ? "lightgreen" : "yellow",
-    ...draggableStyle
-  });
-
-  const onDragEnd = (result) => {
-    const { source, destination, draggableId } = result;
-    if (!destination) return;
-    reorder(source.index, destination.index);
-  }
+    getTableProps, getTableBodyProps,
+    headerGroups, rows, prepareRow
+  } = useTable({ columns, data });
 
   return (
     <AdminTableContainer>
       {data.length !== 0 && (
         <div>
-          <table {...getTableProps()} border="1">
-            <thead>
-              {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map(column => (
-                    <th {...column.getHeaderProps()}>
-                      {column.render('Header')}
-                    </th>
-                  ))}
-                  <th>
-                    Action
-                  </th>
-                </tr>
-              ))}
-            </thead>
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppable">
-                {(provided, snapshot) => {
+          <TableContainer>
+            <Table
+              size="sm"
+              {...getTableProps()}
+            >
+              <Thead>
+                {headerGroups.map(headerGroup => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(column => (
+                      <Th color='green.600'
+                        {...column.getHeaderProps()}
+                      >
+                        {column.render('Header')}
+                      </Th>
+                    ))}
+                    <Th color='green.600'>
+                      Action
+                    </Th>
+                  </Tr>
+                ))}
+              </Thead>
+              <Tbody {...getTableBodyProps()}>
+                {rows.map((row, index) => {
+                  prepareRow(row);
                   return (
-                    <tbody
-                      {...getTableBodyProps()}
-                      ref={provided.innerRef}
-                    >
-                      {rows.map((row, index) => {
-                        //console.log('row: ', row)
-                        prepareRow(row);
+                    <Tr {...row.getRowProps()} key={row.original.id}>
+                      {row.cells.map((cell) => {
                         return (
-                          <Draggable
-                            key={row.original.id}
-                            draggableId={row.original.id}
-                            index={row.index}
+                          <Td
+                            {...cell.getCellProps()}
                           >
-                            {(provided, snapshot) => (
-
-                              <tr
-                                ref={provided.innerRef}
-                                {...row.getRowProps()}
-                                {...provided.dragHandleProps}
-                                {...provided.draggableProps}
-                                snapshot={snapshot}
-                                isdragging={snapshot.isdragging}
-                              >
-                                {row.cells.map(cell => (
-                                  <td {...cell.getCellProps()}>
-                                    {cell.render('Cell', {
-                                      dragHandleProps: provided.dragHandleProps,
-                                      isSomethingDragging: snapshot.isDraggingOver
-                                    })}
-                                  </td>
-                                )
-                                )}
-                                <td>
-                                  <IconButton
-                                    variant='outline'
-                                    aria-label='hidden project'
-                                    icon={<ViewOffIcon color="green.500" />}
-                                    onClick={() => hiddenItem(row.original)}
-                                  />
-                                  <IconButton
-                                    variant='outline'
-                                    colorScheme='red'
-                                    aria-label='delete project'
-                                    icon={<DeleteIcon />}
-                                    onClick={() => deleteItem(row.original)}
-                                  />
-                                  <IconButton
-                                    variant='outline'
-                                    colorScheme='blue'
-                                    aria-label='edit project'
-                                    icon={<EditIcon />}
-                                    onClick={() => navigation(`/admin/project/edit/${row.original.id}`)}
-                                  />
-                                </td>
-                              </tr>
-                            )}
-                          </Draggable>
+                            {cell.render('Cell')}
+                          </Td>
                         )
                       })}
-                      {provided.placeholder}
-                    </tbody>
+                      <Td>
+                        <IconButton
+                          variant='outline'
+                          colorScheme='red'
+                          aria-label='delete project'
+                          icon={<DeleteIcon />}
+                          onClick={() => deleteItem(row.original)}
+                        />
+                        <IconButton
+                          variant='outline'
+                          colorScheme='blue'
+                          aria-label='edit project'
+                          icon={<EditIcon />}
+                          onClick={() => navigation(`/admin/project/edit/${row.original.id}`)}
+                        />
+                      </Td>
+                    </Tr>
                   )
-                }}
-              </Droppable>
-            </DragDropContext>
-          </table>
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
           <br />
-          <div>
-            <textarea value={JSON.stringify(data.map(item => item), null, 2)} readOnly></textarea>
-          </div>
+          <Box>
+            <Textarea
+              bg='white'
+              size='md'
+              variant='outline'
+              value={JSON.stringify(data.map(item => item), null, 2)}
+              isReadOnly
+            />
+          </Box>
         </div>
       )}
     </AdminTableContainer>

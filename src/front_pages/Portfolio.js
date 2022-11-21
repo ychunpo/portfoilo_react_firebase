@@ -24,7 +24,7 @@ import Fail from "../admin/admin_components/Loading/Fail";
 
 const FPContainer = styled.div`
   height: 95vh; 
-  background-color: yellow;
+  background-color:  #194442;
 
   .swiper {
   width: 100%;
@@ -108,9 +108,9 @@ const Portfolio = () => {
 
 
   return (
-    <FPContainer>
+    <FPContainer id="portfolioId">
       <div className="FP-title">
-        <Heading>Projects</Heading>
+        <Heading as='h4' size='2xl' color="white">Projects</Heading>
       </div>
       <div className="FP-main">
         {loading ? (
@@ -124,8 +124,8 @@ const Portfolio = () => {
         ) : (
           <Swiper
             style={{
-              "--swiper-navigation-color": "blue",
-              "--swiper-pagination-color": "purple",
+              "--swiper-navigation-color": "yellow",
+              "--swiper-pagination-color": "yellow",
             }}
             // install Swiper modules
             modules={[Navigation, Pagination]}
@@ -156,15 +156,16 @@ const Portfolio = () => {
             {allProjectsData.map((data, index) => (
               <SwiperSlide key={data.id} virtualIndex={index}>
                 <Box
-                  borderRadius="20px"
+                  borderRadius="10px"
                   borderWidth="2px"
                   w='350px'
                   bg="pink"
                 >
                   <ProjectCard data={data} />
-                  <VStack pb="30px">
+                  <VStack p="30px 0">
                     <Button
                       zIndex={2}
+                      w="200px"
                       colorScheme='blackAlpha'
                       onClick={() => {
                         onOpen();
@@ -173,9 +174,11 @@ const Portfolio = () => {
                       View
                     </Button>
                   </VStack>
+
                 </Box>
                 <Modal
-                  size="xl"
+
+                  size="3xl"
                   isOpen={isOpen}
                   onClose={onClose}
                   scrollBehavior={"inside"}
@@ -201,7 +204,7 @@ const Portfolio = () => {
           </Swiper>
         )}
       </div>
-    </FPContainer >
+    </FPContainer>
   )
 }
 

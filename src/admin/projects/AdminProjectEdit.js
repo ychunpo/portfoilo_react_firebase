@@ -12,6 +12,7 @@ import Fail from "../admin_components/Loading/Fail";
 
 const AdminProjectEdit = () => {
   const { id } = useParams();
+  const docRef = doc(db, "Projects", id);
   const navigation = useNavigate();
   const [singleProjectData, setSingleProjectData] = useState("");
   //console.log('singleProjectData: ', singleProjectData)
@@ -30,12 +31,11 @@ const AdminProjectEdit = () => {
 
   useEffect(() => {
     //setLoading(true);
-    const docRef = doc(db, "Projects", id);
     const unsubscribe = onSnapshot(docRef,
-      (snapshot) => {
+      async (snapshot) => {
         //console.log('snapshot', snapshot.data());              
         if (isObjectEmpty(snapshot.data) === false) {
-          singleData(snapshot);
+          await singleData(snapshot);
           setLoading(false);
         } else {
           setLoading(false);
@@ -50,22 +50,36 @@ const AdminProjectEdit = () => {
     navigation('/admin/projects');
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = async (label, value) => {
+    await updateDoc(docRef, {
+      [label]: value
+    })
+  }
+
+  const updateImageRecord = async () => {
 
   }
 
   return (
     <Container maxW='2x1' bg='gray.100'>
-      <Heading>Edit Form</Heading>
+      <Heading
+        p="5px"
+        color='orange.300'
+        as='h4' size='lg'
+      >
+        Edit Form
+      </Heading>
+
       {loading ? (
         <Loading />
       ) : loadFail ? (
         <Fail />
       ) : (
-        < EditForm
+        <EditForm
           data={singleProjectData}
           handleCancel={handleCancel}
           handleUpdate={handleUpdate}
+          updateImageRecord={updateImageRecord}
         />
       )}
     </Container >

@@ -1,22 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import HelloBox from "./IntroAnimation/HelloBox";
+import NameBox from "./IntroAnimation/NameBox";
 
 const IntroBox = styled.div`
-
-.intro-text {
-  text-align: left;
-}
-
+  .intro-text { 
+    
+  }
 `
-
 
 const IntroContent = () => {
   return (
     <IntroBox>
       <div className="intro-text">
-        <h3>Hello, My name is </h3>
-        <h1>C. P. Yeung</h1>
-
+        <HelloBox text="Hello there, I am" />
+        <NameBox text="C. P. Yeung" />
       </div>
     </IntroBox>
   )

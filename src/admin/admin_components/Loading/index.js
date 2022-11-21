@@ -1,46 +1,54 @@
 import React from 'react';
-import { Center, Skeleton, SkeletonCircle, SkeletonText, Spinner, Text } from '@chakra-ui/react'
+import { Center, SkeletonCircle, Spinner, Text } from '@chakra-ui/react';
+import styled from 'styled-components';
 
-const Loading = () => {
+const ALContainer = styled.div`
+  width: 100%;
+  height: 100% 
+`
+
+const AdminLoading = () => {
   return (
-    <Center w='100%' mt='25%'>
-      <Spinner
-        thickness='2px'
-        speed='1.65s'
-        emptyColor='gray.200'
-        color='blue.500'
-        size='md'
-      />
-      <Text fontSize='3xl' color='blackAlpha.400'>Loading</Text>
-      <Text as='sub'>
+    <ALContainer>
+      <Center w='100%' mt='25%'>
+        <Spinner
+          thickness='2px'
+          speed='1.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='md'
+        />
+        <Text fontSize='3xl' color='blackAlpha.400'>Loading</Text>
         <Text as='sub'>
           <Text as='sub'>
             <Text as='sub'>
-              <SkeletonCircle size='1.5' />
+              <Text as='sub'>
+                <SkeletonCircle size='1.5' />
+              </Text>
             </Text>
           </Text>
         </Text>
-      </Text>
-      <Text as='sub'>
         <Text as='sub'>
           <Text as='sub'>
             <Text as='sub'>
-              <SkeletonCircle size='1.5' />
+              <Text as='sub'>
+                <SkeletonCircle size='1.5' />
+              </Text>
             </Text>
           </Text>
         </Text>
-      </Text>
-      <Text as='sub'>
         <Text as='sub'>
           <Text as='sub'>
             <Text as='sub'>
-              <SkeletonCircle size='1.5' />
+              <Text as='sub'>
+                <SkeletonCircle size='1.5' />
+              </Text>
             </Text>
           </Text>
         </Text>
-      </Text>
-    </Center>
+      </Center>
+    </ALContainer>
   )
 }
 
-export default Loading
+export default AdminLoading

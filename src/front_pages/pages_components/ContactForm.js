@@ -5,7 +5,7 @@ import {
   Box, Button, ButtonGroup,
   Flex,
   FormControl, FormLabel, FormErrorMessage, FormHelperText,
-  Input,
+  Heading, Input,
   Select,
   Text, Textarea,
   VStack,
@@ -13,7 +13,11 @@ import {
 import styled from "styled-components";
 
 const FCFContainer = styled.div`
-  padding: 15px 0;
+  margin: 50px auto;
+  padding: 15px;
+  width: 100%;
+  display: flex;
+  flex-direction: column; 
   background-color: pink;
 `
 const defaultValue = {
@@ -28,15 +32,8 @@ const defaultValue = {
 
 const ContactForm = () => {
   const form = useRef();
-  //console.log('form.current: ', form)
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-
   //console.log('errors: ', errors)
-  const [clear, setClear] = useState("")
-
-  const emptyForm = () => {
-
-  }
 
   const sendEmail = () => {
     emailjs.sendForm(
@@ -53,14 +50,20 @@ const ContactForm = () => {
 
   return (
     <FCFContainer>
+      <Heading
+        p='5px'
+        as='h4'
+        size='xl'
+        align='center'
+      >
+        Email me
+      </Heading>
       <form ref={form} onSubmit={handleSubmit(sendEmail)}>
-        <VStack
-          spacing={1}
-        >
+        <VStack spacing={1}>
           <FormControl isRequired>
             <Flex direction="column">
-              <FormLabel>Title</FormLabel>
-              <Select
+              <FormLabel p="0 5px">Title</FormLabel>
+              <Select w='30vw'
                 border='1px' borderColor='black.200'
                 boxShadow='base' rounded='md' bg='white'
                 {...register("contact_title", { required: true })}
@@ -75,7 +78,7 @@ const ContactForm = () => {
 
           <FormControl isRequired>
             <Flex direction="column">
-              <FormLabel>Name</FormLabel>
+              <FormLabel p="0 5px">Name</FormLabel>
               <Input w='30vw'
                 border='1px' borderColor='black.200'
                 boxShadow='base' p='4' rounded='md' bg='white'
@@ -87,8 +90,8 @@ const ContactForm = () => {
 
           <FormControl>
             <Flex direction="column">
-              <FormLabel>Company Name</FormLabel>
-              <Input
+              <FormLabel p="0 5px">Company Name</FormLabel>
+              <Input w='30vw'
                 border='1px' borderColor='black.200'
                 boxShadow='base' p='4' rounded='md' bg='white'
                 {...register("contact_company", {})}
@@ -99,8 +102,8 @@ const ContactForm = () => {
 
           <FormControl>
             <Flex direction="column">
-              <FormLabel>H.K. Phone Number</FormLabel>
-              <Input
+              <FormLabel p="0 5px">H.K. Phone Number</FormLabel>
+              <Input w='30vw'
                 border='1px' borderColor='black.200'
                 boxShadow='base' p='4' rounded='md' bg='white'
                 type="tel"
@@ -111,8 +114,8 @@ const ContactForm = () => {
 
           <FormControl isRequired>
             <Flex direction="column">
-              <FormLabel>Email Address</FormLabel>
-              <Input
+              <FormLabel p="0 5px">Email Address</FormLabel>
+              <Input w='30vw'
                 border='1px' borderColor='black.200'
                 boxShadow='base' p='4' rounded='md' bg='white'
                 {...register("contact_email", { required: true, pattern: /^\S+@\S+$/i })}
@@ -123,8 +126,8 @@ const ContactForm = () => {
 
           <FormControl isRequired>
             <Flex direction="column">
-              <FormLabel>Subject</FormLabel>
-              <Input
+              <FormLabel p="0 5px">Subject</FormLabel>
+              <Input w='30vw'
                 border='1px' borderColor='black.200'
                 boxShadow='base' p='4' rounded='md' bg='white'
                 {...register("contact_subject", { required: true })}
@@ -135,8 +138,8 @@ const ContactForm = () => {
 
           <FormControl isRequired>
             <Flex direction="column">
-              <FormLabel>Message</FormLabel>
-              <Textarea
+              <FormLabel p="0 5px">Message</FormLabel>
+              <Textarea w='30vw'
                 border='1px' borderColor='black.200'
                 boxShadow='base' p='4' rounded='md' bg='white'
                 {...register("contact_message", { required: true })}

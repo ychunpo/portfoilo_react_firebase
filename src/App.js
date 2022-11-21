@@ -5,11 +5,11 @@ import Main from './front_pages/Main';
 import Login from './auth';
 import { AuthContextProvider } from './auth/AuthContext';
 import ProtectedRouter from './auth/ProtectedRouter';
-import Dashboard from './admin/dashboard';
 import AdminSkillsView from './admin/skills/AdminSkillsView';
 import AdminProjectsView from './admin/projects/AdminProjectsView';
 import AdminProjectForm from './admin/projects/AdminProjectForm';
 import AdminProjectEdit from './admin/projects/AdminProjectEdit';
+import AdminProjectImageView from './admin/projects_image_list/AdminProjectImageView'
 import AdminSliderController from './admin/setting/AdminSliderController';
 import Layout from './admin/admin_components/Layout';
 import NotFound from './front_pages/NotFound';
@@ -25,12 +25,12 @@ function App() {
           <Route path="*" element={<NotFound />} />
 
           <Route path="/admin" element={<ProtectedRouter><Layout /></ProtectedRouter>}>
-            <Route path="dashboard" element={<ProtectedRouter><Dashboard /></ProtectedRouter>} />
             <Route path="skills" element={<ProtectedRouter><AdminSkillsView /></ProtectedRouter>} />
             <Route path="projects" element={<ProtectedRouter><AdminProjectsView /></ProtectedRouter>} />
             <Route path="project/:type" element={<ProtectedRouter><AdminProjectForm /></ProtectedRouter>} />
             <Route path="project/edit/:id" element={<ProtectedRouter><AdminProjectEdit /></ProtectedRouter>} />
-            <Route path="sidebar" element={<ProtectedRouter><AdminSliderController /></ProtectedRouter>} />
+            <Route path="project/image-list" element={<ProtectedRouter><AdminProjectImageView /></ProtectedRouter>} />
+            <Route path="project/slider" element={<ProtectedRouter><AdminSliderController /></ProtectedRouter>} />
           </Route>
 
         </Routes>

@@ -162,7 +162,7 @@ const AdminSkillsView = () => {
       <>
         <div className="ASV-main">
           <div className="ASV-heading">
-            <Heading as='h4' size='md' color='#FF69B4' >Skills List</Heading>
+            <Heading as='h4' size='lg' color='#FF69B4'>Skills List</Heading>
           </div>
           <div>
             <AdminAddSkill

@@ -2,8 +2,12 @@ import React, { useMemo, useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { collection, doc, deleteDoc, onSnapshot, orderBy, query } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import {
+  Box, Button, ButtonGroup,
+  Container, Flex, Heading, HStack, Image, Input, Spacer, Text
+} from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import { APVContainer } from "./styled/APVContainer";
 import { auth, db } from "../../utils/firebase";
@@ -14,18 +18,16 @@ import Fail from "../admin_components/Loading/Fail";
 const AdminProjectsView = () => {
   const pattern = /.+\.(jpg|jpeg|png|gif)/gi;
   const storage = getStorage();
+  const navigation = useNavigate();
   const [allProjectsData, setAllProjectsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadFail, setLoadFail] = useState(false);
-  //console.log('allProjectsData: ', allProjectsData)
-  //const [hidden, setHidden] = useState(false);
   const [user] = useAuthState(auth);
   const tableColumns = useMemo(() => [
     { Header: 'Rank', accessor: 'rank', },
     { Header: 'Title', accessor: 'title', },
     { Header: 'Use', accessor: 'use', },
     { Header: 'Description', accessor: 'description', },
-    { Header: 'Hidden', accessor: 'hidden', },
   ], []);
   const tableData = useMemo(() => allProjectsData)
 
@@ -55,14 +57,8 @@ const AdminProjectsView = () => {
     return () => unsubscribe();
   }, []);
 
-  // hiddenItem--->
-  const hiddenItem = (project) => {
-    //project.hidden = !project.hidden;
-  }
-
   // deleteItem--->
   const deleteItem = async (project) => {
-    console.log('project', project)
     let valArray = [];
     let getter = (project) => {
       let values = Object.values(project);
@@ -86,7 +82,7 @@ const AdminProjectsView = () => {
 
     if (valArray.length !== 0) {
       valArray.forEach(async val => {
-        const coverImageRef = ref(storage, `images/test2/${val}`);
+        const coverImageRef = ref(storage, `images/${val}`);
         await deleteObject(coverImageRef).then(() => {
           console.log('All Image deleted');
         }).catch((error) => {
@@ -105,24 +101,41 @@ const AdminProjectsView = () => {
 
   return (
     <APVContainer>
-      <div className="admin-project-main">
-        <h1>Project Lists</h1>
-        <span className="create-link">
-          <Link to="/admin/project/create">
-            <AddIcon w={6} h={6} color='blue.500' />
-          </Link>
-        </span>
+      <div className="APV-main">
+        <Flex w="840px" justify="center" gap="270px">
+          <Heading
+            w="190px"
+            p="5px"
+            as='h4' size='lg'
+            color='blue.500'
+          >
+            Project Lists
+          </Heading>
+
+          <Box mr="-290px">
+            <Button
+              mt="10px"
+              onClick={() => navigation('/admin/project/create')}
+            >
+              <AddIcon w={7} h={7} color='blue.500' />
+            </Button>
+          </Box>
+        </Flex>
 
         {loading ? (
-          <Loading />
+          <div className="APV-pagesize">
+            <Loading />
+          </div>
+
         ) : loadFail ? (
-          <Fail />
+          <div className="APV-pagesize">
+            <Fail />
+          </div>
         ) : (
-          <div className="card-group" >
+          <div className="APV-table" >
             <AdminTable
               columns={tableColumns}
               data={tableData}
-              hiddenItem={hiddenItem}
               deleteItem={deleteItem}
             />
           </div>

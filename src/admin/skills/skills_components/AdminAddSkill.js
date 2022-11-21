@@ -16,7 +16,7 @@ const AASContainer = styled.div`
   }
 
   .AAS-title {
-    margin: 3px;
+    margin: 0 3px;
     padding: 0 6px;
     color: blue;    
     font-size: 1.2rem;
@@ -34,11 +34,12 @@ const AASContainer = styled.div`
     margin: 0 10px;
     color: blue; 
     font-size: 1.2rem;
+    
   }
 
   .ASS-inputBox {
     padding: 0 10px;
-    width: 200px;
+    width: 200px;77
     font-size: 1.1rem;
     outline: none;
     border: 1.1px solid green;
@@ -66,9 +67,10 @@ const AASContainer = styled.div`
   .AAS-btn-style {
     width: 70px;
     margin: 5px;
+    
     padding: 1px 10px;
     font-size: 1.1rem;
-    font-weight: bold;    
+    font-weight: bold;   
     color: blue;
     border: 1px solid blue;
     border-radius: 5px;    

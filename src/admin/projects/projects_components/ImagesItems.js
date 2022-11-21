@@ -1,14 +1,10 @@
-import React, { useMemo, useState } from 'react';
-import { useFieldArray, useFormContext } from "react-hook-form";
+import React from 'react';
+import { useFieldArray } from "react-hook-form";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {
-  Button, ButtonGroup, Box,
-  Center, Container,
+  Button, Box,
   Flex,
-  Heading,
-  Input,
   Spacer,
-  Text, Textarea
 } from '@chakra-ui/react';
 import FileInput from "./FileInput";
 
@@ -17,9 +13,6 @@ const ImagesItems = ({ control, watch }) => {
     control,
     name: "items",
   });
-
-  //console.log('Watch: ', watch());
-  //console.log('fields: ', fields);
 
   const onDragEnd = (result) => {
     move(result.source.index, result.destination.index);

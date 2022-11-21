@@ -13,7 +13,7 @@ import {
   Heading,
   Input,
   Spacer,
-  Stack,
+  Stack, HStack,
   Text, Textarea
 } from '@chakra-ui/react';
 import { storage, db, auth } from '../../utils/firebase';
@@ -176,7 +176,15 @@ const AdminProjectForm = () => {
         <div className="APF-main">
           <div className="APF-main-header">
             <div className="APF-main-title">
-              <Heading as='h4' size='md'>Create Project</Heading>
+              <Heading
+                as='h4'
+                fontSize='2xl'
+                w="90%"
+                align="center"
+                color="green.800"
+              >
+                Create Project
+              </Heading>
             </div>
           </div>
           <form className="form">
@@ -234,8 +242,8 @@ const AdminProjectForm = () => {
                 <ImagesItems {...{ control, watch }} />
               </Box>
             </div>
-            <Stack direction='row'>
-              <ButtonGroup variant='outline' spacing='20'>
+            <HStack w="90%">
+              <ButtonGroup variant='outline' spacing='50px' m="0 auto">
                 <Button
                   size='lg'
                   colorScheme='orange'
@@ -257,7 +265,7 @@ const AdminProjectForm = () => {
                   Save
                 </Button>
               </ButtonGroup>
-            </Stack>
+            </HStack>
           </form>
           <br />
         </div>

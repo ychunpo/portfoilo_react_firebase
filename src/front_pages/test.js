@@ -31,4 +31,6 @@
     ))
 }
 
+<StyledEllipse color="pink"></StyledEllipse>
 
+#ffd28d

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import React from "react";
 import FileInput from "./FileInput";
 
 const ImageCover = () => {

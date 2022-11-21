@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import Loading from "../../../admin/admin_components/Loading";
+//import Loading from "../../../admin/admin_components/Loading";
 
 const ProjectModel = ({ singleData }) => {
 
@@ -62,6 +62,7 @@ const ProjectModel = ({ singleData }) => {
                             m="auto" boxSize='300px'
                             src={imageData.imagePath}
                             alt={imageData.imageName}
+                            fallbackSrc='https://via.placeholder.com/300'
                           />
 
                         </Box>

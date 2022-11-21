@@ -1,96 +1,107 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useForm, FormProvider } from "react-hook-form";
 import { collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { list, ref, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import styled from "styled-components";
 import {
   Button, ButtonGroup, Box,
-  Divider,
-  Editable, EditableInput, EditableTextarea, EditablePreview,
-  Flex, FormControl, FormLabel, FormErrorMessage, FormHelperText,
+  Flex, FormControl, FormLabel,
   Heading,
   Input, Image,
   NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper,
-  Stack,
-  Text,
+  Stack, VStack,
+  Text, Textarea
 } from '@chakra-ui/react';
+import ImageItemAdd from './ImageItemAdd';
 
 const StyledContainer = styled.div`
-  .editform-formcontrol {
+  .editForm-formControl {
     display: flex;
-    align-items: flex-end;
-    
+    align-items: flex-end;    
   }
 
-  .editform-label-size {
-    font-size: 1rem;
-    
+  .editForm-label-size {
+    font-size: 1rem;    
   }
 
-  .editform-heading-size {
+  .editForm-heading-size {
     font-size: 1.4rem;
   }
 `
 
-const EditForm = ({ data, handleCancel, handleUpdate }) => {
-  console.log('Start => data', data);
+const EditForm = ({ data, handleCancel, handleUpdate, updateImageRecord }) => {
+  //console.log('Start => data', data);
   //const [projectData, setProjectData] = useState(...data);
   //setProjectData(...data)
   //console.log('Start => projectData', projectData);
+
+  const methods = useForm();
+  const {
+    control, register, formState: { errors }, watch, handleSubmit
+  } = methods;
+
   return (
-    <>
-      <StyledContainer>
+    <StyledContainer>
+      <Box>
         <Box>
-          <form>
-            <Heading className='editform-heading-size' align='center'>Project Info</Heading>
-            <Box>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Rank</FormLabel>
-                <NumberInput value={data.rank} min={0} allowMouseWheel>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Title</FormLabel>
-                <Input placeholder={data.title} />
-              </FormControl>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Use</FormLabel>
-                <Input placeholder={data.use} />
-              </FormControl>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Description</FormLabel>
-                <Input placeholder={data.description} />
-              </FormControl>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Code</FormLabel>
-                <Input placeholder={data.gitUrl} />
-              </FormControl>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>UI/UX</FormLabel>
-                <Input placeholder={data.uiuxUrl} />
-              </FormControl>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Website</FormLabel>
-                <Input placeholder={data.websiteUrl} />
-              </FormControl>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Video</FormLabel>
-                <Input placeholder={data.videoUrl} />
-              </FormControl>
-            </Box>
-            <Heading className='editform-heading-size' align='center'>Cover</Heading>
-            <Box>
-              <FormControl className='editform-formcontrol'>
-                <FormLabel className='editform-label-size'>Caption</FormLabel>
+          <Box>
+            <Heading className='editForm-heading-size' align='center'>Project Info</Heading>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>Rank</FormLabel>
+              <NumberInput value={data.rank} min={0} allowMouseWheel>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>Title</FormLabel>
+              <Input placeholder={data.title} />
+            </FormControl>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>Use</FormLabel>
+              <Input placeholder={data.use} />
+            </FormControl>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>Description</FormLabel>
+              <Input placeholder={data.description} />
+            </FormControl>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>Code</FormLabel>
+              <Input placeholder={data.gitUrl} />
+            </FormControl>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>UI/UX</FormLabel>
+              <Input placeholder={data.uiuxUrl} />
+            </FormControl>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>Website</FormLabel>
+              <Input placeholder={data.websiteUrl} />
+            </FormControl>
+            <FormControl className='editForm-formControl'>
+              <FormLabel className='editForm-label-size'>Video</FormLabel>
+              <Input placeholder={data.videoUrl} />
+            </FormControl>
+          </Box>
+          <Box>
+            <Text>Upload New Image</Text>
+            <ImageItemAdd />
+          </Box>
+
+          <Box>
+            <Heading className='editForm-heading-size' align='center'>Cover</Heading>
+            <Box border="1px solid red">
+              <FormControl className='editForm-formControl'>
+                <FormLabel className='editForm-label-size'>Caption</FormLabel>
                 <Input placeholder={data.coverCaption} />
               </FormControl>
-              <Stack direction='row'>
+              <Stack
+                direction='row'
+              >
                 <Image
                   boxSize='150px'
                   objectFit='contain'
@@ -98,16 +109,25 @@ const EditForm = ({ data, handleCancel, handleUpdate }) => {
                   alt={data.coverCaption}
                   fallbackSrc='https://via.placeholder.com/150'
                 />
+                <FormControl className='editForm-formControl'>
+                  <Box>
+                    <FormLabel className='editForm-label-size'>Path</FormLabel>
+                    <Textarea w="550px" placeholder={data.coverImagePath} />
+                  </Box>
+                </FormControl>
               </Stack>
             </Box>
-            <Heading className='editform-heading-size' align='center'>Items</Heading>
+          </Box>
+
+          <Box>
+            <Heading className='editForm-heading-size' align='center'>Items</Heading>
             {data?.items?.map(item => {
               return (
-                <Box key={item.itemId}>
-                  <Stack direction='row'>
+                <Box border="1px solid red" key={item.itemId}>
+                  <Stack direction='column'>
                     {item?.images?.map(img => {
                       return (
-                        <div key={img.imageId}>
+                        <Stack direction='row' key={img.imageId}>
                           <Image
                             boxSize='150px'
                             objectFit='contain'
@@ -115,51 +135,55 @@ const EditForm = ({ data, handleCancel, handleUpdate }) => {
                             alt={img.imageName}
                             fallbackSrc='https://via.placeholder.com/150'
                           />
-                        </div>
+                          <FormControl className='editForm-formControl'>
+                            <Box>
+                              <FormLabel className='editForm-label-size'>Path</FormLabel>
+                              <Textarea w="550px" placeholder={img.imagePath} />
+                            </Box>
+                          </FormControl>
+                        </Stack>
                       )
                     })}
                   </Stack>
-                  <FormControl className='editform-formcontrol'>
-                    <FormLabel className='editform-label-size'>ID</FormLabel>
+                  <FormControl className='editForm-formControl'>
+                    <FormLabel className='editForm-label-size'>ID</FormLabel>
                     <Input placeholder={item.itemId} />
                   </FormControl>
-                  <FormControl className='editform-formcontrol'>
-                    <FormLabel className='editform-label-size'>Caption</FormLabel>
+                  <FormControl className='editForm-formControl'>
+                    <FormLabel className='editForm-label-size'>Caption</FormLabel>
                     <Input placeholder={item.caption} />
                   </FormControl>
-                  <FormControl className='editform-formcontrol'>
-                    <FormLabel className='editform-label-size'>Text</FormLabel>
+                  <FormControl className='editForm-formControl'>
+                    <FormLabel className='editForm-label-size'>Text</FormLabel>
                     <Input placeholder={item.text} />
                   </FormControl>
                 </Box>
               )
             })}
-
-          </form>
-          <Flex
-            height="10vh"
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <ButtonGroup variant='outline' spacing='300px'>
-              <Button
-                colorScheme='red'
-                onClick={handleCancel}>
-                Cancel
-              </Button>
-              <Button
-                colorScheme='blue'
-                onClick={() => handleUpdate(data)}
-              >
-                Update
-              </Button>
-            </ButtonGroup>
-          </Flex>
+          </Box>
         </Box>
-
-      </StyledContainer>
-    </>
+        <Flex
+          height="10vh"
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ButtonGroup variant='outline' spacing='300px'>
+            <Button
+              colorScheme='red'
+              onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button
+              colorScheme='blue'
+              onClick={() => handleUpdate(data)}
+            >
+              Update
+            </Button>
+          </ButtonGroup>
+        </Flex>
+      </Box>
+    </StyledContainer>
   )
 }
 

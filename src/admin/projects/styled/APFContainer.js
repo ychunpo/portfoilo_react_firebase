@@ -11,13 +11,13 @@ export const APFContainer = styled.div`
     background-color: rgb(245, 205, 245);
   }
 
-  .APF-main-header {
+  .APF-main-header {    
     padding-top: 5px;
   }
 
-  .APF-main-title {    
+  .APF-main-title {   
     font-weight: bold;
-    text-align: center;
+    
   }
 
   .APF-main-form {

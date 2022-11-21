@@ -7,9 +7,6 @@ const FooterBox = styled.div`
   text-align: center;
   display: flex;
   justify-content: space-around;
-
-
-
 `
 
 const Footer = () => {

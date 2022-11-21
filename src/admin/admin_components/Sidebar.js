@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { signOut } from "firebase/auth";
 import { auth } from "../../utils/firebase";
 import Logo from "../../Icon_components/Logo";
+import { sidebarLabels } from "../../data/sidebarLabels";
 
 const Side = styled.div`  
   margin: 0;
   padding: 0;  
-  width: 220px;
-  height: 100vh; 
+  width: 220px;  
   background-color: #FFF8DC;  
   font-family: "Poppins", sans-serif;
 
@@ -41,8 +41,6 @@ const Side = styled.div`
     .side-li {      
       margin: 10px 15px;
       padding: 10px;
-      
-
       .side-link-style {
         color: #571d90;
         text-decoration: none;
@@ -61,22 +59,20 @@ const Side = styled.div`
       }      
     }
   
-  .side-btn-style {
+  .side-btn-style {    
     border: 0;
     border-radius: 10px;
+    margin: 15px 35px; 
     padding: 5px 15px;
     font-size: 1.3rem;
     color: white;
     background-color: hsl(19,100%, 79%);
-
     &:hover {
       color: red;
     }
   }
 }
 `
-
-
 
 const Sidebar = () => {
   return (
@@ -86,39 +82,32 @@ const Sidebar = () => {
       </div>
       <div className="side-column">
         <hr className="side-hr" />
-        <div className="">
-          <ul className="side-ul">
-            <p className="side-title">Main</p>
-            <li className="side-li">
-              <Link to="/admin/dashboard" className="side-link-style">
-                Dashboard
-              </Link>
-            </li>
-            <hr className="side-hr" />
-            <p className="side-title">Lists</p>
-            <li className="side-li">
-              <Link to="/admin/skills" className="side-link-style">
-                Skills
-              </Link>
-            </li>
-            <li className="side-li">
-              <Link to="/admin/projects" className="side-link-style">
-                Projects
-              </Link>
-            </li>
-            <hr className="side-hr" />
-            <p className="side-title">Setting</p>
-            <li className="side-li">
-              <Link to="/admin/sidebar" className="side-link-style">
-                Sidebar
-              </Link>
-            </li>
-            <hr className="side-hr" />
-            <li className="side-li">
-              <input type="submit" className="side-btn-style" value="Logout" onClick={() => { signOut(auth) }} />
-            </li>
-          </ul>
-        </div>
+        <ul className="side-ul">
+          {
+            sidebarLabels.map((item) => {
+              return (
+                <React.Fragment key={item.id}>
+                  <li className="side-li">
+                    <Link
+                      to={item.link}
+                      className="side-link-style"
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                </React.Fragment>
+              )
+            })
+          }
+          <hr className="side-hr" />
+
+          <input
+            type="submit"
+            className="side-btn-style"
+            value="Logout"
+            onClick={() => { signOut(auth) }}
+          />
+        </ul>
       </div>
     </Side>
   )

@@ -16,8 +16,7 @@ const ASLContainer = styled.div`
     margin: 15px;
     padding: 0;          
     border: 0;
-    border-radius: 15px;
-    background-color: white;    
+    border-radius: 15px;     
   }
 
   .ASL-skill-group {   
@@ -30,6 +29,7 @@ const ASLContainer = styled.div`
     align-items: center;
     border: 1px solid pink;
     border-radius: 15px;
+    background-color: white;   
   }
 
   .ASL-input-group {
@@ -41,16 +41,19 @@ const ASLContainer = styled.div`
   .ASL-label {    
     font-size: 1.1rem;
     margin-right: 10px;
+    color: blue;   
+  }
 
-    span {
-      margin: 0 5px;
-    }
+  .ASL-text {
+    margin: 0 5px;
+    color: #FF69B4;
+    font-weight: bold;
   }
 
   .ASL-input{    
     padding: 0 10px;
     font-size: 1rem;
-    border: 1.5px solid green;
+    border: 1.5px solid #FF69B4;
     border-radius: 10px;
   }
 
@@ -112,7 +115,6 @@ const SkillsList = ({
   return (
     <ASLContainer>
       <div className="ASL-main">
-
         {allSkillsData.map((item) => {
           const { id, name, level } = item;
           return (
@@ -132,7 +134,7 @@ const SkillsList = ({
                       onChange={(e) => handleChange(id, e)}
                       autoFocus
                     />
-                  ) : (<span>{name}</span>)}
+                  ) : (<span className="ASL-text">{name}</span>)}
                 </div>
                 <div className="ASL-input-group">
                   <label className="ASL-label" htmlFor="level">
@@ -150,7 +152,7 @@ const SkillsList = ({
                       className="ASL-input"
                       onChange={(e) => handleChange(id, e)}
                     />
-                  ) : (<span>{level}</span>)}
+                  ) : (<span className="ASL-text">{level}</span>)}
                 </div>
                 <div className="ASL-icon-btn-group">
                   {isEditing !== id ? (
