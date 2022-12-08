@@ -10,7 +10,8 @@ const ImageItemAdd = () => {
   let storagePath = [];
   const [imgFile, setImgFile] = useState([]);
   const [saveStoragePath, setSaveStoragePath] = useState({ file: [] });
-  console.log('saveStoragePath: ', saveStoragePath)
+  //console.log('saveStoragePath: ', saveStoragePath)
+  const [showViewer, setShowViewer] = useState(false);
 
   useEffect(() => {
     console.log('useEffect: ', saveStoragePath);
@@ -32,16 +33,15 @@ const ImageItemAdd = () => {
     isDragReject
   } = useDropzone({
     onDrop,
-    //accept: accept,    
   });
 
   const storageAndGetPath = async (file) => {
     const storageRef = ref(storage, `/images/${file.name}`);
     await uploadBytes(storageRef, file)
       .then(() => {
-        getDownloadURL(storageRef).then((url) => {
-          storagePath.push({ name: file.name, path: url });
-          setSaveStoragePath((prev) => {
+        getDownloadURL(storageRef).then(async (url) => {
+          await storagePath.push({ name: file.name, path: url });
+          await setSaveStoragePath((prev) => {
             return { ...prev, file: storagePath }
           });
         }).catch(error => {
@@ -73,13 +73,13 @@ const ImageItemAdd = () => {
   const dataView = saveStoragePath.file.map((item, i) => {
     //console.log('item', item);
     return (
-      <div key={i}>
-        <Box>Image Name: </Box>
-        <Box>{item.name}</Box>
-        <Box>Image Path: </Box>
-        <Box>{item.path}</Box>
+      <Box key={i}>
+        <Text>Image Name: </Text>
+        <Text>{item.name}</Text>
+        <Text>Image Path: </Text>
+        <Text>{item.path}</Text>
         <Button onClick={deleteImageSubmit(item.name)}>Delete</Button>
-      </div>
+      </Box>
     )
   });
 
@@ -95,10 +95,10 @@ const ImageItemAdd = () => {
         <Input size='lg' {...getInputProps()} />
         <Text>Drag and drop some files here, or click to select files</Text>
         {!!imgFile?.length && (
-          <div>
+          <Box>
             {imgFile.map((file, index) => {
               return (
-                <div key={file.name}>
+                <Box key={file.name}>
                   <Image
                     src={URL.createObjectURL(file)}
                     alt={file.name}
@@ -107,14 +107,14 @@ const ImageItemAdd = () => {
                     objectFit='contain'
                     fallbackSrc='https://via.placeholder.com/200'
                   />
-                  <div>Filename: {file.name}</div>
-                </div>
+                  <Text>Filename: {file.name}</Text>
+                </Box>
               )
             })}
-          </div>
+          </Box>
         )}
       </Box>
-      <Box align='right' m="10px 0">
+      <Box align='right' m="15px 0">
         <Button
           colorScheme='blackAlpha'
           onClick={uploadImageSubmit}
@@ -123,9 +123,10 @@ const ImageItemAdd = () => {
         </Button>
       </Box>
       <Box>
-        {dataView}
-      </Box >
-
+        {showViewer && (
+          { dataView }
+        )}
+      </Box>
     </ZoneContainer >
   )
 }

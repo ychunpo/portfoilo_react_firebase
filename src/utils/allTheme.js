@@ -1,6 +1,5 @@
 import React from 'react';
 import { extendTheme } from "@chakra-ui/react";
-import { StyleConfig } from "@chakra-ui/theme-tools";
 
 const breakpoints = {
   xs: '599',

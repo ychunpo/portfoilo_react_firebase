@@ -14,6 +14,8 @@ const getColor = (props) => {
 }
 
 export const ZoneContainer = styled.div`
+  margin: 10px 0;
+
   .zone-main {
     flex: 1;
     display: flex;
@@ -21,7 +23,7 @@ export const ZoneContainer = styled.div`
     align-items: center;
     padding: 20px;
     border-width: 2px;
-    border-radius: 2px;
+    border-radius: 15px;
     border-color: ${props => getColor(props)};
     border-style: dashed;
     background-color: #fafafa;

@@ -3,31 +3,20 @@ import styled from 'styled-components';
 export const APFContainer = styled.div`
   margin: 0;
   padding: 0;
-  width: 75%;
+  width: 80%;
   font-family: "Poppins", sans-serif;  
 
   .APF-main {
-    padding-left: 40px;    
+        
     background-color: rgb(245, 205, 245);
   }
 
-  .APF-main-header {    
-    padding-top: 5px;
-  }
-
-  .APF-main-title {   
-    font-weight: bold;
-    
-  }
-
-  .APF-main-form {
-    position: absolute;
-    border: 1px solid red;
+  .APF-main-form {      
     display: flex;
+    margin: 0 auto;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background-color: rgb(245, 245, 245);
+    align-items: center;    
   }
 
   .APF-main-form-item {
@@ -58,21 +47,4 @@ export const APFContainer = styled.div`
     outline: 5px;    
     height: 60px;
   }
-
-  .APF-main-cover-image {
-
-  }
-
-  .APF-main-item-image {
-    
-  }
-
-  .APF-main-btn-group {    
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .APF-main-btn-cancel {}
-
-  .APF-main-btn-save {} 
 `

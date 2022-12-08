@@ -4,10 +4,8 @@ import { listAll, ref, getDownloadURL, deleteObject, uploadBytes } from 'firebas
 import styled from 'styled-components';
 import {
   Box, Button, ButtonGroup,
-  Container, Flex, Heading,
-  Image, Input, Spacer,
-  HStack, Text, Textarea,
-  Wrap, WrapItem, VStack
+  Heading, Image, Input, Spacer,
+  Text, Wrap, WrapItem, VStack
 } from '@chakra-ui/react';
 import { storage } from '../../utils/firebase';
 
@@ -28,7 +26,6 @@ const APIVContainer = styled.div`
     font-size: 1.1rem;
     color: blue;
   }
-
   .APIV-image {
     position: relative;
   }  
@@ -41,51 +38,96 @@ const APIVContainer = styled.div`
     right: 0;
     margin-top: 0;
   }
-
   .APIV-image:hover button {
     display: block;    
-  }
+  } 
 `
 
 const AdminProjectImageView = () => {
   const imagesListRef = ref(storage, 'images');
   //console.log('imagesListRef', imagesListRef);
   const [allImages, setAllImages] = useState([]); //ok
-  console.log('allImages', allImages)
+  //console.log('allImages', allImages)
   const [image, setImage] = useState(null); //ok
   //console.log('image', image);
   const [imagesData, setImagesData] = useState([]); //ok
-  console.log('imagesData', imagesData)
+  //console.log('imagesData', imagesData)
+  const [showData, setShowData] = useState(false);
 
+  const refreshPage = () => {
+    //window.location.replace(window.location.href);
+    window.location.reload();
+    //const timer = setTimeout(() => getFromStorage(), 3000);
+    //return () => clearTimeout(timer);
+  }
+
+  const getFromStorage = async () => {
+    setAllImages([]);
+
+    await listAll(imagesListRef).then((res) => {
+      setAllImages(res.items);
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
   useEffect(() => {
     getFromStorage();
   }, []);
 
-  const getFromStorage = async () => {
-    setAllImages([]);
-    setImagesData([]);
-    await listAll(imagesListRef).then((res) => {
-      //console.log('res:', res.items.length);
-      setAllImages(res);
-      res.items.forEach((resRef) => {
-        console.log('resRef', resRef)
-        getDownloadURL(resRef).then((url) => {
-          if (allImages.indexOf(url) === -1) {
-            setImagesData((prev) => [...prev, { name: resRef.name, url: url }]);
-          };
-        });
+  const getFirebaseUrl = () => {
+    var array = [];
+    allImages.forEach((resRef) => {
+      getDownloadURL(resRef).then(async (url) => {
+        if (array.indexOf(url) === -1) {
+          await array.push(url)
+        }
+        if (imagesData.length < array.length) {
+          await imagesData.push({ name: resRef.name, url: url });
+        }
       });
-    }).catch((error) => {
-      console.log(error);
     });
 
-
-  };
-
-  const clearImages = () => {
-    let arr = [];
-
+    return (
+      <Box m="5px auto">
+        <Text>Total: {imagesData.length} Files</Text>
+        <Wrap m="5px auto" justify='center'>
+          {
+            imagesData.map((item, index) => {
+              return (
+                <WrapItem key={index}>
+                  <Box
+                    m="10px"
+                    w="300px"
+                    className="APIV-image"
+                  >
+                    <Image
+                      boxSize='300px'
+                      src={item.url}
+                      alt={item.name}
+                      fallbackSrc='https://via.placeholder.com/300'
+                    />
+                    <Text fontSize="sm" color='yellow'>File Name:</Text>
+                    <Text fontSize="sm">{item.name}</Text>
+                    <Text fontSize="sm" color='yellow'>File Url:</Text>
+                    <Text fontSize="sm">{item.url}</Text>
+                    <Button
+                      onClick={() => deleteFromStorage(item.name)}
+                    >
+                      Delete
+                    </Button>
+                  </Box>
+                </WrapItem>
+              );
+            })
+          }
+        </Wrap>
+      </Box>
+    )
   }
+
+  useEffect(() => {
+    getFirebaseUrl();
+  }, [allImages]);
 
   const onImageChange = (e) => {
     const reader = new FileReader();
@@ -107,14 +149,10 @@ const AdminProjectImageView = () => {
       console.log('image', image)
       let imageRef = ref(storage, `/images/${image.name}`);
       uploadBytes(imageRef, image).then((imgUrl) => {
-        console.log('imgUrl: ', imgUrl)
-        // getDownloadURL(imageRef).then((url) => {
-        //   if (allImages.url.indexOf(url) < 0) {
-        //     setAllImages((allImages) => [...allImages, url]);
-        //   }
-        //   toast("Image uploaded successfully", { type: "success" });
-        // });
+        //console.log('imgUrl: ', imgUrl)    
         getFromStorage();
+        setImage(null);
+        toast("Image uploaded successfully", { type: "success" });
       });
     } else {
       toast("Please upload an image first.", { type: "success" });
@@ -129,71 +167,61 @@ const AdminProjectImageView = () => {
     }).catch((err) => {
       console.log(err);
     });
+    refreshPage();
   };
 
   return (
     <APIVContainer>
       <Box align="center">
-        <Heading as='h4' size='lg'>Image List</Heading>
+        <Heading
+          as='h4'
+          size='xl'
+          pt="12px"
+        >Image List</Heading>
         <Box m="15px 0">
-          <VStack justify="center">
-            <input
+          <VStack>
+            <Input
+              w="70%"
               type="file"
+              className="APIV-input"
               onChange={(e) => { onImageChange(e) }}
             />
             <Spacer />
             <ButtonGroup gap={20}>
               <Button
                 w="150px"
-                onClick={() => uploadToStorage()}>
+                onClick={() => {
+                  uploadToStorage()
+                  refreshPage()
+                }}>
                 Upload Image
               </Button>
               <Spacer />
               <Button
                 w="150px"
-                onClick={() => { getFromStorage() }}>
-                Clear Images
+                onClick={() => {
+                  //setShowData(false)
+                  refreshPage();
+                }}>
+                Clear Screen
               </Button>
+              <Spacer />
               <Button
                 w="150px"
-                onClick={() => { getFromStorage() }}>
+                onClick={() => {
+                  getFromStorage();
+                  setShowData(true);
+                }}
+              >
                 Get Images
               </Button>
             </ButtonGroup>
           </VStack>
         </Box>
       </Box>
-
-      <Box m="5px auto">
-        <Wrap m="5px auto" justify='center'>
-          {
-            imagesData.map((item, index) => {
-              //console.log('item', item)
-              return (
-                <WrapItem key={index}>
-                  <Box
-                    m="10px"
-                    w="300px"
-                    className="APIV-image"
-                  >
-                    <Image
-                      boxSize='300px'
-                      src={item.url}
-                      alt={item.name}
-                      fallbackSrc='https://via.placeholder.com/150'
-                    />
-                    <Button
-                      onClick={() => deleteFromStorage(item.name)}
-                    >
-                      Delete
-                    </Button>
-                  </Box>
-                </WrapItem>
-              );
-            })
-          }
-        </Wrap>
-      </Box>
+      {showData && (
+        getFirebaseUrl()
+      )}
     </APIVContainer >
   )
 }

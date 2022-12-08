@@ -6,7 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   Box, Button, ButtonGroup,
-  Container, Flex, Heading, HStack, Image, Input, Spacer, Text
+  Container, Flex, Heading,
+  HStack, Image, Input, Spacer, Text
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import { APVContainer } from "./styled/APVContainer";
@@ -22,7 +23,7 @@ const AdminProjectsView = () => {
   const [allProjectsData, setAllProjectsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadFail, setLoadFail] = useState(false);
-  const [user] = useAuthState(auth);
+  //const [user] = useAuthState(auth);
   const tableColumns = useMemo(() => [
     { Header: 'Rank', accessor: 'rank', },
     { Header: 'Title', accessor: 'title', },
@@ -60,8 +61,8 @@ const AdminProjectsView = () => {
   // deleteItem--->
   const deleteItem = async (project) => {
     let valArray = [];
-    let getter = (project) => {
-      let values = Object.values(project);
+    let getter = (fileWithProject) => {
+      let values = Object.values(fileWithProject);
       let getImageName = (val) => {
         if (Number.isInteger(val)) {
           return

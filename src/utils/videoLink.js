@@ -1,0 +1,1 @@
+export const videoLink = "https://firebasestorage.googleapis.com/v0/b/myportfolio-fb953.appspot.com/o/video%2FPortfolio_site_bg.mp4?alt=media&token=b2935164-30d8-4128-b315-fbcda53588b8"

@@ -6,8 +6,7 @@ import {
   IconButton, Box,
   Table, Thead, Tbody,
   Tr, Th, Td,
-  TableCaption, TableContainer,
-  Textarea
+  TableContainer, Textarea
 } from '@chakra-ui/react'
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 
