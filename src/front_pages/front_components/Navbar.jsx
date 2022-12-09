@@ -54,8 +54,7 @@ const FNBContainer = styled.div`
     }
 
     .nav-toggle {
-      display:none;
-      
+      display:none;      
     }
 
     .nav-list {
@@ -146,11 +145,10 @@ const Navbar = () => {
                       >
                         <Text
                           fontSize="xl"
-                          color="orange.400"
+                          color="orange.500"
                         >
                           {item.title}
                         </Text>
-
                       </MenuItem>
                     )
                   })}

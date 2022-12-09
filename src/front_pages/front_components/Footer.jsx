@@ -34,7 +34,7 @@ const Footer = () => {
         <p>&copy; {new Date().getFullYear()} All Rights Reserved.</p>
       </div>
       <div className="footer-right">
-        <p>Design and Created by C. P. Yeung</p>
+        <p>Designed and Created by C. P. Yeung</p>
       </div>
     </FooterBox>
   )

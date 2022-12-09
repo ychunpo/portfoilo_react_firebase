@@ -45,11 +45,7 @@ const Main = () => {
       <Contact />
       <Footer />
       <BGParticles />
-      <div style={{ width: '100%' }}>
-        <div style={{ paddingLeft: '30px' }}>
-          <GoToTop />
-        </div>
-      </div>
+      <GoToTop />
 
     </FMContainer>
   )
