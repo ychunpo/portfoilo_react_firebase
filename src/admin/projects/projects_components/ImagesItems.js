@@ -41,7 +41,7 @@ const ImagesItems = ({ control, watch }) => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <Flex alignItems="center">
+                        <Flex alignItems="center" gap='8px'>
                           <Box w='90%'>
                             <FileInput
                               name={name}
@@ -49,8 +49,8 @@ const ImagesItems = ({ control, watch }) => {
                               max="5"
                             />
                           </Box>
-                          <Spacer />
                           <Button
+                            m='auto'
                             colorScheme='red'
                             onClick={() => deleteItem(index)}
                           >

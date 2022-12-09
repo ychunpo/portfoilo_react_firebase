@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import {
     Button, ButtonGroup, Box,
     Center, Container,
-    Flex,
+    Flex, FormControl, FormLabel,
     Heading,
     Image, Input,
     Spacer,
@@ -38,7 +38,6 @@ const FileInput = ({ name, label, max }) => {
         isDragReject
     } = useDropzone({
         onDrop,
-        //accept: accept,
         maxFiles: filesNum,
     });
     //console.log('getInputProps', getInputProps)
@@ -66,11 +65,22 @@ const FileInput = ({ name, label, max }) => {
 
     return (
         <ZoneContainer>
-            <label className="APF-main-form-label" htmlFor={name}>
-                {label} image
-            </label>
+            <FormControl>
+                <FormLabel
+                    m='auto'
+                    p='0 3px'
+                    htmlFor={name}
+                >
+                    {label} image
+                </FormLabel>
+                <Input
+                    size='lg'
+                    {...propsData}
+                    {...getInputProps()}
+                />
+            </FormControl>
             {fileRejectionItems}
-            <Box className='zone-main'
+            <div className='zone-main'
                 {...getRootProps(
                     { style: { isFocused, isDragAccept, isDragReject } }
                 )}
@@ -78,18 +88,13 @@ const FileInput = ({ name, label, max }) => {
                 role="button"
                 id={name}
             >
-                <Input
-                    size='lg'
-                    {...propsData}
-                    {...getInputProps()}
-                />
                 <div className={" " + (isDragActive ? " " : " ")}>
                     <Text>Drag and drop some files here, or click to select files</Text>
-                    {!!files?.length && (
-                        <div className="father">
+                    {files?.length && (
+                        <div id="father">
                             {files.map((file, index) => {
                                 return (
-                                    <div key={file.name} id={name + 'Parent'}>
+                                    <Box key={file.name} id={name + 'Parent'}>
                                         <Box id={name + 'Son'}>
                                             <Image
                                                 src={URL.createObjectURL(file)}
@@ -100,46 +105,45 @@ const FileInput = ({ name, label, max }) => {
                                                 fallbackSrc='https://via.placeholder.com/200'
                                             />
                                         </Box>
-                                    </div>
+                                    </Box>
                                 )
                             })}
                         </div>
                     )}
                 </div>
-            </Box>
-            <Box>
-                <label
-                    className="APF-main-form-label"
+            </div>
+
+            <FormControl>
+                <FormLabel
+                    m='auto'
+                    p='0 3px'
                     htmlFor={labelCaption}>
                     {label} caption
-                </label>
+                </FormLabel>
                 <Input
                     fontSize='1.2rem'
                     bg='white'
-
                     id={labelCaption}
                     {...register(labelCaption)}
-                    className="APF-main-form-item-input"
                 />
-                {name !== "cover.image" && (
-                    <>
-                        <label
-                            className="APF-main-form-label"
-                            htmlFor={labelText}
-                        >
-                            {label} text
-                        </label>
-                        <Input
-                            fontSize='1.2rem'
-                            bg='white'
-
-                            id={labelText}
-                            {...register(labelText)}
-                            className="APF-main-form-item-input"
-                        />
-                    </>
-                )}
-            </Box>
+            </FormControl>
+            {name !== "cover.image" && (
+                <FormControl>
+                    <FormLabel
+                        m='auto'
+                        p='0 3px'
+                        htmlFor={labelText}
+                    >
+                        {label} text
+                    </FormLabel>
+                    <Input
+                        fontSize='1.2rem'
+                        bg='white'
+                        id={labelText}
+                        {...register(labelText)}
+                    />
+                </FormControl>
+            )}
         </ZoneContainer>
     )
 }

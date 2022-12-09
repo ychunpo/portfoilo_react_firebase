@@ -2,11 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { doc, onSnapshot } from 'firebase/firestore';
+import styled from "styled-components";
 import { Container, Heading } from '@chakra-ui/react';
 import { db } from '../../utils/firebase';
 import EditForm from './projects_components/EditForm';
 import Loading from "../admin_components/Loading";
 import Fail from "../admin_components/Loading/Fail";
+
+const APEContainer = styled.div`
+  background-color: 'gray.200';
+  
+`
 
 const AdminProjectEdit = () => {
   const { id } = useParams();
@@ -46,7 +52,7 @@ const AdminProjectEdit = () => {
   }, [singleData]);
 
   return (
-    <Container maxW='2x1' bg='gray.200'>
+    <Container maxW='100%' bg='gray.200'>
       <Heading
         pt="13px"
         color='purple.600'

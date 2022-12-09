@@ -9,7 +9,6 @@ const ImageCover = () => {
                 label="Cover"
                 max="1"
             />
-            <br />
         </>
     )
 }

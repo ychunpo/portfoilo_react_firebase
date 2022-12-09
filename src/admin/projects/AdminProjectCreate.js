@@ -5,29 +5,31 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { collection, addDoc } from 'firebase/firestore';
 import { list, ref, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
+import styled from 'styled-components';
 import {
-  Button, ButtonGroup, Box,
-  Flex,
-  Heading,
-  Input,
-  Spacer,
-  Stack, HStack,
-  Text, Textarea
+  Button, ButtonGroup, Box, FormControl, FormLabel, FormErrorMessage,
+  Heading, Input, Spacer, Stack, HStack, Text, Textarea, Divider
 } from '@chakra-ui/react';
 import { storage, db } from '../../utils/firebase';
-import { APFContainer } from './styled/APFContainer';
 import { projectLabels } from '../../data/projectLabels';
 import { projectDefaultValue } from '../../data/dataDefaultValue';
 import { projectSchema } from '../../data/inputDataValidator';
 import ImageCover from './projects_components/ImageCover';
 import ImagesItems from './projects_components/ImagesItems';
 
+const APFContainer = styled.div`
+  margin: 0;
+  padding: 0;
+  width: 80%;
+  font-family: "Poppins", sans-serif;
+`
+
 const AdminProjectCreate = () => {
   const navigation = useNavigate();
   //const [user] = useAuthState(auth);
   const [projectData, setProjectData] = useState(projectDefaultValue);
   //console.log('G - projectData: ', projectData);
-  const [progress, setProgress] = useState("");
+  const [progress, setProgress] = useState(0);
   const methods = useForm({ resolver: yupResolver(projectSchema) });
   const {
     control, register, formState: { errors }, watch, handleSubmit
@@ -151,7 +153,7 @@ const AdminProjectCreate = () => {
 
   // storeFirebase--->
   const storeFirebase = async (projectData) => {
-    console.log('final - projectData: ', projectData);
+    //console.log('final - projectData: ', projectData);
     const projectRef = collection(db, "Projects");
     await addDoc(projectRef, projectData).then(() => {
       toast("Article added successfully", { type: "success" });
@@ -162,8 +164,9 @@ const AdminProjectCreate = () => {
   }
 
   // save with fireStore
-  const onSubmit = (projectData) => {
-    console.log('in - onSubmit: projectData', projectData)
+  const onSubmit = (e, projectData) => {
+    e.preventDefault();
+    //console.log('in - onSubmit: projectData', projectData)
     storeFirebase(projectData);
     navigation('/admin/projects')
   }
@@ -171,72 +174,87 @@ const AdminProjectCreate = () => {
   return (
     <APFContainer>
       <FormProvider {...methods}>
-        <div className="APF-main">
+        <Box
+          p='0 30px'
+          bgColor='rgb(245, 205, 245)'
+        >
           <Heading
-            pt="11px"
-            as='h2'
+            p="12px 0"
             fontSize='3xl'
             align="center"
-            color="green.800"
+            color="green.600"
           >
             Create Project
           </Heading>
-          <form className="APF-main-form">
+          <Box>
             {projectLabels.map((item) => {
-              let { id, name, title, type, require } = item;
+              const { id, name, title, type, require } = item;
               return (
-                <div className="APF-main-form-item" key={id}>
-                  <label className="APF-main-form-label" htmlFor={name}>
-                    {title}
-                  </label>
-                  <Input
-                    fontSize='1.2rem'
-                    bg='white'
-                    {...register(name, { required: require })}
-                    type={type}
-                    id={name}
-                    className="APF-main-form-item-input"
-                  />
-                  <span>
-                    {errors[name] && errors[name]['message']}
-                  </span>
-                </div>
+                <Box key={id} p='2px 0'>
+                  <FormControl size='lg'>
+                    <FormLabel
+                      m='auto'
+                      p='0 3px'
+                      htmlFor={name}
+                    >
+                      {title}
+                    </FormLabel>
+                    <Input
+                      fontSize='1.2rem'
+                      bg='white'
+                      {...register(name, { required: require })}
+                      type={type}
+                      id={name}
+                    />
+                    <FormErrorMessage>
+                      {errors.name && errors.name.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </Box>
               )
             })}
 
-            <div className="APF-main-form-item">
-              <label className="APF-main-form-label" htmlFor="description">
-                Description
-              </label>
-              <Textarea
-                fontSize='1.2rem'
-                bg='white'
-                {...register("description")}
-                id="description"
-                className="APF-main-form-item-textarea"
-                placeholder='description'
-              />
-            </div>
-            <div className="APF-main-form-item">
+            <Box>
+              <FormControl>
+                <FormLabel
+                  m='auto'
+                  p='0 3px'
+                  htmlFor="description"
+                >
+                  Description
+                </FormLabel>
+                <Textarea
+                  fontSize='1.2rem'
+                  bg='white'
+                  {...register("description")}
+                  id="description"
+                  placeholder='description'
+                />
+              </FormControl>
+            </Box>
+            <Divider p={2} borderColor='grey' w='98%' />
+            <Box>
               <Box>
-                <Flex alignItems='center'>
+                <HStack alignContent='center'>
                   <Box w='90%'>
                     <ImageCover />
                   </Box>
                   <Spacer />
                   <Button
+                    m='auto'
                     colorScheme='red'
                     onClick={deleteCover}
                   >
                     Clear
                   </Button>
-                </Flex>
+                </HStack>
               </Box>
               <Box>
                 <ImagesItems {...{ control, watch }} />
               </Box>
-            </div>
-            <HStack w="90%">
+            </Box>
+            <Divider p={2} borderColor='grey' w='98%' />
+            <HStack w="90%" pt='20px'>
               <ButtonGroup variant='outline' spacing='50px' m="0 auto">
                 <Button
                   size='lg'
@@ -254,17 +272,17 @@ const AdminProjectCreate = () => {
                 <Button
                   size='lg'
                   colorScheme='blue'
-                  onClick={() => onSubmit(projectData)}
+                  onClick={(e) => onSubmit(e, projectData)}
                 >
                   Save
                 </Button>
               </ButtonGroup>
             </HStack>
-          </form>
+          </Box>
           <br />
-        </div>
+        </Box>
       </FormProvider>
-    </APFContainer >
+    </APFContainer>
   )
 }
 

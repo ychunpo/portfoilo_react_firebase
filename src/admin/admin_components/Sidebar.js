@@ -6,22 +6,19 @@ import { auth } from "../../utils/firebase";
 import Logo from "../../Icon_components/Logo";
 import { sidebarLabels } from "../../data/sidebarLabels";
 
-const Side = styled.div`  
+const SideContainer = styled.div`  
   margin: 0;
   padding: 0;  
-  width: 220px;  
+  width: 190px;
+
   background-color: #FFF8DC;  
   font-family: "Poppins", sans-serif;
 
-  .side-header {    
-    padding: 5px 44px; 
-  }
-
-  .side-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #909098;
-    margin: 15px 10px;    
+  .side-header {
+    margin: 0 auto;
+    padding: 5px 0;
+    display: flex;
+    justify-content: center;
   }
 
   .side-hr {
@@ -33,10 +30,10 @@ const Side = styled.div`
     padding: 0 20px;
   }
 
-  .side-ul {           
+  .side-ul {  
+    padding-bottom: 5px;        
     list-style: none;
-    margin: 0;
-    padding: 0;    
+
 
     .side-li {      
       margin: 10px 15px;
@@ -59,10 +56,11 @@ const Side = styled.div`
       }      
     }
   
-  .side-btn-style {    
+  .side-btn-style {
+    display: flex;  
     border: 0;
     border-radius: 10px;
-    margin: 15px 35px; 
+    margin: 15px auto; 
     padding: 5px 15px;
     font-size: 1.3rem;
     color: white;
@@ -76,7 +74,7 @@ const Side = styled.div`
 
 const Sidebar = () => {
   return (
-    <Side>
+    <SideContainer>
       <div className="side-header">
         <Logo />
       </div>
@@ -100,7 +98,6 @@ const Sidebar = () => {
             })
           }
           <hr className="side-hr" />
-
           <input
             type="submit"
             className="side-btn-style"
@@ -108,8 +105,9 @@ const Sidebar = () => {
             onClick={() => { signOut(auth) }}
           />
         </ul>
+        
       </div>
-    </Side>
+    </SideContainer>
   )
 }
 

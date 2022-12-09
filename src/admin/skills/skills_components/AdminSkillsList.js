@@ -19,9 +19,7 @@ const ASLContainer = styled.div`
     border-radius: 15px;     
   }
 
-  .ASL-skill-group {   
-      
-  }
+  .ASL-skill-group {}
 
   .ASL-center {    
     display: flex;
@@ -33,9 +31,8 @@ const ASLContainer = styled.div`
   }
 
   .ASL-input-group {
-    width: 350px;
-    padding: 15px;
-    
+    width: 300px;
+    padding: 15px;    
   }
 
   .ASL-label {    
@@ -45,7 +42,7 @@ const ASLContainer = styled.div`
   }
 
   .ASL-text {
-    margin: 0 5px;
+    margin: 0 auto;
     color: #FF69B4;
     font-weight: bold;
   }

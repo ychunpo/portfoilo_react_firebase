@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, deleteDoc, onSnapshot, getDoc, setDoc, query } from 'firebase/firestore';
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import styled from "styled-components";
 import {
@@ -20,14 +21,13 @@ const StyledContainer = styled.div`
 
 const EditForm = ({ data, id }) => {
   const navigation = useNavigate();
+  const storage = getStorage();
   const docRef = doc(db, "Projects", id);
   const [saveData, setSaveData] = useState(data);
   const [projectData, setProjectData] = useState(data);
   console.log('Start => projectData', projectData);
-  //const [inputData, setInputData] = useState(data);
-  //console.log('Start => inputData', inputData);
+  //const [deleteImage, setDeleteImage] = useState();
   const { isOpen: isVisible, onClose, onOpen } = useDisclosure({ defaultIsOpen: false });
-  let itemsNumber = 0;
 
   const getDataWithId = async () => {
     try {
@@ -133,6 +133,39 @@ const EditForm = ({ data, id }) => {
         console.log('update error', error)
         toast(`Error: ${error}`, { type: "error" });
       })
+  }
+
+  const handleDeleteImage = async (itemId, imageId, imageName) => {
+    let result = saveData.items[itemId].images.filter(img => img.imageId !== imageId);
+    let data = { ...saveData };
+    data.items[itemId].images = [];
+    result.forEach(item => {
+      data.items[itemId].images.push(item);
+    })
+    // console.log('data3', data.items[itemId].images)
+    // console.log('data4', data)
+
+    setSaveData(data);
+    setProjectData(saveData);
+
+    await setDoc(docRef, data)
+      .then(docRef => {
+        toast("Update Success", { type: "success" });
+      }).catch(error => {
+        console.log('update error', error)
+        toast(`Error: ${error}`, { type: "error" });
+      });
+
+    const desertRef = ref(storage, `images/${imageName}`);
+
+    await deleteObject(desertRef)
+      .then(() => {
+        toast("Delete Success", { type: "success" });
+      }).catch((error) => {
+        console.log('Delete error', error)
+        toast(`Error: ${error}`, { type: "error" });
+      });
+    //window.location.reload();
   }
 
   return (
@@ -242,7 +275,7 @@ const EditForm = ({ data, id }) => {
                 alt={projectData.coverCaption}
                 fallbackSrc='https://via.placeholder.com/150'
               />
-              <VStack w='100%' p="20px" gap={1} >
+              <VStack w='100%' p="20px 5px" gap={1} >
                 <FormControl>
                   <Flex alignItems="center" gap={9} >
                     <FormLabel fontSize="lg">
@@ -280,7 +313,6 @@ const EditForm = ({ data, id }) => {
             Items
           </Heading>
           {projectData?.items?.map(item => {
-            itemsNumber = item.itemId;
             return (
               <Box
                 key={item.itemId}
@@ -332,10 +364,12 @@ const EditForm = ({ data, id }) => {
                 </FormControl>
 
                 <Stack direction='column'>
-                  {item?.images?.map(img => {
+                  {item?.images?.map((img, id) => {
 
                     return (
-                      <Stack key={img.imageId} direction='row' alignItems="center">
+                      <Stack key={img.imageId}
+                        direction='row'
+                        alignItems="center">
                         <Image
                           m="0 8px"
                           boxSize='200px'
@@ -355,6 +389,13 @@ const EditForm = ({ data, id }) => {
                             />
                           </Flex>
                         </FormControl>
+                        <Button
+                          variant='outline'
+                          colorScheme='red'
+                          onClick={() => handleDeleteImage(item.itemId, img.imageId, img.imageName)}
+                        >
+                          Delete
+                        </Button>
                       </Stack>
                     )
                   })}

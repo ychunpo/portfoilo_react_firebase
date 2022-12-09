@@ -2,16 +2,12 @@ import React, { useMemo, useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { collection, doc, deleteDoc, onSnapshot, orderBy, query } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import {
-  Box, Button, ButtonGroup,
-  Container, Flex, Heading,
-  HStack, Image, Input, Spacer, Text
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import { APVContainer } from "./styled/APVContainer";
-import { auth, db } from "../../utils/firebase";
+import { db } from "../../utils/firebase";
 import AdminTable from "./projects_components/AdminTable";
 import Loading from "../admin_components/Loading";
 import Fail from "../admin_components/Loading/Fail";
@@ -127,7 +123,6 @@ const AdminProjectsView = () => {
           <div className="APV-pagesize">
             <Loading />
           </div>
-
         ) : loadFail ? (
           <div className="APV-pagesize">
             <Fail />

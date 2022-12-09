@@ -187,7 +187,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await logIn(email, password);
-      navigate("/admin/dashboard");
+      navigate("/admin/skills");
     } catch (error) {
       toast(error.code, { type: "error" });
     }

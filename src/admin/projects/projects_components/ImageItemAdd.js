@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { toast } from 'react-toastify';
 import { storage } from '../../../utils/firebase';
 import { ref, getDownloadURL, deleteObject, uploadBytes } from 'firebase/storage';
-import { Box, Button, Image, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Image, Input, Spacer, Text } from '@chakra-ui/react';
 import { ZoneContainer } from "./sub_styled/ZoneContainer";
 
 const ImageItemAdd = () => {
@@ -78,14 +78,19 @@ const ImageItemAdd = () => {
         <Text>{item.name}</Text>
         <Text>Image Path: </Text>
         <Text>{item.path}</Text>
-        <Button onClick={deleteImageSubmit(item.name)}>Delete</Button>
+
+        <Button
+          onClick={deleteImageSubmit(item.name)}
+        >
+          Delete
+        </Button>
       </Box>
     )
   });
 
   return (
     <ZoneContainer>
-      <Box className='zone-main'
+      <div className='zone-main'
         {...getRootProps(
           { style: { isFocused, isDragAccept, isDragReject } }
         )}
@@ -113,7 +118,7 @@ const ImageItemAdd = () => {
             })}
           </Box>
         )}
-      </Box>
+      </div>
       <Box align='right' m="15px 0">
         <Button
           colorScheme='blackAlpha'

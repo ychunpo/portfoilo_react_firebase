@@ -12,6 +12,7 @@ import { storage } from '../../utils/firebase';
 const APIVContainer = styled.div`
   text-align: center;
   background-color: #0d4956;
+  weight: 100vw;
   min-height: 100vh;
   display: flex;
   flex: 3;
@@ -174,7 +175,6 @@ const AdminProjectImageView = () => {
     <APIVContainer>
       <Box align="center">
         <Heading
-          as='h4'
           size='xl'
           pt="12px"
         >Image List</Heading>

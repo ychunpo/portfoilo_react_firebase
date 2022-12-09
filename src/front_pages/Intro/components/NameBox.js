@@ -21,7 +21,7 @@ const NameBox = ({ text }) => {
     hidden: { opacity: 0 },
     visible: (i = 0.1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.01 * i },
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 * i },
     }),
   };
 
@@ -30,16 +30,16 @@ const NameBox = ({ text }) => {
       opacity: 1, x: 0, y: 0,
       transition: {
         type: "spring",
-        damping: 20,
-        stiffness: 150,
+        damping: 40,
+        stiffness: 15,
       },
     },
     hidden: {
       opacity: 0, x: 20, y: 0,
       transition: {
         type: "spring",
-        damping: 20,
-        stiffness: 100,
+        damping: 40,
+        stiffness: 10,
       },
     },
   };

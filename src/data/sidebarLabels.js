@@ -14,9 +14,4 @@ export const sidebarLabels = [
     title: "Image",
     link: "/admin/project/image-list",
   },
-  {
-    id: 204,
-    title: "Slider",
-    link: "/admin/project/slider",
-  },
 ]

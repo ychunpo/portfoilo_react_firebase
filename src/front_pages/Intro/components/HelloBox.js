@@ -31,8 +31,8 @@ const HelloBox = ({ text }) => {
       x: 0,
       transition: {
         type: "spring",
-        damping: 24,
-        stiffness: 100,
+        damping: 90,
+        stiffness: 10,
       },
     },
     hidden: {
@@ -40,8 +40,8 @@ const HelloBox = ({ text }) => {
       x: 20,
       transition: {
         type: "spring",
-        damping: 24,
-        stiffness: 100,
+        damping: 90,
+        stiffness: 10,
       },
     },
   };
