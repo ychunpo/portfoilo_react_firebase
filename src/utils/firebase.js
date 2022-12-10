@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { initializeFirestore } from 'firebase/firestore/lite';
 import { getAuth } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore'
@@ -16,7 +16,9 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-const firebase = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+//const firebase = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
+const firebase = initializeApp(firebaseConfig);
 
 initializeFirestore(firebase, {
   ignoreUndefinedProperties: true,
