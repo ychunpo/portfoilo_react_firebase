@@ -13,7 +13,6 @@ import AdminProjectImageView from './admin/projects_image_list/AdminProjectImage
 import AdminSliderController from './admin/setting/AdminSliderController';
 import Layout from './admin/admin_components/Layout';
 import NotFound from './front_pages/front_components/NotFound';
-import Contact from './front_pages/Contact/Contact';
 
 function App() {
   return (

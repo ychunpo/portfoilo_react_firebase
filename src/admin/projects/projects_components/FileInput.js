@@ -1,15 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
-import {
-    Button, ButtonGroup, Box,
-    Center, Container,
-    Flex, FormControl, FormLabel,
-    Heading,
-    Image, Input,
-    Spacer,
-    Text, Textarea
-} from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Image, Input, Text } from '@chakra-ui/react';
 import { ZoneContainer } from "./sub_styled/ZoneContainer";
 
 const FileInput = ({ name, label, max }) => {

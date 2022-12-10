@@ -1,3 +1,4 @@
+/*
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
@@ -22,7 +23,7 @@ const AdminSliderController = () => {
   const [sliderConfig, setSliderConfig] = useState(defaultSliderValue)
   const [loading, setLoading] = useState(false);
   const [loadFail, setLoadFail] = useState(false);
-  // general setting
+
   const [projGrabCursor, setGrabCursor] = useState(false);
   const [projNavigation, setProjNavigation] = useState(true);
   const [projPagination, setProjPagination] = useState(true);
@@ -50,29 +51,29 @@ const AdminSliderController = () => {
   const [projLGSlidesPerGroup, setProjLGSlidesPerGroup] = useState(0);
   const [projLGSpaceBetween, setProjLGSpaceBetween] = useState(0);
 
-  // useEffect(() => {
-  //   setLoading(true); 
-  //   const unsubscribe = onSnapshot(doc(db, "Slider", "setting"),
-  //     async (snapshot) => {
-  //       if (snapshot.docs.length !== 0) {
-  //         const configData = await snapshot.docs.map((doc) => ({
-  //           id: doc.id,
-  //           ...doc.data(),
-  //         }));
-  //         setSliderConfig(configData);
-  //         setLoading(false);
-  //       } else {
-  //         setLoading(false);
-  //         setLoadFail(true);
-  //         console.log("Nothing in database")
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log('Error message', error);
-  //     }
-  //   );
-  //   return () => unsubscribe();
-  // }, []);
+  useEffect(() => {
+    setLoading(true); 
+    const unsubscribe = onSnapshot(doc(db, "Slider", "setting"),
+      async (snapshot) => {
+        if (snapshot.docs.length !== 0) {
+          const configData = await snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setSliderConfig(configData);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setLoadFail(true);
+          console.log("Nothing in database")
+        }
+      },
+      (error) => {
+        console.log('Error message', error);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
 
   const resetConfig = () => {
     setSliderConfig(defaultSliderValue);
@@ -468,3 +469,4 @@ const AdminSliderController = () => {
 }
 
 export default AdminSliderController;
+*/

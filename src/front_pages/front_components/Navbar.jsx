@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Link as ScrollLink, animateScroll as scroll, scroller } from 'react-scroll';
+import React from 'react';
+import { Link as ScrollLink, scroller } from 'react-scroll';
 import styled from 'styled-components';
 import {
-  IconButton, Box, Menu, MenuButton, MenuList, MenuItem, Text,
+  IconButton, Menu, MenuButton, MenuList, MenuItem, Text,
 } from '@chakra-ui/react';
 import Logo from '../../Icon_components/Logo';
 import { HamburgerIcon, SmallCloseIcon } from '@chakra-ui/icons';

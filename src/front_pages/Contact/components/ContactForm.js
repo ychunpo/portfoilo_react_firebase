@@ -2,10 +2,8 @@ import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import emailjs from 'emailjs-com';
 import {
-  Button, ButtonGroup, Flex,
-  FormControl, FormLabel, FormErrorMessage, FormHelperText,
-  Heading, Input, Select,
-  Text, Textarea, Stack,
+  Button, ButtonGroup, Flex, FormControl, FormLabel, FormHelperText,
+  Input, Select, Textarea, Stack,
 } from '@chakra-ui/react'
 import styled from "styled-components";
 
@@ -74,7 +72,7 @@ const defaultValue = {
 const ContactForm = () => {
   const form = useRef();
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  //console.log('errors: ', errors)
+  console.log('errors: ', errors)
 
   const sendEmail = () => {
     emailjs.sendForm(

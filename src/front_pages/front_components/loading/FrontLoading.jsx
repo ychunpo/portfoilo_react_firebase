@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import FadeLoader from 'react-spinners/FadeLoader';
 import styled from 'styled-components';
 
@@ -12,7 +12,7 @@ const FrontLoadContainer = styled.div`
   width: 100%;
   height: 100%;  
 
-  .front-loading-main{    
+  .front-loading-main{
     height: 200px;    
   }
 `
@@ -28,7 +28,7 @@ const FrontLoading = ({ height, radius, margin, color }) => {
           margin={margin}
           color={color}
           loading={true}
-          cssOverride={{}}
+          cssOverride={{ override }}
           speedMultiplier={1}
           aria-label="Loading Spinner"
           data-testid="loader"

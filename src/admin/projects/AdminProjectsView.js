@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { collection, doc, deleteDoc, onSnapshot, orderBy, query } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
+//import { useAuthState } from "react-firebase-hooks/auth";
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import { APVContainer } from "./styled/APVContainer";
@@ -26,7 +26,7 @@ const AdminProjectsView = () => {
     { Header: 'Use', accessor: 'use', },
     { Header: 'Description', accessor: 'description', },
   ], []);
-  const tableData = useMemo(() => allProjectsData)
+  const tableData = useMemo(() => (allProjectsData), [allProjectsData]);
 
   useEffect(() => {
     setLoading(true);

@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import Particles from "react-tsparticles";
-import { withTheme } from 'styled-components';
 import { loadFull } from "tsparticles";
 
 const BGParticles = () => {

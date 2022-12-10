@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { collection, doc, deleteDoc, onSnapshot, getDoc, setDoc, query } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import { useAuthState } from 'react-firebase-hooks/auth';
+//import { useAuthState } from 'react-firebase-hooks/auth';
 import styled from "styled-components";
 import {
   Alert, AlertIcon, AlertTitle, AlertDescription, useDisclosure,
@@ -48,6 +48,7 @@ const EditForm = ({ data, id }) => {
 
   useEffect(() => {
     getDataWithId();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function SuccessAddItem() {

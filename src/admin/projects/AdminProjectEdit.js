@@ -2,17 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { doc, onSnapshot } from 'firebase/firestore';
-import styled from "styled-components";
 import { Container, Heading } from '@chakra-ui/react';
 import { db } from '../../utils/firebase';
 import EditForm from './projects_components/EditForm';
 import Loading from "../admin_components/Loading";
 import Fail from "../admin_components/Loading/Fail";
-
-const APEContainer = styled.div`
-  background-color: 'gray.200';
-  
-`
 
 const AdminProjectEdit = () => {
   const { id } = useParams();
@@ -49,6 +43,7 @@ const AdminProjectEdit = () => {
         }
       })
     return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
 
   return (

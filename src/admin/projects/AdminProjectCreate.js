@@ -8,7 +8,7 @@ import { list, ref, getDownloadURL, deleteObject, uploadBytesResumable } from 'f
 import styled from 'styled-components';
 import {
   Button, ButtonGroup, Box, FormControl, FormLabel, FormErrorMessage,
-  Heading, Input, Spacer, Stack, HStack, Text, Textarea, Divider
+  Heading, Input, Spacer, HStack, Textarea, Divider
 } from '@chakra-ui/react';
 import { storage, db } from '../../utils/firebase';
 import { projectLabels } from '../../data/projectLabels';
@@ -29,7 +29,7 @@ const AdminProjectCreate = () => {
   //const [user] = useAuthState(auth);
   const [projectData, setProjectData] = useState(projectDefaultValue);
   //console.log('G - projectData: ', projectData);
-  const [progress, setProgress] = useState(0);
+  //const [progress, setProgress] = useState(0);
   const methods = useForm({ resolver: yupResolver(projectSchema) });
   const {
     control, register, formState: { errors }, watch, handleSubmit
@@ -42,10 +42,10 @@ const AdminProjectCreate = () => {
 
     uploadImage.on("state_changed",
       (snapshot) => {
-        const progressPercent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(progressPercent);
+        // const progressPercent = Math.round(
+        //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        // );
+        // setProgress(progressPercent);
       },
       (error) => {
         console.log("Upload failed:", error);
@@ -157,7 +157,7 @@ const AdminProjectCreate = () => {
     const projectRef = collection(db, "Projects");
     await addDoc(projectRef, projectData).then(() => {
       toast("Article added successfully", { type: "success" });
-      setProgress(0);
+      //setProgress(0);
     }).catch((err) => {
       toast("Error adding article", { type: "error" });
     });

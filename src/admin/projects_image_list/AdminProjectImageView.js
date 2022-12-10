@@ -73,10 +73,12 @@ const AdminProjectImageView = () => {
   };
   useEffect(() => {
     getFromStorage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFirebaseUrl = () => {
     var array = [];
+    setImagesData([]);
     allImages.forEach((resRef) => {
       getDownloadURL(resRef).then(async (url) => {
         if (array.indexOf(url) === -1) {
@@ -128,6 +130,7 @@ const AdminProjectImageView = () => {
 
   useEffect(() => {
     getFirebaseUrl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allImages]);
 
   const onImageChange = (e) => {

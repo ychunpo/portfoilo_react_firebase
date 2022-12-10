@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import styled from 'styled-components';
-import {
-  Box, Button, Container, Heading,
-  Modal, ModalOverlay, ModalContent, ModalFooter,
-  VStack, useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Container, Heading, Modal, useDisclosure} from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper';
 import 'swiper/css';

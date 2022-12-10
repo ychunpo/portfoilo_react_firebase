@@ -9,16 +9,7 @@ import {
 } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import {
-  Button, ButtonGroup, Box,
-  Center, Container,
-  Flex,
-  Heading,
-  Input,
-  Spacer,
-  Stack,
-  Text, Textarea
-} from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import { auth, db } from "../../utils/firebase";
@@ -27,7 +18,7 @@ import AdminAddSkill from "./skills_components/AdminAddSkill";
 import { toastOrder } from "../../data/verifyData";
 import Loading from "../admin_components/Loading";
 import Fail from "../admin_components/Loading/Fail";
-import AnimatedLoading from "../admin_components/Loading/AnimatedLoading";
+//import AnimatedLoading from "../admin_components/Loading/AnimatedLoading";
 
 const ASVContainer = styled.div`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
   margin: 0 15px;

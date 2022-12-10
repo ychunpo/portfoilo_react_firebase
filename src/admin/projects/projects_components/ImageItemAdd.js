@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { toast } from 'react-toastify';
 import { storage } from '../../../utils/firebase';
 import { ref, getDownloadURL, deleteObject, uploadBytes } from 'firebase/storage';
-import { Box, Button, Image, Input, Spacer, Text } from '@chakra-ui/react';
+import { Box, Button, Image, Input, Text } from '@chakra-ui/react';
 import { ZoneContainer } from "./sub_styled/ZoneContainer";
 
 const ImageItemAdd = () => {
@@ -46,14 +46,16 @@ const ImageItemAdd = () => {
           });
         }).catch(error => {
           console.log(error);
-        })
+        });
       }).catch(error => {
         console.log(error);
         toast("Image added fail", { type: "error" });
-      })
+      });
+    setShowViewer(true);
   }
 
   const uploadImageSubmit = () => {
+    setShowViewer(false);
     imgFile.forEach((file, i) => {
       storageAndGetPath(file);
     });

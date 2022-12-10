@@ -1,11 +1,7 @@
 import React from 'react';
 import { useFieldArray } from "react-hook-form";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import {
-  Button, Box,
-  Flex,
-  Spacer,
-} from '@chakra-ui/react';
+import { Button, Box, Flex } from '@chakra-ui/react';
 import FileInput from "./FileInput";
 
 const ImagesItems = ({ control, watch }) => {
