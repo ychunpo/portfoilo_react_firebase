@@ -71,8 +71,8 @@ const defaultValue = {
 
 const ContactForm = () => {
   const form = useRef();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  console.log('errors: ', errors)
+  const { register, handleSubmit, reset } = useForm();
+  //console.log('errors: ', errors)
 
   const sendEmail = () => {
     emailjs.sendForm(

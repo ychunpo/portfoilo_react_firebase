@@ -22,7 +22,10 @@ const VideoBg = () => {
     <FVBGContainer>
       <div className="FVBG-main">
         <video className="video-container" muted autoPlay="autoplay" controls>
-          <source src={process.env.REACT_APP_VIDEO_LINK} type="video/mp4" />
+          <source
+            src="https://firebasestorage.googleapis.com/v0/b/myportfolio-fb953.appspot.com/o/video%2FPortfolio_site_bg.mp4?alt=media&token=b2935164-30d8-4128-b315-fbcda53588b8"
+            type="video/mp4"
+          />
           Your browser does not support video!
         </video>
       </div>
