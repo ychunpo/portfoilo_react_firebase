@@ -7,7 +7,8 @@ import {
   Heading, Image, Input, Spacer,
   Text, Wrap, WrapItem, VStack
 } from '@chakra-ui/react';
-import { storage } from '../../utils/firebase';
+import { storage } from '../../../utils/firebase';
+import ImageListAdd from '../components/ImageListAdd';
 
 const APIVContainer = styled.div`
   text-align: center;
@@ -47,19 +48,17 @@ const APIVContainer = styled.div`
 const AdminProjectImageView = () => {
   const imagesListRef = ref(storage, 'images');
   //console.log('imagesListRef', imagesListRef);
-  const [allImages, setAllImages] = useState([]); //ok
-  //console.log('allImages', allImages)
-  const [image, setImage] = useState(null); //ok
+  const [images, setImages] = useState(null);
   //console.log('image', image);
-  const [imagesData, setImagesData] = useState([]); //ok
-  //console.log('imagesData', imagesData)
+  const [allImages, setAllImages] = useState([]);
+  //console.log('allImages', allImages)
+  const [downloadUrlData, setDownloadUrlData] = useState([]);
+  //console.log('downloadUrlData', downloadUrlData)
   const [showData, setShowData] = useState(false);
+  console.log('G - showData', showData)
 
   const refreshPage = () => {
-    //window.location.replace(window.location.href);
     window.location.reload();
-    //const timer = setTimeout(() => getFromStorage(), 3000);
-    //return () => clearTimeout(timer);
   }
 
   const getFromStorage = async () => {
@@ -71,31 +70,31 @@ const AdminProjectImageView = () => {
       console.log(error);
     });
   };
+
   useEffect(() => {
     getFromStorage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFirebaseUrl = () => {
     var array = [];
-    setImagesData([]);
+    setDownloadUrlData([]);
     allImages.forEach((resRef) => {
       getDownloadURL(resRef).then(async (url) => {
         if (array.indexOf(url) === -1) {
           await array.push(url)
         }
-        if (imagesData.length < array.length) {
-          await imagesData.push({ name: resRef.name, url: url });
+        if (downloadUrlData.length < array.length) {
+          await downloadUrlData.push({ name: resRef.name, url: url });
         }
       });
     });
 
     return (
       <Box m="5px auto">
-        <Text>Total: {imagesData.length} Files</Text>
+        <Text>Total: {downloadUrlData.length} Files</Text>
         <Wrap m="5px auto" justify='center'>
           {
-            imagesData.map((item, index) => {
+            downloadUrlData.map((item, index) => {
               return (
                 <WrapItem key={index}>
                   <Box
@@ -136,26 +135,27 @@ const AdminProjectImageView = () => {
   const onImageChange = (e) => {
     const reader = new FileReader();
     let file = e.target.files[0];
+
     if (file) {
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImage(file);
+          setImages(file);
         }
       };
       reader.readAsDataURL(e.target.files[0]);
     } else {
-      setImage(null);
+      setImages([]);
     }
   };
 
   const uploadToStorage = () => {
-    if (image) {
-      console.log('image', image)
-      let imageRef = ref(storage, `/images/${image.name}`);
-      uploadBytes(imageRef, image).then((imgUrl) => {
+    if (images.length !== 0) {
+      console.log('image', images)
+      let imageRef = ref(storage, `/images/${images.name}`);
+      uploadBytes(imageRef, images).then((imgUrl) => {
         //console.log('imgUrl: ', imgUrl)    
         getFromStorage();
-        setImage(null);
+        setImages([]);
         toast("Image uploaded successfully", { type: "success" });
       });
     } else {
@@ -189,6 +189,9 @@ const AdminProjectImageView = () => {
               className="APIV-input"
               onChange={(e) => { onImageChange(e) }}
             />
+            <Image ></Image>
+            <Spacer />
+            <ImageListAdd />
             <Spacer />
             <ButtonGroup gap={20}>
               <Button

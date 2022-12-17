@@ -7,10 +7,11 @@ import { AuthContextProvider } from './auth/AuthContext';
 import ProtectedRouter from './auth/ProtectedRouter';
 import AdminSkillsView from './admin/skills/AdminSkillsView';
 import AdminProjectsView from './admin/projects/AdminProjectsView';
-import AdminProjectCreate from './admin/projects/AdminProjectCreate';
-import AdminProjectEdit from './admin/projects/AdminProjectEdit';
-import AdminProjectImageView from './admin/projects_image_list/AdminProjectImageView'
+import AdminProjectCreate from './admin/projects/imageWithUrl/AdminProjectIWUCreate';
+import AdminProjectEdit from './admin/projects/imageWithUrl/AdminProjectIWUEdit';
+//import AdminProjectImageView from './admin/projectsImageList/noDropZone/AdminProjectImageView'
 //import AdminSliderController from './admin/setting/AdminSliderController';
+import ImagesGallery from './admin/imagesGallery/ImagesGallery';
 import Layout from './admin/admin_components/Layout';
 import NotFound from './front_pages/front_components/NotFound';
 
@@ -28,7 +29,7 @@ function App() {
             <Route path="projects" element={<ProtectedRouter><AdminProjectsView /></ProtectedRouter>} />
             <Route path="project/:type" element={<ProtectedRouter><AdminProjectCreate /></ProtectedRouter>} />
             <Route path="project/edit/:id" element={<ProtectedRouter><AdminProjectEdit /></ProtectedRouter>} />
-            <Route path="project/image-list" element={<ProtectedRouter><AdminProjectImageView /></ProtectedRouter>} />
+            <Route path="project/image-list" element={<ProtectedRouter><ImagesGallery /></ProtectedRouter>} />
           </Route>
         </Routes>
       </AuthContextProvider>

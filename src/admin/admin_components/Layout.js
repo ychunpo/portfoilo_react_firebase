@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import GoToTop from '../admin_components/BackToTop/GoToTop';
 
 const ALOComponent = styled.div` 
   display: flex;
@@ -27,6 +28,7 @@ const Layout = () => {
         </div>
         <Outlet />
       </div>
+      <GoToTop />
     </ALOComponent>
   )
 }

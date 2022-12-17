@@ -15,7 +15,7 @@ import { projectLabels } from '../../data/projectLabels';
 import { projectDefaultValue } from '../../data/dataDefaultValue';
 import { projectSchema } from '../../data/inputDataValidator';
 import ImageCover from './projects_components/ImageCover';
-import ImagesItems from './projects_components/ImagesItems';
+import ImagesItemsIWU from './components/ImagesItemsIWU';
 
 const APFContainer = styled.div`
   margin: 0;
@@ -29,6 +29,7 @@ const AdminProjectCreate = () => {
   //const [user] = useAuthState(auth);
   const [projectData, setProjectData] = useState(projectDefaultValue);
   //console.log('G - projectData: ', projectData);
+  const [coverUploaded, setCoverUploaded] = useState(false);
   //const [progress, setProgress] = useState(0);
   const methods = useForm({ resolver: yupResolver(projectSchema) });
   const {
@@ -76,7 +77,7 @@ const AdminProjectCreate = () => {
       });
   }
 
-  // onUploadImageSubmit
+  // UploadImageSubmit
   const uploadImageSubmit = handleSubmit((data) => {
     if (data.cover.image[0]?.type === 'image/gif'
       || data.cover.image[0]?.type === 'image/jpeg'
@@ -85,11 +86,12 @@ const AdminProjectCreate = () => {
       data.cover.imageName = "";
       data.cover.imagePath = "";
       storageAndGetPath(data, img, 'cover');
+      setCoverUploaded(true);
     } else {
       toast("Please insert image!", { type: "error" });
       return;
     }
-    //console.log('onUploadImageSubmit->data: ', data)
+    //console.log('UploadImageSubmit->data: ', data)
 
     // item
     if (data.items.length !== 0) {
@@ -105,7 +107,7 @@ const AdminProjectCreate = () => {
     }
 
     const dataUpdate = (data) => {
-      //console.log('onUploadImageSubmit->data: ', data)
+      //console.log('UploadImageSubmit->data: ', data)
       setProjectData({
         rank: data.rank,
         title: data.title,
@@ -127,7 +129,7 @@ const AdminProjectCreate = () => {
   });
 
   // deleteCover--->
-  const deleteCover = handleSubmit((data) => {
+  const deleteCover = handleSubmit(() => {
     //console.log('data', data)
     var imgFather = document.getElementById("cover.imageParent");
     var imgElement = document.getElementById("cover.imageSon");
@@ -138,17 +140,16 @@ const AdminProjectCreate = () => {
     }
     imgFather.removeChild(imgElement);
 
-    const coverRef = ref(storage, `images/${data.cover.image[0].name}`);
+    const coverRef = ref(storage, `images/${projectData.cover.image[0].name}`);
     if (list(coverRef)) {
       deleteObject(coverRef).then(() => {
         toast("Deleted", { type: "success" });
       }).catch((error) => {
-        toast("Cannot Delete", { type: "error" });
+        toast("Storage Cannot Delete", { type: "error" });
         console.log('Delete Error', error)
       });
-    } else {
-      toast("Database is no this image", { type: "error" });
     }
+    setCoverUploaded(false);
   });
 
   // storeFirebase--->
@@ -250,7 +251,7 @@ const AdminProjectCreate = () => {
                 </HStack>
               </Box>
               <Box>
-                <ImagesItems {...{ control, watch }} />
+                <ImagesItemsIWU control={control} watch={watch} />
               </Box>
             </Box>
             <Divider p={2} borderColor='grey' w='98%' />
@@ -266,7 +267,7 @@ const AdminProjectCreate = () => {
                 <Button
                   size='lg'
                   colorScheme='green'
-                  onClick={uploadImageSubmit}>
+                  onClick={() => uploadImageSubmit(projectData)}>
                   Upload
                 </Button>
                 <Button

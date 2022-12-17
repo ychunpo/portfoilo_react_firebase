@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { storage } from '../../../utils/firebase';
 import { ref, getDownloadURL, deleteObject, uploadBytes } from 'firebase/storage';
 import { Box, Button, Image, Input, Text } from '@chakra-ui/react';
-import { ZoneContainer } from "./sub_styled/ZoneContainer";
+import { ZoneContainer } from "../imageDirectUpload/components/sub_styled/ZoneContainer";
 
 const ImageItemAdd = () => {
   let storagePath = [];

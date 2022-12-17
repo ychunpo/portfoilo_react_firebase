@@ -13,6 +13,7 @@ import {
   Stack, Text, Textarea, Spacer, VStack, HStack,
 } from '@chakra-ui/react';
 import { db } from '../../../utils/firebase';
+import ImageItemAdd from './ImageItemAdd';
 
 const StyledContainer = styled.div`
 
@@ -48,7 +49,7 @@ const EditForm = ({ data, id }) => {
 
   useEffect(() => {
     getDataWithId();
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function SuccessAddItem() {
@@ -256,6 +257,10 @@ const EditForm = ({ data, id }) => {
               />
             </Flex>
           </FormControl>
+        </Box>
+        <Box p="5px">
+          <Text as="b">Upload New Image</Text>
+          <ImageItemAdd />
         </Box>
 
         <Box>

@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
-import { Box, FormControl, FormLabel, Image, Input, Text } from '@chakra-ui/react';
+import {
+    Box, FormControl, FormLabel, Image, Input, Text
+} from '@chakra-ui/react';
 import { ZoneContainer } from "./sub_styled/ZoneContainer";
 
 const FileInput = ({ name, label, max }) => {
@@ -87,6 +89,7 @@ const FileInput = ({ name, label, max }) => {
                             {files.map((file, index) => {
                                 return (
                                     <Box key={file.name} id={name + 'Parent'}>
+
                                         <Box id={name + 'Son'}>
                                             <Image
                                                 src={URL.createObjectURL(file)}
