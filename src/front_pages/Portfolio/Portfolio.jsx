@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import styled from 'styled-components';
-import { Box, Container, Heading, Modal, useDisclosure} from '@chakra-ui/react';
+import { Box, Container, Heading, Modal, useDisclosure } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
@@ -20,7 +20,7 @@ const FPContainer = styled.div`
   
   .swiper {
     width: 100%;
-    height: 100%;  
+    height: 100%;
   }
 
   .swiper-slide {
@@ -29,9 +29,17 @@ const FPContainer = styled.div`
     /*text-align: center;*/
     font-size: 18px;   
     display: flex; 
-    justify-content: center; 
-    align-items: center;  
-  }
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;    
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;     
 
   .swiper-slide img {
     display: block;
@@ -40,13 +48,28 @@ const FPContainer = styled.div`
   }
 
   .swiper-container {
-    overflow: visible;
+    overflow: visible;      
+    }
   }
 
   .swiper-pagination {} 
 
   .FP-main {
-    height: 90vh;
+    height: 85vh;
+  }
+
+  .FP-swiper-slide {
+    &:hover {
+      border: 3px solid #ED64A6;      
+    }
+  }
+
+  .chakra-card__body{
+    &:hover {        
+      margin: auto;      
+      height: 100.3%;
+      width: 100.3%;
+    }
   }
 `
 
@@ -83,7 +106,7 @@ const Portfolio = () => {
 
   return (
     <FPContainer id="portfolio-id">
-      <Heading as='h2' size='2xl' pt="10px" color="white" align='center'>Projects</Heading>
+      <Heading as='h2' size='2xl' pt="10px" color="blue.300" align='center'>Projects</Heading>
       <div className="FP-main">
         {loading ? (
           <Container h='100%' align='center'>
@@ -122,13 +145,13 @@ const Portfolio = () => {
             {allProjectsData.map((data, index) => (
               <SwiperSlide key={data.id} virtualIndex={index}>
                 <Box
-                  borderRadius="10px" borderWidth={6} borderColor='#FFD700'
+                  borderRadius="10px" borderWidth='4px' borderColor='white'
                   w={{ base: '280px', lg: '360px', md: '350px', sm: '340px', xs: '390px' }}
                   bg="white"
+                  className="FP-swiper-slide"
                 >
                   <ProjectCard data={data} onOpen={onOpen} setSingleData={setSingleData} />
                 </Box>
-
                 <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
                   <ProjectModel
                     singleData={singleData}
@@ -137,7 +160,6 @@ const Portfolio = () => {
                     onClose={onClose}
                   />
                 </Modal>
-
               </SwiperSlide>
             ))}
           </Swiper>

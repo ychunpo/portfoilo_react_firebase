@@ -4,20 +4,19 @@ import { loadFull } from "tsparticles";
 
 const BGParticles = () => {
   const particlesInit = useCallback(async engine => {
-    //console.log(engine);
     await loadFull(engine);
   }, []);
 
-  const particlesLoaded = useCallback(async container => {
-    //await console.log(container);
-  }, []);
+  // const particlesLoaded = useCallback(async container => {
+  //   await console.log(container);
+  // }, []);
 
   return (
     <>
       <Particles
         id="tsparticles"
         init={particlesInit}
-        loaded={particlesLoaded}
+        //loaded={particlesLoaded}
         //粒子的配置
         options={{
           background: {

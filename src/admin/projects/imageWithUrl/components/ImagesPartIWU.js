@@ -1,18 +1,14 @@
 import React from 'react';
 import { useFieldArray } from "react-hook-form";
 import {
-  Alert, AlertIcon, AlertTitle, AlertDescription, useDisclosure,
-  Button, ButtonGroup, Box, Divider, FormControl, FormLabel, FormErrorMessage,
-  Heading, Input, List, ListItem, ListIcon,
-  Spacer, HStack, Textarea
+  Button, Box, Divider, FormControl, FormLabel, FormErrorMessage,
+  Input, List, ListItem, Textarea
 } from '@chakra-ui/react';
-import { FaPlus, FaTrash, FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const ImagesPartIWU = ({ nestIndex, control, register, errors }) => {
-
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `items[${nestIndex}].images`
+    name: `items[${nestIndex}].itemImages`
   });
 
   return (
@@ -26,17 +22,16 @@ const ImagesPartIWU = ({ nestIndex, control, register, errors }) => {
                 <FormLabel
                   m="auto"
                   p='0 3px'
-                  htmlFor={`items[${nestIndex}].images[${idx}].imageId`}
+                  htmlFor={`items[{nestIndex}].itemImages[${idx}].itemImageId`}
                 >
                   Image ID - {idx}
                 </FormLabel>
                 <Input
                   fontSize='1.2rem'
                   bg='white'
-                  {...register(`items[${nestIndex}].images[${idx}].imageId`, { required: true })}
-                  defaultValue={idx}
-                  type="text"
-                  id="imageId"
+                  {...register(`items[${nestIndex}].itemImages[${idx}].itemImageId`)}
+                  placeholder={idx}
+                  type="number"
                 />
                 <FormErrorMessage>
 
@@ -46,16 +41,15 @@ const ImagesPartIWU = ({ nestIndex, control, register, errors }) => {
                 <FormLabel
                   m="auto"
                   p='0 3px'
-                  htmlFor={`items[${nestIndex}].images[${idx}].imageName`}
+                  htmlFor={`items[${nestIndex}].itemImages[${idx}].itemImageFilename`}
                 >
-                  Image Name - {idx}
+                  Image Name
                 </FormLabel>
                 <Input
                   fontSize='1.2rem'
                   bg='white'
-                  {...register(`items[${nestIndex}].images[${idx}].imageName`, { required: true })}
+                  {...register(`items[${nestIndex}].itemImages[${idx}].itemImageFilename`)}
                   type="text"
-                  id="imageName"
                 />
                 <FormErrorMessage>
 
@@ -65,16 +59,15 @@ const ImagesPartIWU = ({ nestIndex, control, register, errors }) => {
                 <FormLabel
                   m='auto'
                   p='0 3px'
-                  htmlFor={`items[${nestIndex}].images[${idx}].imagePath`}
+                  htmlFor={`items[${nestIndex}].itemImages[${idx}].itemImagePath`}
                 >
                   Path
                 </FormLabel>
                 <Textarea
                   fontSize='1.2rem'
                   bg='white'
-                  {...register(`items[${nestIndex}].images[${idx}].imagePath`, { required: true })}
+                  {...register(`items[${nestIndex}].itemImages[${idx}].itemImagePath`)}
                   type="url"
-                  id="imagePath"
                 />
                 <FormErrorMessage>
 
@@ -91,9 +84,9 @@ const ImagesPartIWU = ({ nestIndex, control, register, errors }) => {
       </List>
       <Box p={2} align='end'>
         <Button onClick={() => append({
-          imageID: fields.length,
-          imageName: "",
-          imagePath: ""
+          itemImageId: fields.length,
+          itemImageFilename: "",
+          itemImagePath: ""
         })}>
           Add Image
         </Button>

@@ -1,15 +1,13 @@
 import React from 'react';
 import {
-  AspectRatio, Button,
-  Card, CardBody, CardFooter, Divider,
-  Heading, Image,
-  Text, VStack
+  AspectRatio, Button, Card, CardBody, CardFooter,
+  Divider, Heading, Image, Text, VStack
 } from '@chakra-ui/react';
 
 const ProjectCard = ({ data, onOpen, setSingleData }) => {
   return (
-    <Card overflow="hidden" variant="outline" bgColor='white'>
-      <CardBody p='30px'>
+    <Card overflow="hidden" variant="outline" justify='center'>
+      <CardBody p='1px' bgColor='rgba(200,200,200,0.1)' >
         <AspectRatio maxW='100%' ratio={1}>
           <Image
             m="auto"
@@ -23,8 +21,8 @@ const ProjectCard = ({ data, onOpen, setSingleData }) => {
             }}
           />
         </AspectRatio>
-        <VStack pt="20px" align="left" spacing={3}>
-          <Heading size='lg' align='center' color='#07789e' noOfLines={1}>
+        <VStack p="10px" align="left" spacing={3}>
+          <Heading size='lg' align='center' color='blue.500' noOfLines={1}>
             {data.title}
           </Heading>
           <Text size='md' p="0 5px" noOfLines={2}>
@@ -37,14 +35,16 @@ const ProjectCard = ({ data, onOpen, setSingleData }) => {
           borderWidth: '1px',
           borderStyle: "solid",
           borderRadius: 10,
-          borderColor: "#ffc0cb",
+          borderColor: "blue.200",
         }}
       />
       <CardFooter justify="center">
         <Button
           zIndex={6}
           w="200px"
-          colorScheme='blackAlpha'
+          color='white'
+          bgColor='blue.400'
+          opacity={0.8}
           onClick={() => {
             onOpen();
             setSingleData(data);

@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useTable } from "react-table";
 import styled from 'styled-components';
 import {
-  IconButton, Box,
-  Table, Thead, Tbody,
-  Tr, Th, Td,
-  TableContainer, Textarea
+  IconButton, Box, Table, Thead, Tbody,
+  Tr, Th, Td, TableContainer, Textarea
 } from '@chakra-ui/react'
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 

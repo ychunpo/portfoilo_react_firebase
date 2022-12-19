@@ -21,7 +21,6 @@ const FMContainer = styled.div`
   }
 `
 const Main = () => {
-
   return (
     <FMContainer>
       <Navbar />
@@ -37,7 +36,6 @@ const Main = () => {
           </Suspense>
         }
       </div>
-
       <Intro />
       <About />
       <Portfolio />
@@ -46,7 +44,6 @@ const Main = () => {
       <Footer />
       <BGParticles />
       <GoToTop />
-
     </FMContainer>
   )
 }

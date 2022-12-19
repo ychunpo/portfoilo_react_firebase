@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link as ScrollLink, scroller } from 'react-scroll';
 import styled from 'styled-components';
-import {
-  IconButton, Menu, MenuButton, MenuList, MenuItem, Text,
-} from '@chakra-ui/react';
-import Logo from '../../Icon_components/Logo';
+import { IconButton, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react';
 import { HamburgerIcon, SmallCloseIcon } from '@chakra-ui/icons';
+import Logo from '../../Icon_components/Logo';
 import { navbarLabels } from '../../data/navbarLabels';
 
 const FNBContainer = styled.div`
@@ -68,15 +66,13 @@ const FNBContainer = styled.div`
     }
   } 
 
-  @media screen and (max-width: 769px) {    
-
+  @media screen and (max-width: 769px) {
     .nav-list {
       display: none;
     }
   }    
 
   @media screen and (min-width: 1024px) {}
-
 `
 
 const Navbar = () => {
@@ -88,7 +84,6 @@ const Navbar = () => {
       spy: true,
     })
   }
-
 
   return (
     <FNBContainer>

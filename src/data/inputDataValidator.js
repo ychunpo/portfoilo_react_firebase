@@ -5,20 +5,13 @@ export const projectSchema = yup.object().shape({
   title: yup.string(),
   use: yup.string(),
   description: yup.string(),
-  website: yup.string().url(),
-  video: yup.string().url(),
-  git: yup.string().url(),
-  uiux: yup.string().url(),
-  cover: yup.object().shape({
-    caption: yup.string(),
-    image: yup.mixed(),
-    images: yup.array().of(
-      yup.object().shape({
-        imagePath: yup.string().url(),
-        imageName: yup.string(),
-      })
-    ),
-  }),
+  websiteUrl: yup.string().url(),
+  videoUrl: yup.string().url(),
+  gitUrl: yup.string().url(),
+  uiuxUrl: yup.string().url(),
+  coverCaption: yup.string(),
+  coverImageFilename: yup.string(),
+  coverImagePath: yup.string().url(),
   items: yup.array().of(
     yup.object().shape({
       itemId: yup.number().positive().integer(),

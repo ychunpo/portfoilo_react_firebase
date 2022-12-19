@@ -112,26 +112,25 @@ const AdminProjectImageView = () => {
     });
   };
 
-  const getFirebaseUrl = () => {
-    let array = [];
-    let files = [];
-    allImages.forEach((resRef) => {
-      //console.log('getFirebaseUrl - resRef', resRef)
-      getDownloadURL(resRef).then(async (url) => {
-        console.log('getFirebaseUrl - url', url)
+  // const getFirebaseUrl = () => {
+  //   let array = [];
+  //   let files = [];
+  //   allImages.forEach((resRef) => {
+  //     //console.log('getFirebaseUrl - resRef', resRef)
+  //     getDownloadURL(resRef).then(async (url) => {
+  //       console.log('getFirebaseUrl - url', url)
 
-        if (array.indexOf(url) === -1) {
-          await array.push(url)
-        }
-        if (imagesData.length < array.length) {
-          await imagesData.push({ name: resRef.name, url: url });
-          await files.push({ name: resRef.name, url: url });
-        }
-      });
-    });
-    setImagesData(files);
-
-  }
+  //       if (array.indexOf(url) === -1) {
+  //         await array.push(url)
+  //       }
+  //       if (imagesData.length < array.length) {
+  //         await imagesData.push({ name: resRef.name, url: url });
+  //         await files.push({ name: resRef.name, url: url });
+  //       }
+  //     });
+  //   });
+  //   setImagesData(files);
+  // }
 
   useEffect(() => {
     listAll(imagesListRef).then((res) => {

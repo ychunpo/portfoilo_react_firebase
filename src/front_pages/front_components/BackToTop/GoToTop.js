@@ -9,9 +9,8 @@ const GTTContainer = styled.div`
   
   .GTT-content {
     font-size: 2rem;
-    color: rgba(255,255,255, 0.9);    
-  }
-
+    color: rgba(255,255,255, 0.9);
+    }
 `
 
 const GoToTop = () => {

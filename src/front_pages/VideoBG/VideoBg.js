@@ -6,8 +6,7 @@ const FVBGContainer = styled.div`
   height: 100%;
   margin: 0 auto;  
   background-color: #1e2b37;
-  z-index: -1;
-  
+  z-index: -1;  
 
   .video-container {  
     margin: 0 auto;   

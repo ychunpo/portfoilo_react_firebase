@@ -39,7 +39,6 @@ const IISContainer = styled.div`
 
   .swiper-slide img {
     display: block;    
-    
   }
 `
 
@@ -66,11 +65,11 @@ const ItemImagesSwiper = ({ items }) => {
   return (
     <IISContainer>
       {items.map((item, index) => {
-        const { itemId, caption, text, images } = item;
+        const { itemId, itemCaption, itemText, itemImages } = item;
         return (
-          <Box key={'itemId' + itemId} p='10px 0'>
+          <Box key={itemId} p='10px 0'>
             <VStack width='70%' m='0 auto' pb='10px'>
-              <Text fontSize='md' as='b' color='blue.600'>{caption}</Text>
+              <Text fontSize='md' as='b' color='blue.600'>{itemCaption}</Text>
               <Text fontSize='xs' color='pink.500'>(Double-click the image to enlarge)</Text>
             </VStack>
             <Swiper
@@ -105,14 +104,14 @@ const ItemImagesSwiper = ({ items }) => {
               className="mySwiper"
             >
               {
-                images.length !== 0 ? images.map((imageItem, index) => {
+                itemImages.length !== 0 ? itemImages.map((imageItem, index) => {
                   return (
-                    <SwiperSlide key={'imageItem' + imageItem.imageId}>
+                    <SwiperSlide key={imageItem.itemImageId}>
                       <div className="swiper-zoom-container">
                         <Image
                           m="auto" boxSize='400px'
-                          src={imageItem.imagePath}
-                          alt={imageItem.imageName}
+                          src={imageItem.itemImagePath}
+                          alt={imageItem.itemImageFilename}
                           fallbackSrc='https://via.placeholder.com/380'
                         />
                       </div>
@@ -121,16 +120,16 @@ const ItemImagesSwiper = ({ items }) => {
                 }) : (<Divider />)
               }
             </Swiper>
-            {text && (
+            {itemText && (
               <Box
                 m='0 auto'
                 p='0 20%'
                 textAlign='center'
               >
-                <Text fontSize='lg'>{text}</Text>
+                <Text fontSize='lg'>{itemText}</Text>
               </Box>
             )}
-            <Divider w='70%' m='10px auto' />
+            <Divider w='80%' m='10px auto' p='1px' bgColor='gray.300' />
           </Box>
         )
       })}

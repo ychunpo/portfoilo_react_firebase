@@ -29,7 +29,7 @@ const AdminProjectCreate = () => {
   //const [user] = useAuthState(auth);
   const [projectData, setProjectData] = useState(projectDefaultValue);
   //console.log('G - projectData: ', projectData);
-  const [coverUploaded, setCoverUploaded] = useState(false);
+  //const [coverUploaded, setCoverUploaded] = useState(false);
   //const [progress, setProgress] = useState(0);
   const methods = useForm({ resolver: yupResolver(projectSchema) });
   const {
@@ -43,10 +43,10 @@ const AdminProjectCreate = () => {
 
     uploadImage.on("state_changed",
       (snapshot) => {
-        // const progressPercent = Math.round(
-        //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        // );
-        // setProgress(progressPercent);
+        //const progressPercent = Math.round(
+        //  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        //);
+        //setProgress(progressPercent);
       },
       (error) => {
         console.log("Upload failed:", error);
@@ -77,7 +77,6 @@ const AdminProjectCreate = () => {
       });
   }
 
-  // UploadImageSubmit
   const uploadImageSubmit = handleSubmit((data) => {
     if (data.cover.image[0]?.type === 'image/gif'
       || data.cover.image[0]?.type === 'image/jpeg'
@@ -86,14 +85,13 @@ const AdminProjectCreate = () => {
       data.cover.imageName = "";
       data.cover.imagePath = "";
       storageAndGetPath(data, img, 'cover');
-      setCoverUploaded(true);
+      //setCoverUploaded(true);
     } else {
       toast("Please insert image!", { type: "error" });
       return;
     }
     //console.log('UploadImageSubmit->data: ', data)
 
-    // item
     if (data.items.length !== 0) {
       for (let i = 0; i < data.items.length; i++) {
         data.items[i].itemId = i;
@@ -128,7 +126,6 @@ const AdminProjectCreate = () => {
     toast("Image added successfully", { type: "success" });
   });
 
-  // deleteCover--->
   const deleteCover = handleSubmit(() => {
     //console.log('data', data)
     var imgFather = document.getElementById("cover.imageParent");
@@ -149,10 +146,9 @@ const AdminProjectCreate = () => {
         console.log('Delete Error', error)
       });
     }
-    setCoverUploaded(false);
+    //setCoverUploaded(false);
   });
 
-  // storeFirebase--->
   const storeFirebase = async (projectData) => {
     //console.log('final - projectData: ', projectData);
     const projectRef = collection(db, "Projects");
@@ -164,11 +160,10 @@ const AdminProjectCreate = () => {
     });
   }
 
-  // save with fireStore
-  const onSubmit = (e, projectData) => {
+  const onSubmit = (projectData) => (e) => {
     e.preventDefault();
-    //console.log('in - onSubmit: projectData', projectData)
     storeFirebase(projectData);
+    //console.log('in - onSubmit: projectData', projectData)
     navigation('/admin/projects')
   }
 

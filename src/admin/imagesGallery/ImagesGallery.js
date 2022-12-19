@@ -6,7 +6,6 @@ import { FolderContext } from './components/context-manager';
 
 const MainApp = () => {
   const [files, setFiles] = useState([]);
-  //console.log('files', files)
   const [folderName, setFolderName] = useState('');
 
   return (

@@ -16,9 +16,7 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-const firebase = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-
-//const firebase = initializeApp(firebaseConfig);
+const firebase = !getApps().length ? initializeApp({ ...firebaseConfig }) : getApp();
 
 initializeFirestore(firebase, {
   ignoreUndefinedProperties: true,

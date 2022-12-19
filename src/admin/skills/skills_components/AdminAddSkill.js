@@ -94,8 +94,8 @@ const AddSkill = (props) => {
 
   const handleChange = e => {
     const { name, value } = e.target;
-    setSingleSkill(skill => ({
-      ...skill,
+    setSingleSkill(prevSkill => ({
+      ...prevSkill,
       [name]: value
     }));
   }

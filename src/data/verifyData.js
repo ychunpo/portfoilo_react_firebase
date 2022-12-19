@@ -25,3 +25,5 @@ export const toastOrder = (type, text) => {
 
 
 export default verifyData;
+
+

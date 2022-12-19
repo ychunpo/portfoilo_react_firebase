@@ -18,7 +18,6 @@ const useFireStore = (collectionName = 'imageLibrary') => {
         setDocuments(docs);
       },
       (error) => {
-        //alert(error.message);
         console.log(error.message);
       }
     );

@@ -3,8 +3,7 @@ import styled from "styled-components";
 import HelloBox from "./HelloBox";
 import NameBox from "./NameBox";
 
-const IntroBox = styled.div`   
-
+const IntroBox = styled.div`
   .intro-text {}
 `
 

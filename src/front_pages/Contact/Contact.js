@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import ContactForm from './components/ContactForm';
 
 const FCContainer = styled.div`
-
   .FC-main {
     padding-top: 40px;    
   }  

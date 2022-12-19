@@ -40,6 +40,7 @@ const ProgressItem = ({ file }) => {
     };
     setImageURL(URL.createObjectURL(file));
     uploadImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
   return (
     imageURL && (

@@ -1,27 +1,18 @@
 import React from 'react';
 import { useFieldArray } from "react-hook-form";
 import {
-  Button, Box, Divider, Flex, FormControl, FormLabel, FormErrorMessage,
-  Input, List, ListItem, ListIcon, Spacer, Textarea
+  Button, Box, Flex, FormControl, FormLabel, FormErrorMessage,
+  Input, List, ListItem,
 } from '@chakra-ui/react';
 import ImagesPartIWU from './ImagesPartIWU';
 
-
 const ItemsPartIWU = ({ control, register, setValue, getValues, errors }) => {
   const {
-    fields, append, prepend, remove, swap, move, insert, replace
+    fields, append, remove,
   } = useFieldArray({
     control,
     name: "items",
   });
-
-  const onDragEnd = (result) => {
-    move(result.source.index, result.destination.index);
-  }
-
-  const deleteItem = (index) => {
-    remove(index);
-  }
 
   return (
     <Box>
@@ -35,17 +26,15 @@ const ItemsPartIWU = ({ control, register, setValue, getValues, errors }) => {
                     <FormLabel
                       m="auto"
                       p='0 3px'
-                      htmlFor={`items[${index}].itemId`}
                     >
                       Item ID - {index}
                     </FormLabel>
                     <Input
                       fontSize='1.2rem'
                       bg='white'
-                      {...register(`items[${index}].itemId`, { required: true })}
-                      defaultValue={index}
-                      type="text"
-                      id="itemId"
+                      {...register(`items[${index}].itemId`)}
+                      placeholder={index}
+                      type="number"
                     />
                     <FormErrorMessage>
 
@@ -55,16 +44,14 @@ const ItemsPartIWU = ({ control, register, setValue, getValues, errors }) => {
                     <FormLabel
                       m="auto"
                       p='0 3px'
-                      htmlFor={`items[${index}].caption`}
                     >
                       Item Caption - {index}
                     </FormLabel>
                     <Input
                       fontSize='1.2rem'
                       bg='white'
-                      {...register(`items[${index}].caption`, { required: true })}
+                      {...register(`items[${index}].itemCaption`)}
                       type="text"
-                      id="caption"
                     />
                     <FormErrorMessage>
 
@@ -74,16 +61,14 @@ const ItemsPartIWU = ({ control, register, setValue, getValues, errors }) => {
                     <FormLabel
                       m="auto"
                       p='0 3px'
-                      htmlFor={`items[${index}].text`}
                     >
                       Item Text- {index}
                     </FormLabel>
                     <Input
                       fontSize='1.2rem'
                       bg='white'
-                      {...register(`items[${index}].text`, { required: true })}
+                      {...register(`items[${index}].itemText`)}
                       type="text"
-                      id="text"
                     />
                     <FormErrorMessage>
 

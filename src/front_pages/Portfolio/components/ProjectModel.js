@@ -16,7 +16,6 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
   } = singleData;
 
   const words = use.split(" ");
-
   const youtubeLoading = () => {
     return <Text>Loading...</Text>;
   }
@@ -57,13 +56,13 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
                 as='b'
                 color='blue.600'
               >
-                Make use of
+                Used Mainly by
               </Text>
               <HStack spacing={2}>
                 {
-                  words.map((word) => {
+                  words.map((word, index) => {
                     return (
-                      <Tag key={word} variant='solid' bgColor='#f4669a'>
+                      <Tag key={index} variant='solid' bgColor='#f4669a'>
                         <TagLabel
                           fontSize={{ base: 'md', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}
                         >
@@ -74,7 +73,7 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
                   })
                 }
               </HStack>
-              <Divider />
+              <Divider m='10px auto' p='1px' bgColor='gray.300' />
               <Text
                 fontSize={{ base: 'sm', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}
                 as='b'
@@ -87,14 +86,14 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
               >
                 {description}
               </Text>
-              <Divider />
+              <Divider m='10px auto' p='1px' bgColor='gray.300' />
               <HStack spacing={10}>
                 {websiteUrl && (
                   <>
                     <Link as={ReachLink} to={websiteUrl} >
                       <HStack alignContent="center">
                         <Text
-                          fontSize={{ base: 'sm', xs: 'md' }}
+                          fontSize={{ base: 'sm', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}
                           as='b'
                           color='blue.600'
                         >
@@ -110,7 +109,7 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
                     <Link as={ReachLink} to={gitUrl}>
                       <HStack alignContent="center">
                         <Text
-                          fontSize={{ base: 'sm', xs: 'md' }}
+                          fontSize={{ base: 'sm', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}
                           as='b'
                           color='blue.600'
                         >
@@ -126,7 +125,7 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
                     <Link as={ReachLink} to={uiuxUrl}>
                       <HStack alignContent="center">
                         <Text
-                          fontSize={{ base: 'sm', xs: 'md' }}
+                          fontSize={{ base: 'sm', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}
                           as='b'
                           color='blue.600'
                         >
@@ -138,7 +137,7 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
                   </>
                 )}
               </HStack>
-              <Divider />
+              <Divider m='10px auto' p='1px' bgColor='gray.300' />
             </Stack>
             <ItemImagesSwiper items={items} />
           </Box>

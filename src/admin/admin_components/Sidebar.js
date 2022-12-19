@@ -105,7 +105,6 @@ const Sidebar = () => {
             onClick={() => { signOut(auth) }}
           />
         </ul>
-        
       </div>
     </SideContainer>
   )

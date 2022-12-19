@@ -2,22 +2,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+//import { yupResolver } from "@hookform/resolvers/yup";
 import { collection, addDoc } from 'firebase/firestore';
 import styled from 'styled-components';
 import {
-  Alert, AlertIcon, AlertTitle, AlertDescription,
-  Button, Box, FormControl, FormLabel, FormErrorMessage,
+  Button, Box, Checkbox, FormControl, FormLabel, FormErrorMessage,
   Heading, Input, HStack, Textarea, Divider
 } from '@chakra-ui/react';
 
-import { storage, db } from '../../../utils/firebase';
+import { db } from '../../../utils/firebase';
 import { projectLabels } from '../../../data/projectLabels';
 import { projectDefaultValue } from '../../../data/dataDefaultValue';
-import { projectSchema } from '../../../data/inputDataValidator';
+//import { projectSchema } from '../../../data/inputDataValidator';
 import ItemsPartIWU from './components/ItemsPartIWU';
 
-const APFContainer = styled.div`
+const APIWUContainer = styled.div`
   margin: 0;
   padding: 0;
   width: 80%;
@@ -25,9 +24,7 @@ const APFContainer = styled.div`
 `
 
 const AdminProjectCreate = () => {
-  //const { isOpen: isVisible, onClose, onOpen } = useDisclosure({ defaultIsOpen: false });
   const navigation = useNavigate();
-
   const [projectData, setProjectData] = useState(projectDefaultValue);
   //console.log('G - projectData: ', projectData);
 
@@ -35,7 +32,7 @@ const AdminProjectCreate = () => {
     register, control, getValues, setValue,
     handleSubmit, reset, formState: { errors }
   } = useForm({
-    resolver: yupResolver(projectSchema),
+    //resolver: yupResolver(projectSchema),
     // defaultValues: {
     //   test: [{}]
     // },
@@ -43,49 +40,45 @@ const AdminProjectCreate = () => {
   });
 
   const dataUpdate = (data) => {
-    //console.log('UploadImageSubmit->data: ', data)
     setProjectData({
       rank: data.rank,
       title: data.title,
       use: data.use,
       description: data.description,
-      websiteUrl: data.website,
-      videoUrl: data.video,
-      gitUrl: data.git,
-      uiuxUrl: data.uiux,
-      coverCaption: data.cover.caption,
-      coverImageFilename: data.cover.imageName,
-      coverImagePath: data.cover.imagePath,
+      websiteUrl: data.websiteUrl,
+      videoUrl: data.videoUrl,
+      gitUrl: data.gitUrl,
+      uiuxUrl: data.uiuxUrl,
+      coverCaption: data.coverCaption,
+      coverImageFilename: data.coverImageFilename,
+      coverImagePath: data.coverImagePath,
       items: data.items,
       hide: false,
     })
   }
-  //dataUpdate(data);
+  //
 
   // storeFirebase--->
-  const storeFireStore = async (projectData) => {
-    //console.log('final - projectData: ', projectData);
+  const storeFireStore = async (data) => {
     const projectRef = collection(db, "Projects");
-    await addDoc(projectRef, projectData).then(() => {
-      toast("Article added successfully", { type: "success" });
+    await addDoc(projectRef, data).then(() => {
+      toast("Successfully", { type: "success" });
       //setProgress(0);
     }).catch((err) => {
-      toast("Error adding article", { type: "error" });
+      toast("Error adding", { type: "error" });
     });
   }
 
   // save with fireStore
-  // const onSubmit = (e, projectData) => {
-  //   e.preventDefault();
-  //   console.log('in - onSubmit: projectData', projectData)
-  //   storeFirebase(projectData);
-  //   navigation('/admin/projects')
-  // }
-
-  const onSubmit = (data) => console.log("data", data);
+  const onSubmit = (data) => {
+    dataUpdate(data);
+    storeFireStore(data);
+    console.log('Create ok');
+    //navigation('/admin/projects')
+  }
 
   return (
-    <APFContainer>
+    <APIWUContainer>
       <Box p='0 30px' bgColor='rgb(245, 205, 245)'>
         <Heading
           p="12px 0"
@@ -123,7 +116,6 @@ const AdminProjectCreate = () => {
                       bg='white'
                       {...register(name, { required: require })}
                       type={type}
-                      id={name}
                     />
                     <FormErrorMessage>
 
@@ -132,7 +124,6 @@ const AdminProjectCreate = () => {
                 </Box>
               )
             })}
-
             <Box>
               <FormControl>
                 <FormLabel
@@ -146,7 +137,6 @@ const AdminProjectCreate = () => {
                   fontSize='1.2rem'
                   bg='white'
                   {...register("description")}
-                  id="description"
                 />
               </FormControl>
             </Box>
@@ -172,9 +162,8 @@ const AdminProjectCreate = () => {
                   <Textarea
                     fontSize='1.2rem'
                     bg='white'
-                    {...register("coverImagePath", { required: true })}
+                    {...register("coverImagePath")}
                     type="url"
-                    id="coverImagePath"
                   />
                   <FormErrorMessage>
 
@@ -191,9 +180,8 @@ const AdminProjectCreate = () => {
                   <Input
                     fontSize='1.2rem'
                     bg='white'
-                    {...register("coverCaption", { required: true })}
+                    {...register("coverCaption")}
                     type="text"
-                    id="coverCaption"
                   />
                   <FormErrorMessage>
 
@@ -210,9 +198,8 @@ const AdminProjectCreate = () => {
                   <Input
                     fontSize='1.2rem'
                     bg='white'
-                    {...register("coverImageFilename", { required: true })}
+                    {...register("coverImageFilename")}
                     type="text"
-                    id="coverImageFilename"
                   />
                   <FormErrorMessage>
 
@@ -233,6 +220,13 @@ const AdminProjectCreate = () => {
                   {...{ control, register, getValues, setValue, errors, projectDefaultValue }}
                 />
               </Box>
+              <Checkbox
+                size='lg'
+                colorScheme='orange'
+                {...register("hide", { disabled: false })}
+              >
+                Hide
+              </Checkbox>
             </Box>
             <Divider p={2} borderColor='grey' w='98%' />
             <HStack p='40px 16px 16px 0' justify='center' spacing='150px'>
@@ -262,7 +256,7 @@ const AdminProjectCreate = () => {
         </Box>
         <br />
       </Box>
-    </APFContainer>
+    </APIWUContainer>
   )
 }
 

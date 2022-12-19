@@ -7,7 +7,7 @@ import useFireStore from '../../firebase-tool/useFireStore';
 
 export default function ImagesList() {
   const { documents } = useFireStore();
-  //console.log('documents', documents)
+
   return (
     <div>
       <div>

@@ -99,7 +99,6 @@ export const FIEllipseBox = ({ width, height, color, angle, angleTwo, opacity })
       >
         <EllipseBoxShadow />
       </MainEllipse>
-
     </FIEllipseBoxContainer>
   )
 }

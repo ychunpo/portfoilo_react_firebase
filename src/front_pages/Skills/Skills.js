@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Heading, Box, Text } from '@chakra-ui/react';
 import { db } from "../../utils/firebase";
 import FrontLoading from "../front_components/loading/FrontLoading";
-
 const SkillsList = lazy(() => import('./components/SkillsList'));
 
 const FSContainer = styled.div`  
@@ -82,4 +81,5 @@ const Skills = () => {
     </FSContainer>
   )
 }
+
 export default Skills;

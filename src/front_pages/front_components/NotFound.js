@@ -5,7 +5,6 @@ import { Container, Flex, Link } from "@chakra-ui/react";
 import Logo from "../../Icon_components/Logo";
 import Footer from "./Footer";
 
-
 const NFContainer = styled.div`
   font-family: 'Secular One', sans-serif;  
   margin: 0;
@@ -15,13 +14,11 @@ const NFContainer = styled.div`
 
   .NF-logo {
     margin: 10px;
-
   }
 
   .NF-main {
     margin-top: 90px;
-    flex-grow: 1;
-    
+    flex-grow: 1;    
   }
 
   .NF-first {
@@ -30,8 +27,7 @@ const NFContainer = styled.div`
     -webkit-text-stroke: 3px red;
     margin: 0;
     text-shadow: 15px 7px 5px gray;
-    transform: skewY(-7deg);
-    
+    transform: skewY(-7deg);    
   }
 
   .NF-second {
@@ -46,7 +42,6 @@ const NFContainer = styled.div`
   .NF-footer {
     color: purple;
   }
-
 `
 
 const NotFound = () => {
@@ -69,7 +64,6 @@ const NotFound = () => {
           </Flex>
         </Container>
       </div>
-
       <div className="NF-footer">
         <Footer />
       </div>

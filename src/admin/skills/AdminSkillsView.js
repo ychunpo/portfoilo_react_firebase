@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  addDoc,
-  deleteDoc, doc,
-  collection,
-  orderBy, onSnapshot,
-  query,
-  updateDoc,
+  addDoc, deleteDoc, doc, collection,
+  orderBy, onSnapshot, query, updateDoc,
 } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
@@ -43,12 +39,9 @@ const AdminSkillsView = () => {
   });
 
   const resetSingleSkill = () => {
-    setSingleSkill({
-      name: "", level: "",
-    });
+    setSingleSkill({ name: "", level: "" });
   }
 
-  //firebase
   useEffect(() => {
     setLoading(true);
     const skillsRef = collection(db, "Skills");
@@ -146,7 +139,6 @@ const AdminSkillsView = () => {
         toast("Error, can't delete skill", { type: "error" });
       });
   }
-  //firebase
 
   return (
     <ASVContainer>
@@ -161,11 +153,7 @@ const AdminSkillsView = () => {
             />
           </div>
           <div>
-            {loading ? (
-              <Loading />
-            ) : loadFail ? (
-              <Fail />
-            ) : (
+            {loading ? (<Loading />) : loadFail ? (<Fail />) : (
               <div>
                 <AdminSkillsList
                   allSkillsData={allSkillsData}

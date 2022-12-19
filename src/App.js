@@ -6,11 +6,9 @@ import Login from './auth';
 import { AuthContextProvider } from './auth/AuthContext';
 import ProtectedRouter from './auth/ProtectedRouter';
 import AdminSkillsView from './admin/skills/AdminSkillsView';
-import AdminProjectsView from './admin/projects/AdminProjectsView';
+import AdminProjectsView from './admin/projects/imageWithUrl/AdminProjectsIWUView';
 import AdminProjectCreate from './admin/projects/imageWithUrl/AdminProjectIWUCreate';
 import AdminProjectEdit from './admin/projects/imageWithUrl/AdminProjectIWUEdit';
-//import AdminProjectImageView from './admin/projectsImageList/noDropZone/AdminProjectImageView'
-//import AdminSliderController from './admin/setting/AdminSliderController';
 import ImagesGallery from './admin/imagesGallery/ImagesGallery';
 import Layout from './admin/admin_components/Layout';
 import NotFound from './front_pages/front_components/NotFound';

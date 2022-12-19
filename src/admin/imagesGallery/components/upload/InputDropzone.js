@@ -48,15 +48,9 @@ export default function InputDropzone(props) {
     isDragReject
   } = useDropzone({});
 
-  // const handleChange = () => {
-  //   setFiles([...acceptedFiles]);
-  // }
-
   const fileChange = useCallback(() => {
     setFiles([...acceptedFiles]);
-  }, [setFiles, acceptedFiles])
-
-  // console.log(acceptedFiles)
+  }, [setFiles, acceptedFiles]);
 
   useEffect(() => {
     fileChange()

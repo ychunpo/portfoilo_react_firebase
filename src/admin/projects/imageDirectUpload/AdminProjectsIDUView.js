@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { collection, doc, deleteDoc, onSnapshot, orderBy, query } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
-//import { useAuthState } from "react-firebase-hooks/auth";
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import { APVContainer } from "./styled/APVContainer";
@@ -12,14 +11,13 @@ import AdminTable from "./projects_components/AdminTable";
 import Loading from "../admin_components/Loading";
 import Fail from "../admin_components/Loading/Fail";
 
-const AdminProjectsView = () => {
+const AdminProjectsIDUView = () => {
   const pattern = /.+\.(jpg|jpeg|png|gif)/gi;
   const storage = getStorage();
   const navigation = useNavigate();
   const [allProjectsData, setAllProjectsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadFail, setLoadFail] = useState(false);
-  //const [user] = useAuthState(auth);
   const tableColumns = useMemo(() => [
     { Header: 'Rank', accessor: 'rank', },
     { Header: 'Title', accessor: 'title', },
@@ -141,4 +139,4 @@ const AdminProjectsView = () => {
   )
 }
 
-export default AdminProjectsView;
+export default AdminProjectsIDUView;

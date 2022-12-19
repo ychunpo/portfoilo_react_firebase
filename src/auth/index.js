@@ -201,11 +201,11 @@ const Login = () => {
     }
   };
 
-  const loginEmail = (e) => {
+  const loginEmailChange = (e) => {
     setEmail(e.target.value);
   }
 
-  const loginPassword = (e) => {
+  const loginPasswordChange = (e) => {
     setPassword(e.target.value);
   }
 
@@ -226,7 +226,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 placeholder="Enter Email"
-                onChange={loginEmail}
+                onChange={loginEmailChange}
                 ref={usesRef}
               />
               <label className="AA-form__label">Enter Email</label>
@@ -238,7 +238,7 @@ const Login = () => {
                 type="password"
                 name="password"
                 placeholder="Enter Password"
-                onChange={loginPassword}
+                onChange={loginPasswordChange}
               />
               <label className="AA-form__label">Enter Password</label>
               <div className="AA-form__shadow"></div>

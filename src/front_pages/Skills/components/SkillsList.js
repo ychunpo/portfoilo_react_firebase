@@ -9,7 +9,6 @@ const FSListContainer = styled.div`
     margin: 0 10px 0 2%;
     padding:5px;
     list-style: none;
-
   }
 
   .FS-list li {    
@@ -83,7 +82,7 @@ const SkillsList = ({ allSkillsData }) => {
           )
         })}
       </ul>
-    </FSListContainer >
+    </FSListContainer>
   )
 }
 

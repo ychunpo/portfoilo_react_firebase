@@ -4,9 +4,7 @@ import { FolderContext } from '../context-manager';
 
 const InputBox = () => {
   const { setFolderName } = useContext(FolderContext);
-  //console.log('folderName', folderName)
   const [word, setWord] = useState('test');
-  //console.log('word', word)
 
   const handleClear = () => {
     setFolderName('');
