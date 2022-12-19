@@ -30,7 +30,7 @@ const AdminTable = ({ columns, data, deleteItem }) => {
     <AdminTableContainer>
       {data.length !== 0 && (
         <div>
-          <TableContainer>
+          <TableContainer maxWidth='100%' overflowX overflowY>
             <Table
               size="sm"
               {...getTableProps()}
@@ -55,7 +55,10 @@ const AdminTable = ({ columns, data, deleteItem }) => {
                 {rows.map((row, index) => {
                   prepareRow(row);
                   return (
-                    <Tr {...row.getRowProps()} key={row.original.id}>
+                    <Tr
+                      {...row.getRowProps()}
+                      key={row.original.id}
+                    >
                       {row.cells.map((cell) => {
                         return (
                           <Td

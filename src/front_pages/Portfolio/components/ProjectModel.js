@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link as ReachLink } from "react-router-dom";
 import {
   AspectRatio, Box, Button, Divider, Heading,
-  ModalContent, ModalHeader, ModalBody, ModalFooter, ModalOverlay,
-  ModalCloseButton, Link,
+  ModalContent, ModalHeader, ModalBody, ModalFooter,
+  ModalOverlay, ModalCloseButton, Link,
   Stack, HStack, Tag, TagLabel, Text,
 } from '@chakra-ui/react';
 import { LinkIcon } from '@chakra-ui/icons';
@@ -11,8 +10,7 @@ import ItemImagesSwiper from './ItemImagesSwiper';
 
 const ProjectModel = ({ singleData, onClose, setSingleData }) => {
   const {
-    title, videoUrl, use, description,
-    websiteUrl, gitUrl, uiuxUrl, items
+    title, use, description, websiteUrl, gitUrl, uiuxUrl, videoUrl, items
   } = singleData;
 
   const words = use.split(" ");
@@ -90,7 +88,7 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
               <HStack spacing={10}>
                 {websiteUrl && (
                   <>
-                    <Link as={ReachLink} to={websiteUrl} >
+                    <Link href={websiteUrl} isExternal>
                       <HStack alignContent="center">
                         <Text
                           fontSize={{ base: 'sm', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}
@@ -106,7 +104,7 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
                 )}
                 {gitUrl && (
                   <>
-                    <Link as={ReachLink} to={gitUrl}>
+                    <Link href={gitUrl} isExternal>
                       <HStack alignContent="center">
                         <Text
                           fontSize={{ base: 'sm', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}
@@ -122,7 +120,7 @@ const ProjectModel = ({ singleData, onClose, setSingleData }) => {
                 )}
                 {uiuxUrl && (
                   <>
-                    <Link as={ReachLink} to={uiuxUrl}>
+                    <Link href={uiuxUrl} isExternal>
                       <HStack alignContent="center">
                         <Text
                           fontSize={{ base: 'sm', lg: 'xl', md: 'lg', sm: 'lg', xs: 'md' }}

@@ -18,8 +18,7 @@ const AdminProjectsView = () => {
   const tableColumns = useMemo(() => [
     { Header: 'Rank', accessor: 'rank', },
     { Header: 'Title', accessor: 'title', },
-    { Header: 'Use', accessor: 'use', },
-    { Header: 'Description', accessor: 'description', },
+    //{ Header: 'Use', accessor: 'use', },
   ], []);
   const tableData = useMemo(() => (allProjectsData), [allProjectsData]);
 

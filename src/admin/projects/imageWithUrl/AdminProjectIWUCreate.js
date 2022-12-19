@@ -74,7 +74,7 @@ const AdminProjectCreate = () => {
     dataUpdate(data);
     storeFireStore(data);
     console.log('Create ok');
-    //navigation('/admin/projects')
+    navigation('/admin/projects')
   }
 
   return (
