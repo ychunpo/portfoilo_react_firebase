@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { Box, Input, InputLeftAddon, InputRightAddon, InputGroup } from '@chakra-ui/react';
+import { Box, Button, Input, InputGroup } from '@chakra-ui/react';
 import { FolderContext } from '../context-manager';
 
 const InputBox = () => {
@@ -7,6 +7,7 @@ const InputBox = () => {
   const [word, setWord] = useState('test');
 
   const handleClear = () => {
+    setWord('');
     setFolderName('');
   }
 
@@ -21,18 +22,22 @@ const InputBox = () => {
   return (
     <Box w='500px' p={5} display='flex' m='0 auto'>
       <InputGroup>
-        <InputLeftAddon
-          color='blue.600'
-          children='Confirm'
-          onClick={() => setFolderName(word)}
-        />
+
+        <Button
+          w='110px'
+          color='white'
+          bgColor='green.400'
+          onClick={handleClear}>
+          Clear
+        </Button>
         {InputFolderName}
-        <InputRightAddon
+        <Button
+          w='110px'
           bgColor='blue.300'
           color='white'
-          children='Clear'
-          onClick={handleClear}
-        />
+          onClick={() => setFolderName(word)}>
+          Confirm
+        </Button>
       </InputGroup>
     </Box>
   )

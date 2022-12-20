@@ -6,7 +6,7 @@ import InputDropzone from './InputDropzone';
 
 const Upload = () => {
   return (
-    <Box w='60vw'>
+    <Box>
       <InputDropzone />
       <InputBox />
       <ListProgress />

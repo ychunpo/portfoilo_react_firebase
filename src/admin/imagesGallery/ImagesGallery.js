@@ -9,8 +9,12 @@ const MainApp = () => {
   const [folderName, setFolderName] = useState('');
 
   return (
-    <Box sx={{ textAlign: 'center' }}>
-      <Heading p={3} color='purple.400'>Image List</Heading>
+    <Box w='80%'>
+      <Heading
+        p={3}
+        color='purple.400'
+        sx={{ textAlign: 'center' }}
+      >Image List</Heading>
       <FolderContext.Provider value={{ files, setFiles, folderName, setFolderName }}>
         <Upload />
         <ImagesList />

@@ -12,18 +12,24 @@ export default function ImagesList() {
     <div>
       <div>
         <VStack >
-          <Grid gridTemplateColumns={'400px 400px'} gap={3}>
+          <Grid
+            gridTemplateColumns={'402px 402px'}
+            gap={6}
+          >
             {documents.map((item, index) => (
               <GridItem
                 key={item?.id}
                 sx={{
                   opacity: '0.7',
+                  border: '1px solid rgba(0,0,0,0.1)',
                   transition: 'opacity 0.3s linear',
                   '&:hover': { opacity: 1 },
                 }}
               >
-                <DeleteIconButton imageId={item.id} />
+                <DeleteIconButton imageId={item.id
+                } />
                 <Image
+                  boxSize={400}
                   src={item?.data?.imageURL}
                   alt={item?.data?.imageFilename}
                   loading="lazy"
