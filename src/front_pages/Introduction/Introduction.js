@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-//import { FIEllipseBox } from './components/EllipseBox/FIEllipseBox';
 import { FIEllipseBox } from './components/EllipseBox/FIEllipseBox';
-import IntroContent from './components/IntroContent';
+import IntroductionBox from './components/IntroductionBox';
 
 const FIContainer = styled.div`  
   height: 90vh;
@@ -27,7 +26,6 @@ const FIContainer = styled.div`
   }
 
   @media (max-width: 800px) {
-
     .left-side {   
       position: absolute;
       z-index: 5;
@@ -46,7 +44,10 @@ const Intro = () => {
       <div className="FI-area">
         <div className="FI-grid">
           <div className="left-side">
-            <IntroContent />
+            <IntroductionBox
+              greeting="Hello there, I am"
+              name="C. P. Yeung"
+            />
           </div>
           <div className="right-side">
             <FIEllipseBox

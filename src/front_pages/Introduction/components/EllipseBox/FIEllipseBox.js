@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { useInView } from "framer-motion";
 
 const MainEllipse = styled.div`
   width: ${props => props.width};
   height: ${props => props.height};
   opacity: ${props => props.opacity};  
-  transform: rotate(${props => props.angleOne}); 
+  transform: rotate(${props => props.angle}); 
   background: #298dff;
   border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
   border: 1px solid #318cfe;
@@ -46,7 +47,7 @@ const MainEllipse = styled.div`
       background-color: rgba(255,255, 255, 0.7);
       border: 1px solid #1b6cfb;
       z-index: 100;
-      transform: rotate(${props => props.angleOne});
+      transform: rotate(${props => props.angle});
       animation: BorderAnimation 6s linear infinite;
     }  
 
@@ -87,18 +88,30 @@ const FIEllipseBoxContainer = styled.div`
   place-items: center;
 `
 
-export const FIEllipseBox = ({ width, height, color, angle, angleTwo, opacity }) => {
+export const FIEllipseBox = ({ width, height, color, angle, opacity }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+
   return (
     <FIEllipseBoxContainer>
-      <MainEllipse
-        width={width}
-        height={height}
-        color={color}
-        angleOne={angle}
-        opacity={opacity}
+      <div
+        ref={ref}
+        style={{
+          transform: isInView ? "translateX(0px)" : "translateX(200px)",
+          opacity: isInView ? 1 : 0,
+          transition: "all 1.5s cubic-bezier(0.17, 0.55, 0.55, 1) 1.0s"
+        }}
       >
-        <EllipseBoxShadow />
-      </MainEllipse>
+        <MainEllipse
+          width={width}
+          height={height}
+          color={color}
+          angle={angle}
+          opacity={opacity}
+        >
+          <EllipseBoxShadow />
+        </MainEllipse>
+      </div>
     </FIEllipseBoxContainer>
   )
 }

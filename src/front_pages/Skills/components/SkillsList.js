@@ -45,6 +45,7 @@ const FSListContainer = styled.div`
 `
 
 const SkillsList = ({ allSkillsData }) => {
+
   return (
     <FSListContainer>
       <ul className="FS-list">
@@ -60,7 +61,8 @@ const SkillsList = ({ allSkillsData }) => {
                 {name}
               </Text>
               <div className='FS-skill-group'>
-                <div className='FS-skill-level'>
+                <div
+                  className='FS-skill-level'>
                   <ProgressBar
                     completed={level}
                     height="20px"

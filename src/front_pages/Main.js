@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import BGParticles from './front_components/BackgroundParticles/BGParticles';
 import Navbar from './front_components/Navbar';
-import Intro from './Intro/Intro';
+import Introduction from './Introduction/Introduction';
 import About from './About/About';
 import Portfolio from './Portfolio/Portfolio';
 import Skills from './Skills/Skills';
@@ -10,6 +10,7 @@ import Contact from './Contact/Contact';
 import Footer from './front_components/Footer';
 import GoToTop from './front_components/BackToTop/GoToTop';
 import VideoBg from './VideoBG/VideoBg';
+
 
 const FrontLoading = lazy(() => import('./front_components/loading/FrontLoading'));
 
@@ -36,7 +37,7 @@ const Main = () => {
           </Suspense>
         }
       </div>
-      <Intro />
+      <Introduction />
       <About />
       <Portfolio />
       <Skills />

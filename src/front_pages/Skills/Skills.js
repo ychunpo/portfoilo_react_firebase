@@ -44,6 +44,8 @@ const Skills = () => {
     return () => unsubscribe();
   }, []);
 
+
+
   return (
     <FSContainer id="skills-id">
       <Box
